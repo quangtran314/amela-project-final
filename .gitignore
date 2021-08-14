@@ -63,3 +63,11 @@ atlassian-ide-plugin.xml
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+
+#Custom
+.gradle/buildOutputCleanup/
+.gradle/7.1/
+
+build/
+
