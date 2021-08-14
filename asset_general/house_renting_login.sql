@@ -1,8 +1,8 @@
 create table login
 (
-    id int auto_increment primary key,
-    username varchar(50) charset utf8 null,
-    password varchar(50) charset utf8 null
+    id        int          null,
+    username  varchar(100) null,
+    passwords varchar(100) null,
+    email     varchar(255) null
 );
 
-INSERT INTO house_renting.login (id, username, password) VALUES (1, 'admin', 'admin');
