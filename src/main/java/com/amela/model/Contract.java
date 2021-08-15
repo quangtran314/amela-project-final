@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "contract")
 public class Contract {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long contract_id;
@@ -18,6 +19,15 @@ public class Contract {
     private String term;
 
     public Contract() {
+    }
+
+    public Contract(long tenant_id, long house_id, LocalDate start_day, LocalDate end_day, int max_person, String term) {
+        this.tenant_id = tenant_id;
+        this.house_id = house_id;
+        this.start_day = start_day;
+        this.end_day = end_day;
+        this.max_person = max_person;
+        this.term = term;
     }
 
     public Contract(long contract_id, long tenant_id, long house_id, LocalDate start_day, LocalDate end_day, int max_person, String term) {

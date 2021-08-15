@@ -17,6 +17,14 @@ public class Tenant {
     public Tenant() {
     }
 
+    public Tenant(String full_name, String PIN, String address, String phone_number, String email) {
+        this.full_name = full_name;
+        this.PIN = PIN;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
+
     public Tenant(long tenant_id, String full_name, String PIN, String address, String phone_number, String email) {
         this.tenant_id = tenant_id;
         this.full_name = full_name;

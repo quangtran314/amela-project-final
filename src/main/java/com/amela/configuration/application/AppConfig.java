@@ -1,20 +1,20 @@
 package com.amela.configuration.application;
 
+import com.amela.formatter.ImageFormatter;
+import com.amela.formatter.LocalDateFormatter;
+import com.amela.service.image.ImageService;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -33,7 +33,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Properties;
 
 @Configuration
@@ -87,10 +87,11 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(resourceHandler).addResourceLocations(resourceLocation);
+        registry.addResourceHandler(resourceHandler)
+                .addResourceLocations(resourceLocation);
     }
 
-    // Thymeleaf configuration
+    //Thymeleaf configuration
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -99,6 +100,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         templateResolver.setSuffix(templateLocationSuffix);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
+
         return templateResolver;
     }
 
@@ -106,6 +108,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
+
         return templateEngine;
     }
 
@@ -116,10 +119,11 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setForceContentType(true);
         viewResolver.setContentType("text/html; charset=UTF-8");
+
         return viewResolver;
     }
 
-    // JPA configuration
+    //JPA configuration
     @Bean
     @Qualifier(value = "entityManager")
     public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
@@ -135,6 +139,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
+
         return em;
     }
 
@@ -145,6 +150,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         dataSource.setUrl(datasourceUrl);
         dataSource.setUsername(datasourceUsername);
         dataSource.setPassword(datasourcePassword);
+
         return dataSource;
     }
 
@@ -152,6 +158,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
+
         return transactionManager;
     }
 
@@ -159,6 +166,15 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", hibernateDdlAuto);
         properties.setProperty("hibernate.dialect", hibernateDialect);
+
         return properties;
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        LocalDateFormatter stringToLocalDateConverter = new LocalDateFormatter("dd/MM/yyyy");
+
+        registry.addFormatter(stringToLocalDateConverter);
+        registry.addFormatter(new ImageFormatter(applicationContext.getBean(ImageService.class)));
     }
 }

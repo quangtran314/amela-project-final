@@ -1,28 +1,44 @@
 package com.amela.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "house")
 public class House {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long house_id;
     private long type_id;
     private String address;
-    private long image_id;
-    private String des;
+    private String desHouse;
+    private int numBedrooms;
+    private int numBathrooms;
     private float price;
+
+    @OneToMany(targetEntity = Image.class)
+    private List<Image> images;
 
     public House() {
     }
 
-    public House(long house_id, long type_id, String address, long image_id, String des, float price) {
+    public House(long type_id, String address, int numBedrooms, List<Image> images, String desHouse, float price) {
+        this.type_id = type_id;
+        this.address = address;
+        this.numBedrooms = numBedrooms;
+        this.images = images;
+        this.desHouse = desHouse;
+        this.price = price;
+    }
+
+    public House(long house_id, long type_id, String address, int numBedrooms, List<Image> images, String desHouse, float price) {
         this.house_id = house_id;
         this.type_id = type_id;
         this.address = address;
-        this.image_id = image_id;
-        this.des = des;
+        this.numBedrooms = numBedrooms;
+        this.images = images;
+        this.desHouse = desHouse;
         this.price = price;
     }
 
@@ -50,20 +66,34 @@ public class House {
         this.address = address;
     }
 
-    public long getImage_id() {
-        return image_id;
+    public List<Image> getImages() { return images; }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
-    public void setImage_id(long image_id) {
-        this.image_id = image_id;
+    public String getDesHouse() {
+        return desHouse;
     }
 
-    public String getDes() {
-        return des;
+    public void setDesHouse(String des) {
+        this.desHouse = des;
     }
 
-    public void setDes(String des) {
-        this.des = des;
+    public int getNumBedrooms() {
+        return numBedrooms;
+    }
+
+    public void setNumBedrooms(int numBedrooms) {
+        this.numBedrooms = numBedrooms;
+    }
+
+    public int getNumBathrooms() {
+        return numBathrooms;
+    }
+
+    public void setNumBathrooms(int numBathrooms) {
+        this.numBathrooms = numBathrooms;
     }
 
     public float getPrice() {
