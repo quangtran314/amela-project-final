@@ -72,5 +72,4 @@ build/**
 .gradle/buildOutputCleanup/
 .gradle/7.1/
 
-build/**
 src/**/resources/application.properties
