@@ -66,9 +66,9 @@ atlassian-ide-plugin.xml
 
 
 #Custom
-build/
-.idea/
-**/.gradle
+**/build
+.idea/**
+.gradle/**
 
 .idea/dataSources.xml
 **/application.properties
