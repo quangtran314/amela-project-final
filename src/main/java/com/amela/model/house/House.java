@@ -12,20 +12,26 @@ public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long house_id;
+
     @NotNull
     @Size(min = 5, max = 20)
     private String house_name;
+
     @NotNull
     @Size(min = 5, max = 100)
     private String address;
+
     @Size(min = 5, max = 500)
     private String des;
+
     @NotNull
     @Size(min = 1)
     private int numBedrooms;
+
     @NotNull
     @Size(min = 1)
     private int numBathrooms;
+
     @NotNull
     private float price;
 

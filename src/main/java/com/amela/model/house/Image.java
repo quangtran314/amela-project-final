@@ -13,12 +13,15 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long image_id;
+
     @NotNull
     @Size(min = 5, max = 20)
     private String name;
+
     @NotNull
     @UniqueElements
     private String sourcePath;
+    
     @Size(min = 5, max = 500)
     private String des;
 

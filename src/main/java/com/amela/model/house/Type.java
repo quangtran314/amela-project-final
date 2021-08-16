@@ -14,6 +14,7 @@ public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long type_id;
+
     @NotNull
     @Size(min = 5, max = 20)
     @UniqueElements
