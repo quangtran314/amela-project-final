@@ -21,6 +21,7 @@ public class HouseController {
     @Autowired
     private IHouseService houseService;
 
+
     @GetMapping("/houses")
     public ModelAndView listHouses(){
         Iterable<House> houses;

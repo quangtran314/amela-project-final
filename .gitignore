@@ -71,3 +71,6 @@ atlassian-ide-plugin.xml
 
 build/
 
+application.properties
+.idea/**/dataSources.xml
+
