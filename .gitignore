@@ -70,6 +70,6 @@ atlassian-ide-plugin.xml
 build/**
 .idea/**
 .gradle/buildOutputCleanup/
-.gradle/7.1/
+.gradle/7.1/**
 
 src/**/resources/application.properties
