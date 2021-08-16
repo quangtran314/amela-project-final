@@ -21,7 +21,7 @@ public class Image {
     @NotNull
     @UniqueElements
     private String sourcePath;
-    
+
     @Size(min = 5, max = 500)
     private String des;
 
