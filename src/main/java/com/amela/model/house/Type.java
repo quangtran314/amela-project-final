@@ -25,10 +25,9 @@ public class Type {
     public Type() {
     }
 
-    public Type(long type_id, String name, List<House> houses) {
+    public Type(long type_id, String name) {
         this.type_id = type_id;
         this.name = name;
-        this.houses = houses;
     }
 
     public long getType_id() {

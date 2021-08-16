@@ -21,8 +21,10 @@ public class House {
     @Size(min = 5, max = 500)
     private String des;
     @NotNull
+    @Size(min = 1)
     private int numBedrooms;
     @NotNull
+    @Size(min = 1)
     private int numBathrooms;
     @NotNull
     private float price;
@@ -37,22 +39,20 @@ public class House {
     public House() {
     }
 
-    public House(String house_name, String address, int numBedrooms, List<Image> images, String des, float price, Type type) {
+    public House(String house_name, String address, int numBedrooms, String des, float price, Type type) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
-        this.images = images;
         this.des = des;
         this.price = price;
         this.type = type;
     }
 
-    public House(long house_id, String house_name, String address, int numBedrooms, List<Image> images, String des, float price, Type type) {
+    public House(long house_id, String house_name, String address, int numBedrooms, String des, float price, Type type) {
         this.house_id = house_id;
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
-        this.images = images;
         this.des = des;
         this.price = price;
         this.type = type;
