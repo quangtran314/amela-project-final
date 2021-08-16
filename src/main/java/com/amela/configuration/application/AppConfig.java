@@ -177,4 +177,6 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         registry.addFormatter(stringToLocalDateConverter);
         registry.addFormatter(new ImageFormatter(applicationContext.getBean(ImageService.class)));
     }
+
+
 }

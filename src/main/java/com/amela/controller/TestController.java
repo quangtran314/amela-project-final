@@ -9,6 +9,8 @@ public class TestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String homePage() {
-        return "/detail";
+        return "/house/detail";
     }
+
+
 }
