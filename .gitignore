@@ -71,5 +71,5 @@ build/
 **/.gradle
 
 .idea/dataSources.xml
-**/resources/application.properties
+application.properties
 .idea/sqldialects.xml
