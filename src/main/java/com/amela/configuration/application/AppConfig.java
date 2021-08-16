@@ -178,4 +178,6 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         registry.addFormatter(stringToLocalDateConverter);
         registry.addFormatter(new HouseFormatter(applicationContext.getBean(HouseService.class)));
     }
+
+
 }
