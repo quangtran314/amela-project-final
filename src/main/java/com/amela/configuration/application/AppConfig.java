@@ -1,8 +1,9 @@
 package com.amela.configuration.application;
 
-import com.amela.formatter.ImageFormatter;
+import com.amela.formatter.HouseFormatter;
 import com.amela.formatter.LocalDateFormatter;
-import com.amela.service.image.ImageService;
+import com.amela.service.house.HouseService;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -33,7 +35,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.time.LocalDate;
 import java.util.Properties;
 
 @Configuration
@@ -175,7 +176,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         LocalDateFormatter stringToLocalDateConverter = new LocalDateFormatter("dd/MM/yyyy");
 
         registry.addFormatter(stringToLocalDateConverter);
-        registry.addFormatter(new ImageFormatter(applicationContext.getBean(ImageService.class)));
+        registry.addFormatter(new HouseFormatter(applicationContext.getBean(HouseService.class)));
     }
 
 

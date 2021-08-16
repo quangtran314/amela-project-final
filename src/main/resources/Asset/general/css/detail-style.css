@@ -133,11 +133,16 @@ p.title
 
 .boxUpRight__title--vote
 {
-  margin-left: 30%;
+  margin-left: auto;
   display: flex;
 }
 
 .boxUpRight__title--vote svg
 {
   margin-top: 5%;
+}
+
+.boxUpRight__booking
+{
+  text-align: center;
 }

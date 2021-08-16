@@ -1,7 +1,7 @@
 package com.amela.controller;
 
 
-import com.amela.model.House;
+import com.amela.model.house.House;
 import com.amela.service.house.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

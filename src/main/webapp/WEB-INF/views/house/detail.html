@@ -45,7 +45,7 @@
           </section>
           <section>
             <div class="info">
-              <h5 class="info__type">Loại nhà: <span th:text="${house.type_id}"></span></h5>
+              <h5 class="info__type">Loại nhà: <span th:text="${house.type.name}" th:if="${house.type.type_id != null}"></span></h5>
               <h5 class="info__price">Giá tiền: <span th:text="${house.price}"></span> VND</h5>
               <h5 class="info__price">Số phòng ngủ: <span th:text="${house.numBedrooms}"></span> VND</h5>
               <h5 class="info__price">Số phòng tắm: <span th:text="${house.numBathrooms}"></span> VND</h5>
@@ -136,7 +136,7 @@
               <h5 class="desciption__title">
                 Mô tả chi tiết:
               </h5>
-              <p class="desciption__content" th:text="${house.desHouse}">
+              <p class="desciption__content" th:text="${house.des}">
 
               </p>
             </div>
@@ -147,7 +147,7 @@
           <div class="boxUpRight">
             <div class="boxUpRight__title">
               <div class="boxUpRight__title--price">
-                <p> 30.000.000 VND</p>
+                <p th:text="${house.price}"> </p>
               </div>
               <div class="boxUpRight__title--vote">
                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;"><path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" fill-rule="evenodd"></path></svg>
@@ -155,9 +155,7 @@
               </div>
             </div>
             <div class="boxUpRight__booking">
-              <center>
                 <button class="btn btn-primary">Thuê nhà ngay</button>
-              </center>
             </div>
            
           </div>

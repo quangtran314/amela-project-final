@@ -66,11 +66,10 @@ atlassian-ide-plugin.xml
 
 
 #Custom
-.gradle/buildOutputCleanup/
-.gradle/7.1/
-
 build/
+.idea/
+**/.gradle
 
-application.properties
-.idea/**/dataSources.xml
-
+.idea/dataSources.xml
+**/resources/application.properties
+.idea/sqldialects.xml
