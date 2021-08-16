@@ -10,8 +10,8 @@ import java.util.Locale;
 
 public class LocalDateFormatter implements Formatter<LocalDate> {
 
-    private DateTimeFormatter formatter;
-    private String datePattern;
+    private final DateTimeFormatter formatter;
+    private final String datePattern;
 
     public LocalDateFormatter(String datePattern) {
         this.datePattern = datePattern;

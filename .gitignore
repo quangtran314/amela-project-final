@@ -26,6 +26,7 @@
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
+.idea/**/sql.dialect.xml
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
@@ -69,5 +70,4 @@ atlassian-ide-plugin.xml
 .gradle/buildOutputCleanup/
 .gradle/7.1/
 
-build/
-
+build/**

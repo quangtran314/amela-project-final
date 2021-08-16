@@ -1,6 +1,7 @@
 package com.amela.service.house;
 
-import com.amela.model.House;
+import com.amela.model.house.House;
+import com.amela.model.house.Type;
 import com.amela.repository.IHouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,12 @@ import java.util.Optional;
 @Service
 public class HouseService implements IHouseService {
 
+    private final IHouseRepository houseRepository;
+
     @Autowired
-    private IHouseRepository houseRepository;
+    public HouseService(IHouseRepository houseRepository) {
+        this.houseRepository = houseRepository;
+    }
 
     @Override
     public Iterable<House> findAll() {
@@ -31,5 +36,10 @@ public class HouseService implements IHouseService {
     @Override
     public void remove(Long id) {
         houseRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<House> findAllByType(Type houseType) {
+        return houseRepository.findAllByType(houseType);
     }
 }

@@ -1,6 +1,6 @@
 package com.amela.formatter;
 
-import com.amela.model.Image;
+import com.amela.model.house.Image;
 import com.amela.service.image.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Component
 public class ImageFormatter implements Formatter<Image> {
 
-    private IImageService imageService;
+    private final IImageService imageService;
 
     @Autowired
     public ImageFormatter(IImageService imageService) {
