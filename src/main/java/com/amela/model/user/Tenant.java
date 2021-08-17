@@ -1,6 +1,10 @@
 package com.amela.model.user;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "tenant")
@@ -9,30 +13,48 @@ public class Tenant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tenant_id;
+
+    @NotNull
     private String full_name;
+
+    @NotNull
     private String PIN;
+
+    @NotNull
+    @Size(max = 255)
     private String address;
+
+    @NotNull
+    @Size(max = 20)
     private String phone_number;
+
+    @NotNull
+    @Email
     private String email;
+
+    @OneToMany(targetEntity = Contract.class)
+    private List<Contract> contracts;
 
     public Tenant() {
     }
 
-    public Tenant(String full_name, String PIN, String address, String phone_number, String email) {
+    public Tenant(String full_name, String PIN, String address, String phone_number, String email, List<Contract> contracts) {
         this.full_name = full_name;
         this.PIN = PIN;
         this.address = address;
         this.phone_number = phone_number;
         this.email = email;
+        this.contracts = contracts;
     }
 
-    public Tenant(long tenant_id, String full_name, String PIN, String address, String phone_number, String email) {
+    public Tenant(long tenant_id, String full_name, String PIN, String address, String phone_number, String email, List<Contract> contracts) {
         this.tenant_id = tenant_id;
         this.full_name = full_name;
         this.PIN = PIN;
         this.address = address;
         this.phone_number = phone_number;
         this.email = email;
+        this.contracts = contracts;
     }
 
     public long getTenant_id() {
@@ -81,5 +103,13 @@ public class Tenant {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 }

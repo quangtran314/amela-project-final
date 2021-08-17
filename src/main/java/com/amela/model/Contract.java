@@ -1,43 +1,62 @@
 package com.amela.model;
 
-import javax.persistence.*;
-import java.time.LocalDate;
 
+
+import com.amela.model.user.Tenant;
+import com.amela.model.house.House;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "contract")
 public class Contract {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long contract_id;
-    private long tenant_id;
-    private long house_id;
+
+    @NotNull
     private LocalDate start_day;
+
+    @NotNull
     private LocalDate end_day;
+
+    @NotNull
     private int max_person;
+
+    @Size(min = 3)
     private String term;
+
+    @ManyToOne
+    @JoinColumn(name = "house_id")
+    private House house;
+
+    @ManyToOne
+    @JoinColumn(name = "tenant_id")
+    private Tenant tenant;
 
     public Contract() {
     }
 
-    public Contract(long tenant_id, long house_id, LocalDate start_day, LocalDate end_day, int max_person, String term) {
-        this.tenant_id = tenant_id;
-        this.house_id = house_id;
+    public Contract( LocalDate start_day, LocalDate end_day, int max_person, String term, House house, Tenant tenant) {
+
         this.start_day = start_day;
         this.end_day = end_day;
         this.max_person = max_person;
         this.term = term;
+        this.house = house;
+        this.tenant = tenant;
     }
 
-    public Contract(long contract_id, long tenant_id, long house_id, LocalDate start_day, LocalDate end_day, int max_person, String term) {
+    public Contract(long contract_id, LocalDate start_day, LocalDate end_day, int max_person, String term, House house, Tenant tenant) {
         this.contract_id = contract_id;
-        this.tenant_id = tenant_id;
-        this.house_id = house_id;
         this.start_day = start_day;
         this.end_day = end_day;
         this.max_person = max_person;
         this.term = term;
+        this.house = house;
+        this.tenant = tenant;
     }
 
     public long getContract_id() {
@@ -46,22 +65,6 @@ public class Contract {
 
     public void setContract_id(long contract_id) {
         this.contract_id = contract_id;
-    }
-
-    public long getTenant_id() {
-        return tenant_id;
-    }
-
-    public void setTenant_id(long tenant_id) {
-        this.tenant_id = tenant_id;
-    }
-
-    public long getHouse_id() {
-        return house_id;
-    }
-
-    public void setHouse_id(long house_id) {
-        this.house_id = house_id;
     }
 
     public LocalDate getStart_day() {
@@ -94,5 +97,21 @@ public class Contract {
 
     public void setTerm(String term) {
         this.term = term;
+    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 }
