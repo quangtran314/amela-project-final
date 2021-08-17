@@ -25,13 +25,14 @@
 <section>
   <form th:object="${house}" th:method="POST">
     <div class="searchBar" style="text-align: center;">
-      <input type="text" class="form__control--address" name="" id="" placeholder="Nhập địa điểm" autocom th:field="*{address}">
+      <input type="text" class="form__control--address" name="" id="" placeholder="Nhập địa điểm" th:field="*{address}">
       Giá tiền (Triệu) :
-      <input type="number" class="form__control--price" name="" id="" placeholder="Từ" autocom th:name="price_from">
-      <input type="number" class="form__control--price" name="" id="" placeholder="Đến" autocom th:name="price_to">
+      <input type="text" class="form__control--price" name="" id="" placeholder="Từ" th:name="price_from">
+      <input type="text" class="form__control--price" name="" id="" placeholder="Đến" th:name="price_to">
 
       Loại nhà:
-      <select name="" class="form__control" id="type_house_selection" required="required" th:field="*{type}">
+      <select name="" class="form__control" id="type_house_selection" th:field="*{type}">
+        <option th:value="${all_type}" >Tất cả</option>
         <option th:each="type_item: ${house_type}" th:value="${type_item.type_id}" th:text="${type_item.name}"></option>
       </select>
       <button type="submit" class="btn btn-primary">Tìm kiếm</button>

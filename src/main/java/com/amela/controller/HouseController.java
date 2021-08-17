@@ -36,25 +36,33 @@ public class HouseController {
         return houseTypeService.findAll();
     }
 
+//List
     @GetMapping("/houses")
     public ModelAndView listHouses(){
-        Iterable<House> houses;
-        houses = houseService.findAll();
+        Iterable<House> houses = houseService.findAll();
         ModelAndView modelAndView = new ModelAndView("/house/list");
         modelAndView.addObject("houses", houses);
+        modelAndView.addObject("all_type", "0");
         return modelAndView;
     }
-
     @PostMapping("/houses")
-    public ModelAndView listHouses(@ModelAttribute("house") House house, @RequestParam("price_from") float price_from, @RequestParam("price_to") float price_to){
-        Iterable<House> houses;
-        houses = houseService.findAll();
+    public ModelAndView listHouses(@ModelAttribute("house") House house, @RequestParam("price_from") Optional<Float> price_from, @RequestParam("price_to") Optional<Float> price_to){
         ModelAndView modelAndView = new ModelAndView("/house/list");
-        modelAndView.addObject("houses", houses);
+        Iterable<House> houseList =null;
+        try{
+            Optional<Type> house_type = houseTypeService.findById(house.getType().getType_id());
+            houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(house.getAddress(), price_from.isPresent()?price_from.get():0, price_to.isPresent()?price_to.get():99999999, house_type.get());
+        }catch(NullPointerException e)
+        {
+            houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(house.getAddress(), price_from.isPresent()?price_from.get():0, price_to.isPresent()?price_to.get():5000);
+        }
+
+        modelAndView.addObject("houses", houseList);
         return modelAndView;
     }
 
 
+//Detail
     @GetMapping("/houses/{id}")
     public ModelAndView detailHouse(@PathVariable Long id){
         Optional<House> house = houseService.findById(id);
