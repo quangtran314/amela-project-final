@@ -70,6 +70,4 @@ build/
 .idea/**
 .gradle/**
 
-.idea/dataSources.xml
 **/application.properties
-.idea/sqldialects.xml
