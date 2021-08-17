@@ -1,0 +1,31 @@
+#type_house_selection
+{
+    width: 150px;
+}
+
+
+.searchBar
+{
+    margin: 20px auto;
+}
+
+
+.searchBar button
+{
+    margin-left: 50px;
+}
+
+.searchBar select
+{
+    height: 30px;   
+    margin-left: 10px;
+}
+.form__control--address
+{
+    margin: auto 20px;
+}
+
+.form__control--price
+{
+   margin-right: 10px;
+}
