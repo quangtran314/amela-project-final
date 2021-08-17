@@ -1,9 +1,8 @@
 package com.amela.model;
 
-
-
-import com.amela.model.user.Tenant;
+import com.amela.model.user.User;
 import com.amela.model.house.House;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -34,29 +33,29 @@ public class Contract {
 
     @ManyToOne
     @JoinColumn(name = "tenant_id")
-    private Tenant tenant;
+    private User user;
 
     public Contract() {
     }
 
-    public Contract( LocalDate start_day, LocalDate end_day, int max_person, String term, House house, Tenant tenant) {
+    public Contract( LocalDate start_day, LocalDate end_day, int max_person, String term, House house, User user) {
 
         this.start_day = start_day;
         this.end_day = end_day;
         this.max_person = max_person;
         this.term = term;
         this.house = house;
-        this.tenant = tenant;
+        this.user = user;
     }
 
-    public Contract(long contract_id, LocalDate start_day, LocalDate end_day, int max_person, String term, House house, Tenant tenant) {
+    public Contract(long contract_id, LocalDate start_day, LocalDate end_day, int max_person, String term, House house, User user) {
         this.contract_id = contract_id;
         this.start_day = start_day;
         this.end_day = end_day;
         this.max_person = max_person;
         this.term = term;
         this.house = house;
-        this.tenant = tenant;
+        this.user = user;
     }
 
     public long getContract_id() {
@@ -107,11 +106,11 @@ public class Contract {
         this.house = house;
     }
 
-    public Tenant getTenant() {
-        return tenant;
+    public User getTenant() {
+        return user;
     }
 
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
+    public void setTenant(User user) {
+        this.user = user;
     }
 }

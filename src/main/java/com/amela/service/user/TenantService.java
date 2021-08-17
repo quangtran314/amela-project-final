@@ -1,6 +1,6 @@
 package com.amela.service.user;
 
-import com.amela.model.user.Tenant;
+import com.amela.model.user.User;
 import com.amela.repository.ITenantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,18 +13,18 @@ public class TenantService implements ITenantService{
     private ITenantRepository tenantRepository;
 
     @Override
-    public Iterable<Tenant> findAll() {
+    public Iterable<User> findAll() {
         return tenantRepository.findAll();
     }
 
     @Override
-    public Optional<Tenant> findById(Long id) {
+    public Optional<User> findById(Long id) {
         return tenantRepository.findById(id);
     }
 
     @Override
-    public void save(Tenant tenant) {
-        tenantRepository.save(tenant);
+    public void save(User user) {
+        tenantRepository.save(user);
     }
 
     @Override
