@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <th:block th:replace="/house/layout :: head__template"/>
+<!--  Custom-->
+  <link rel="stylesheet" href="../Asset/general/css/list-style.css">
 </head>
 <body>
 <!--    Header-->
@@ -20,7 +22,23 @@
     </div>
   </div>
 </section>
+<section>
+  <form th:object="${house}" th:method="POST">
+    <div class="searchBar" style="text-align: center;">
+      <input type="text" class="form__control--address" name="" id="" placeholder="Nhập địa điểm" th:field="*{address}">
+      Giá tiền (Triệu) :
+      <input type="text" class="form__control--price" name="" id="" placeholder="Từ" th:name="price_from">
+      <input type="text" class="form__control--price" name="" id="" placeholder="Đến" th:name="price_to">
 
+      Loại nhà:
+      <select name="" class="form__control" id="type_house_selection" th:field="*{type}">
+        <option th:value="${all_type}" >Tất cả</option>
+        <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}"></option>
+      </select>
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </form>
+</section>
 <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
   <div class="container-fluid px-md-0">
     <div class="row no-gutters">

@@ -6,6 +6,7 @@ import com.amela.repository.IHouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,4 +43,16 @@ public class HouseService implements IHouseService {
     public Iterable<House> findAllByType(Type houseType) {
         return houseRepository.findAllByType(houseType);
     }
+
+    @Override
+    public Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(String address, float price_from, float price_to) {
+        return houseRepository.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(address, price_from, price_to);
+    }
+
+    @Override
+    public Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(String address, float price_from, float price_to, Type houseType) {
+        return houseRepository.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(address, price_from, price_to, houseType);
+    }
+
+
 }
