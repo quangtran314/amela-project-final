@@ -1,6 +1,7 @@
 package com.amela.model.house;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -25,11 +26,11 @@ public class House {
     private String des;
 
     @NotNull
-    @Size(min = 1)
+    @Min(1)
     private int numBedrooms;
 
     @NotNull
-    @Size(min = 1)
+    @Min(1)
     private int numBathrooms;
 
     @NotNull
@@ -45,20 +46,22 @@ public class House {
     public House() {
     }
 
-    public House(String house_name, String address, int numBedrooms, String des, float price, Type type) {
+    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
+        this.numBathrooms = numBathrooms;
         this.des = des;
         this.price = price;
         this.type = type;
     }
 
-    public House(long house_id, String house_name, String address, int numBedrooms, String des, float price, Type type) {
+    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type) {
         this.house_id = house_id;
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
+        this.numBathrooms = numBathrooms;
         this.des = des;
         this.price = price;
         this.type = type;

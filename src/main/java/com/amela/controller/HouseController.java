@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,7 +32,8 @@ public class HouseController {
     {
         return new House();
     }
-    @ModelAttribute("house_type")
+
+    @ModelAttribute("houseTypes")
     public Iterable<Type> initHouseTypeList()
     {
         return houseTypeService.findAll();
@@ -45,6 +48,7 @@ public class HouseController {
         modelAndView.addObject("all_type", "0");
         return modelAndView;
     }
+
     @PostMapping("/houses")
     public ModelAndView listHouses(@ModelAttribute("house") House house, @RequestParam("price_from") Optional<Float> price_from, @RequestParam("price_to") Optional<Float> price_to){
         ModelAndView modelAndView = new ModelAndView("/house/list");
@@ -56,7 +60,6 @@ public class HouseController {
         {
             houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(house.getAddress(), price_from.isPresent()?price_from.get():0, price_to.isPresent()?price_to.get():5000);
         }
-
         modelAndView.addObject("houses", houseList);
         return modelAndView;
     }
@@ -71,4 +74,23 @@ public class HouseController {
         return modelAndView;
     }
 
+//Create
+    @GetMapping("/create-house")
+    public ModelAndView showCreateHouse(){
+        ModelAndView modelAndView = new ModelAndView("/house/create");
+        modelAndView.addObject("house", new House());
+        return modelAndView;
+    }
+
+    @PostMapping("/create-house")
+    public ModelAndView saveHouse(@Validated @ModelAttribute("house") House house, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("/house/create");
+            return modelAndView;
+        }
+        houseService.save(house);
+        ModelAndView modelAndView = new ModelAndView("redirect:/houses");
+        modelAndView.addObject("message", "New note created successfully");
+        return modelAndView;
+    }
 }

@@ -33,7 +33,7 @@
       Loại nhà:
       <select name="" class="form__control" id="type_house_selection" th:field="*{type}">
         <option th:value="${all_type}" >Tất cả</option>
-        <option th:each="type_item: ${house_type}" th:value="${type_item.type_id}" th:text="${type_item.name}"></option>
+        <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}"></option>
       </select>
       <button type="submit" class="btn btn-primary">Tìm kiếm</button>
     </div>
