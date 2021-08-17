@@ -71,7 +71,5 @@ build/
 
 **/application.properties
 
-.idea/dataSources.xml
-.idea/sqldialects.xml
 .idea/compiler.xml
 .idea/jarRepositories.xml
