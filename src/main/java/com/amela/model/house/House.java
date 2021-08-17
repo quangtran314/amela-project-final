@@ -1,6 +1,7 @@
 package com.amela.model.house;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -25,14 +26,15 @@ public class House {
     private String des;
 
     @NotNull
-    @Size(min = 1)
+    @Min(value = 1)
     private int numBedrooms;
 
     @NotNull
-    @Size(min = 1)
+    @Min(value = 1)
     private int numBathrooms;
 
     @NotNull
+    @Min(value = 10000)
     private float price;
 
     @OneToMany(targetEntity = Image.class)

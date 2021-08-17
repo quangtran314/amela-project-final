@@ -1,6 +1,5 @@
 package com.amela.controller;
 
-
 import com.amela.model.house.House;
 import com.amela.service.house.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,12 @@ public class HouseController {
     @Autowired
     private IHouseService houseService;
 
-
     @GetMapping("/houses")
     public ModelAndView listHouses(){
-        Iterable<House> houses;
-        houses = houseService.findAll();
+        Iterable<House> houses = houseService.findAll();
         ModelAndView modelAndView = new ModelAndView("/house/list");
         modelAndView.addObject("houses", houses);
+
         return modelAndView;
     }
 
@@ -36,7 +34,7 @@ public class HouseController {
         Optional<House> house = houseService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/house/detail");
         modelAndView.addObject("house", house.get());
+
         return modelAndView;
     }
-
 }
