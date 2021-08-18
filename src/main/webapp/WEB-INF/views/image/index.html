@@ -67,7 +67,7 @@
 <body>
 <h3>Product Management</h3>
 <p>
-  <a th:href="@{/product/create}">
+  <a th:href="@{/create}">
     Add new product
   </a>
 </p>
@@ -80,10 +80,10 @@
   </tr>
   </thead>
   <tbody>
-  <tr th:each="product : ${products}">
-    <td th:text="${product.name}"></td>
-    <td th:text="${product.description}"></td>
-    <td><img width="100" height="100" th:src="@{'/Users/Asus/Desktop/amela-project-final/src/main/resources/Asset/general/images/' + ${product.image}}" alt=""></td>
+  <tr th:each="image : ${images}">
+    <td th:text="${image.name}"></td>
+    <td th:text="${image.des}"></td>
+    <td><img width="100" height="100" th:src="@{'/src/main/resources/Asset/general/images/' + ${image.sourcePath}}" alt=""></td>
   </tr>
   </tbody>
 </table>

@@ -1,31 +1,43 @@
 package com.amela.controller;
 
 
-import com.amela.model.house.House;
-import com.amela.model.house.Type;
+import com.amela.model.house.*;
 import com.amela.service.house.IHouseService;
 import com.amela.service.house.IHouseTypeService;
+import com.amela.service.image.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class HouseController {
 
+    @Value("${file-upload}")
+    private String fileUpload;
+
     @Autowired
     private IHouseService houseService;
 
     @Autowired
     private IHouseTypeService houseTypeService;
+
+    @Autowired
+    private IImageService imageService;
 
     @ModelAttribute("house")
     public House initHouse()
@@ -91,6 +103,41 @@ public class HouseController {
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");
+        return modelAndView;
+    }
+
+
+
+
+    @GetMapping("/index")
+    public String index(Model model) {
+        Iterable<Image> images = imageService.findAll();
+        model.addAttribute("images", images);
+        return "/image/index";
+    }
+
+    @GetMapping("/create")
+    public ModelAndView showCreateForm() {
+        ModelAndView modelAndView = new ModelAndView("/image/create");
+        modelAndView.addObject("imageForm", new ImageForm());
+        return modelAndView;
+    }
+
+    @PostMapping("/save")
+    public ModelAndView saveImage(@ModelAttribute ImageForm imageForm) {
+        MultipartFile multipartFile = imageForm.getSourcePath();
+        String fileName = multipartFile.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(imageForm.getSourcePath().getBytes(), new File(fileUpload + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Image image = new Image(imageForm.getImage_id(),imageForm.getName(),
+                fileName , imageForm.getDes());
+        imageService.save(image);
+        ModelAndView modelAndView = new ModelAndView("/image/create");
+        modelAndView.addObject("imageForm", imageForm);
+        modelAndView.addObject("message", "Created new product successfully !");
         return modelAndView;
     }
 }

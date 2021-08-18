@@ -95,11 +95,11 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(resourceHandler)
                 .addResourceLocations(resourceLocation);
-        registry.addResourceHandler("/Users/Asus/Desktop/amela-project-final/src/main/resources/Asset/general/images/**")
+        registry.addResourceHandler("/src/main/resources/Asset/general/images/**")
                 .addResourceLocations("file:" + fileUpload);
     }
 
-    // upload file configuration
+    // upload image configuration
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver getResolver() throws IOException {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();

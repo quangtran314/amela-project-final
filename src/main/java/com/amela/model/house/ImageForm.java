@@ -1,14 +1,15 @@
 package com.amela.model.house;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "image")
-public class Image {
+//@Entity
+@Table(name = "image_form")
+public class ImageForm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +20,9 @@ public class Image {
     private String name;
 
     @NotNull
-    private String sourcePath;
-    
+    @UniqueElements
+    private MultipartFile sourcePath;
+
     @Size(min = 5, max = 500)
     private String des;
 
@@ -28,29 +30,22 @@ public class Image {
     @JoinColumn(name = "house_id")
     private House house;
 
-    public Image() {
+    public ImageForm() {
     }
 
-    public Image(String name, String sourcePath, String des, House house) {
+    public ImageForm(String name, MultipartFile sourcePath, String des, House house) {
         this.name = name;
         this.sourcePath = sourcePath;
         this.des = des;
         this.house = house;
     }
 
-    public Image(long image_id, String name, String sourcePath, String des, House house) {
+    public ImageForm(long image_id, String name, MultipartFile sourcePath, String des, House house) {
         this.image_id = image_id;
         this.name = name;
         this.sourcePath = sourcePath;
         this.des = des;
         this.house = house;
-    }
-
-    public Image(long image_id, String name, String sourcePath, String des) {
-        this.image_id = image_id;
-        this.name = name;
-        this.sourcePath = sourcePath;
-        this.des = des;
     }
 
     public long getImage_id() {
@@ -61,20 +56,20 @@ public class Image {
         this.image_id = image_id;
     }
 
+    public MultipartFile getSourcePath() {
+        return sourcePath;
+    }
+
+    public void setSourcePath(MultipartFile sourcePath) {
+        this.sourcePath = sourcePath;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSourcePath() {
-        return sourcePath;
-    }
-
-    public void setSourcePath(String source) {
-        this.sourcePath = source;
     }
 
     public House getHouse() {

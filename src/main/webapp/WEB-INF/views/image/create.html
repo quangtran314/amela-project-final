@@ -67,29 +67,29 @@
 <body>
 <h3>Add Product</h3>
 <p>
-  <a th:href="@{/product}">
+  <a th:href="@{/index}">
     Back to product list
   </a>
 </p>
 <div id="form">
-  <form th:action="@{/product/save}" th:object="${productForm}"
+  <form th:action="@{/save}" th:object="${imageForm}"
         method="POST" novalidate="novalidate" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{image_id}"/>
     <div>
       <label>Name</label>
       <input type="text" th:field="*{name}"/>
     </div>
     <div>
       <label>Description</label>
-      <input type="text" th:field="*{description}"/>
+      <input type="text" th:field="*{des}"/>
     </div>
     <div>
       <label>Image</label>
-      <input type="file" th:field="*{image}"/>
+      <input type="file" th:field="*{sourcePath}"/>
     </div>
     <input type="submit" value="Save"/>
   </form>
 </div>
-<footer th:replace="/layout :: footer"></footer>
+<footer></footer>
 </body>
 </html>
