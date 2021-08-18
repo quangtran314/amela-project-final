@@ -67,4 +67,10 @@ public class AuthController {
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         return modelAndView;
     }
+
+    @RequestMapping("/access-denied")
+    public ModelAndView accessDenied(){
+        ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
+        return modelAndView;
+    }
 }

@@ -1,6 +1,7 @@
 package com.amela.controller;
 
 
+import com.amela.model.Contract;
 import com.amela.model.house.House;
 import com.amela.model.house.Type;
 import com.amela.model.user.User;
@@ -46,11 +47,11 @@ public class HouseController {
         return houseTypeService.findAll();
     }
 
-    @ModelAttribute("user")
-    public User user(){
-        Optional<User> user = userService.findByEmail(getPrincipal());
-        return user.get();
-    }
+//    @ModelAttribute("user")
+//    public User user(){
+//        Optional<User> user = userService.findByEmail(getPrincipal());
+//        return user.get();
+//    }
 
     private String getPrincipal(){
         String userName = null;
@@ -116,6 +117,12 @@ public class HouseController {
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");
+        return modelAndView;
+    }
+
+    @GetMapping("/renting")
+    public ModelAndView renting(){
+        ModelAndView modelAndView = new ModelAndView("");
         return modelAndView;
     }
 }

@@ -24,9 +24,6 @@ public class Contract {
     @NotNull
     private int max_person;
 
-    @Size(min = 3)
-    private String term;
-
     @ManyToOne
     @JoinColumn(name = "house_id")
     private House house;
@@ -38,22 +35,20 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract( LocalDate start_day, LocalDate end_day, int max_person, String term, House house, User user) {
+    public Contract( LocalDate start_day, LocalDate end_day, int max_person, House house, User user) {
 
         this.start_day = start_day;
         this.end_day = end_day;
         this.max_person = max_person;
-        this.term = term;
         this.house = house;
         this.user = user;
     }
 
-    public Contract(long contract_id, LocalDate start_day, LocalDate end_day, int max_person, String term, House house, User user) {
+    public Contract(long contract_id, LocalDate start_day, LocalDate end_day, int max_person, House house, User user) {
         this.contract_id = contract_id;
         this.start_day = start_day;
         this.end_day = end_day;
         this.max_person = max_person;
-        this.term = term;
         this.house = house;
         this.user = user;
     }
@@ -88,14 +83,6 @@ public class Contract {
 
     public void setMax_person(int max_person) {
         this.max_person = max_person;
-    }
-
-    public String getTerm() {
-        return term;
-    }
-
-    public void setTerm(String term) {
-        this.term = term;
     }
 
     public House getHouse() {
