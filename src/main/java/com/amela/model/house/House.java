@@ -67,6 +67,10 @@ public class House {
         this.type = type;
     }
 
+    public Image getImageFirst(){
+        return images.get(0);
+    }
+
     public long getHouse_id() {
         return house_id;
     }

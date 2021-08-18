@@ -81,8 +81,10 @@ public class HouseController {
     @GetMapping("/houses/{id}")
     public ModelAndView detailHouse(@PathVariable Long id){
         Optional<House> house = houseService.findById(id);
+        Iterable<Image> images = imageService.findAllByHouse(house.get());
         ModelAndView modelAndView = new ModelAndView("/house/detail");
         modelAndView.addObject("house", house.get());
+        modelAndView.addObject("images", images);
         return modelAndView;
     }
 
