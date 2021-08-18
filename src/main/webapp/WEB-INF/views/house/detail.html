@@ -154,7 +154,8 @@
               </div>
             </div>
             <div class="boxUpRight__booking">
-                <button class="btn btn-primary">Thuê nhà ngay</button>
+              <a th:href="@{/edit-house/__${house.house_id}__ }" ><button class="btn btn-primary">Thuê nhà ngay</button></a>
+              <a th:href="@{/upload-image/__${house.house_id}__ }" ><button class="btn btn-primary">Thêm ảnh nhà </button></a>
             </div>
            
           </div>

@@ -46,13 +46,6 @@ public class Image {
         this.house = house;
     }
 
-    public Image(long image_id, String name, String sourcePath, String des) {
-        this.image_id = image_id;
-        this.name = name;
-        this.sourcePath = sourcePath;
-        this.des = des;
-    }
-
     public long getImage_id() {
         return image_id;
     }

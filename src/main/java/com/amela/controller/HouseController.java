@@ -106,25 +106,17 @@ public class HouseController {
         return modelAndView;
     }
 
-
-
-
-    @GetMapping("/index")
-    public String index(Model model) {
-        Iterable<Image> images = imageService.findAll();
-        model.addAttribute("images", images);
-        return "/image/index";
-    }
-
-    @GetMapping("/create")
-    public ModelAndView showCreateForm() {
-        ModelAndView modelAndView = new ModelAndView("/image/create");
+//Upload image
+    @GetMapping("/upload-image/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView("/house/image");
         modelAndView.addObject("imageForm", new ImageForm());
+        modelAndView.addObject("house_id", id);
         return modelAndView;
     }
 
-    @PostMapping("/save")
-    public ModelAndView saveImage(@ModelAttribute ImageForm imageForm) {
+    @PostMapping("/upload-image/{id}")
+    public ModelAndView updateHouse(@PathVariable Long id , @ModelAttribute ImageForm imageForm ) {
         MultipartFile multipartFile = imageForm.getSourcePath();
         String fileName = multipartFile.getOriginalFilename();
         try {
@@ -133,11 +125,13 @@ public class HouseController {
             ex.printStackTrace();
         }
         Image image = new Image(imageForm.getImage_id(),imageForm.getName(),
-                fileName , imageForm.getDes());
+                fileName , imageForm.getDes() , imageForm.getHouse());
         imageService.save(image);
-        ModelAndView modelAndView = new ModelAndView("/image/create");
+        ModelAndView modelAndView = new ModelAndView("/house/image");
         modelAndView.addObject("imageForm", imageForm);
-        modelAndView.addObject("message", "Created new product successfully !");
+        modelAndView.addObject("house_id", id);
+        modelAndView.addObject("message", "Update successfully !");
         return modelAndView;
     }
+
 }

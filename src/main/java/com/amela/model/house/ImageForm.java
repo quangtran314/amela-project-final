@@ -20,7 +20,6 @@ public class ImageForm {
     private String name;
 
     @NotNull
-    @UniqueElements
     private MultipartFile sourcePath;
 
     @Size(min = 5, max = 500)
