@@ -8640,13 +8640,13 @@ textarea.form-control {
     background: #fd7792; }
 
 .ftco-book .appointment-form {
-  padding: 35px;
+  padding: 24px;
   width: 100%;
   background: #fff;
   border-radius: 5px;
-  -webkit-box-shadow: 0px 15px 34px -29px rgba(0, 0, 0, 0.54);
-  -moz-box-shadow: 0px 15px 34px -29px rgba(0, 0, 0, 0.54);
-  box-shadow: 0px 15px 34px -29px rgba(0, 0, 0, 0.54); }
+  -webkit-box-shadow: 0 15px 34px -29px rgba(0, 0, 0, 0.54);
+  -moz-box-shadow: 0 15px 34px -29px rgba(0, 0, 0, 0.54);
+  box-shadow: 0 15px 34px -29px rgba(0, 0, 0, 0.54); }
   @media (min-width: 992px) {
     .ftco-book .appointment-form {
       margin-top: -650px; } }
