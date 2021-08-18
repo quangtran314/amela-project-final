@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- custom -->
+    <link rel="stylesheet" href="../Asset/general/css/create-form.css">
+
+</head>
+<body>
+
+    <!--    Header-->
+    <th:block th:replace="/house/layout :: header__template"/>
+
+    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+        <div class="container-fluid px-md-0">
+            <div class="signup-form">
+                <form method="post" th:action="@{/signup}" th:object="${user}">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail">Email</label>
+                            <th:block th:if="${#fields.hasErrors('email')}">
+                                <input type="email" class="form-control is-invalid" id="inputEmail" required th:field="*{email}">
+                                <div class="invalid-feedback" th:errors="*{email}"></div>
+                            </th:block>
+                            <input type="email" class="form-control" id="inputEmail" th:field="*{email}" th:unless="${#fields.hasErrors('email')}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword">Password</label>
+                            <th:block th:if="${#fields.hasErrors('password')}">
+                                <input type="password" id="inputPassword" class="form-control is-invalid" required th:field="*{password}">
+                                <div class="invalid-feedback" th:errors="*{password}"></div>
+                            </th:block>
+                            <input type="password" class="form-control" id="inputPassword" th:field="*{password}" th:unless="${#fields.hasErrors('password')}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputName">Full name</label>
+                            <th:block th:if="${#fields.hasErrors('fullName')}">
+                                <input type="text" id="inputName" class="form-control is-invalid" required th:field="*{fullName}">
+                                <div class="invalid-feedback" th:errors="*{fullName}"></div>
+                            </th:block>
+                            <input type="text" class="form-control" id="inputName" th:field="*{fullName}" th:unless="${#fields.hasErrors('fullName')}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPhoneNumber">Phone number</label>
+                            <th:block th:if="${#fields.hasErrors('phoneNumber')}">
+                                <input type="password" id="inputPhoneNumber" class="form-control is-invalid" required th:field="*{phoneNumber}">
+                                <div class="invalid-feedback" th:errors="*{phoneNumber}"></div>
+                            </th:block>
+                            <input type="text" class="form-control" id="inputPhoneNumber" th:field="*{phoneNumber}" th:unless="${#fields.hasErrors('phoneNumber')}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Address</label>
+                        <th:block th:if="${#fields.hasErrors('address')}">
+                            <input type="text" id="inputAddress" class="form-control is-invalid" required th:field="*{address}">
+                            <div class="invalid-feedback" th:errors="*{address}"></div>
+                        </th:block>
+                        <input type="text" class="form-control" id="inputAddress" th:field="*{address}" th:unless="${#fields.hasErrors('address')}">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">City</label>
+                            <th:block th:if="${#fields.hasErrors('city')}">
+                                <input type="text" id="inputCity" class="form-control is-invalid" required th:field="*{city}">
+                                <div class="invalid-feedback" th:errors="*{city}"></div>
+                            </th:block>
+                            <input type="text" class="form-control" id="inputCity" th:field="*{city}" th:unless="${#fields.hasErrors('city')}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputPIN">PIN</label>
+                            <th:block th:if="${#fields.hasErrors('PIN')}">
+                                <input type="text" id="inputPIN" class="form-control is-invalid" required th:field="*{PIN}">
+                                <div class="invalid-feedback" th:errors="*{PIN}"></div>
+                            </th:block>
+                            <input type="text" class="form-control" id="inputPIN" th:field="*{PIN}" th:unless="${#fields.hasErrors('PIN')}">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="formCheck">Role</label>
+                        <div class="col-md-4" id="formCheck">
+                            <th:block th:each="role : ${roles}">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="roles" th:value="${role.id}">
+                                    <label th:text="${role.name}"></label>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

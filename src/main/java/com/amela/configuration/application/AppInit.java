@@ -1,5 +1,6 @@
 package com.amela.configuration.application;
 
+import com.amela.configuration.secutiry.SecurityConfig;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -9,7 +10,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{ AppConfig.class };
+        return new Class[]{ AppConfig.class, SecurityConfig.class};
     }
 
     @Override

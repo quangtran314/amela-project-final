@@ -1,4 +1,4 @@
-.house-form {
+.house-form, .signup-form, .login-form {
     width : 800px;
     margin : 50px auto;
     padding: 20px;

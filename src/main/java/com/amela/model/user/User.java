@@ -22,7 +22,6 @@ public class User {
     private String fullName;
 
     @NotNull
-    @UniqueElements
     private String PIN;
 
     @NotNull
@@ -32,6 +31,9 @@ public class User {
     @NotNull
     @Size(max = 20)
     private String phoneNumber;
+
+    @Size(min = 5)
+    private String city;
 
     @NotNull
     @Email
@@ -52,21 +54,23 @@ public class User {
     public User() {
     }
 
-    public User(String fullName, String PIN, String address, String phoneNumber, String email, String password, Set<Role> roles) {
+    public User(String fullName, String PIN, String address, String city, String phoneNumber, String email, String password, Set<Role> roles) {
         this.fullName = fullName;
         this.PIN = PIN;
         this.address = address;
+        this.city = city;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
 
-    public User(long id, String fullName, String PIN, String address, String phoneNumber, String email, String password, Set<Role> roles) {
+    public User(long id, String fullName, String PIN, String address, String city, String phoneNumber, String email, String password, Set<Role> roles) {
         this.id = id;
         this.fullName = fullName;
         this.PIN = PIN;
         this.address = address;
+        this.city = city;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
@@ -103,6 +107,14 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getPhoneNumber() {
