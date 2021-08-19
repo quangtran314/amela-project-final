@@ -51,6 +51,11 @@ public class HouseController {
         return houseTypeService.findAll();
     }
 
+    @ModelAttribute("images")
+    public Iterable<Image> initHouseImages(){
+        return imageService.findAll();
+    }
+
 //List
     @GetMapping("/houses")
     public ModelAndView listHouses(){
@@ -58,6 +63,7 @@ public class HouseController {
         ModelAndView modelAndView = new ModelAndView("/house/list");
         modelAndView.addObject("houses", houses);
         modelAndView.addObject("all_type", "0");
+        modelAndView.addObject("image","room-1.jpg");
         return modelAndView;
     }
 
@@ -92,16 +98,25 @@ public class HouseController {
     @GetMapping("/create-house")
     public ModelAndView showCreateHouse(){
         ModelAndView modelAndView = new ModelAndView("/house/create");
-        modelAndView.addObject("house", new House());
+        modelAndView.addObject("house", new HouseForm());
         return modelAndView;
     }
 
     @PostMapping("/create-house")
-    public ModelAndView saveHouse(@Validated @ModelAttribute("house") House house, BindingResult bindingResult){
+    public ModelAndView saveHouse(@Validated @ModelAttribute("house") HouseForm houseForm, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             ModelAndView modelAndView = new ModelAndView("/house/create");
             return modelAndView;
         }
+        MultipartFile multipartFile = houseForm.getSourcePath();
+        String fileName = multipartFile.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(houseForm.getSourcePath().getBytes(), new File(fileUpload + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        House house = new House(houseForm.getHouse_name(),houseForm.getAddress(),houseForm.getNumBedrooms(),
+                houseForm.getNumBathrooms(),houseForm.getDes(),houseForm.getPrice(),houseForm.getType(),fileName);
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");
@@ -110,7 +125,7 @@ public class HouseController {
 
 //Upload image
     @GetMapping("/upload-image/{id}")
-    public ModelAndView showEditForm(@PathVariable Long id){
+    public ModelAndView showImageForm(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("/house/image");
         modelAndView.addObject("imageForm", new ImageForm());
         modelAndView.addObject("house_id", id);
@@ -118,7 +133,7 @@ public class HouseController {
     }
 
     @PostMapping("/upload-image/{id}")
-    public ModelAndView updateHouse(@PathVariable Long id , @ModelAttribute ImageForm imageForm ) {
+    public ModelAndView updateImage(@PathVariable Long id , @ModelAttribute ImageForm imageForm ) {
         MultipartFile multipartFile = imageForm.getSourcePath();
         String fileName = multipartFile.getOriginalFilename();
         try {

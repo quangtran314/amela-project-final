@@ -1,18 +1,15 @@
 package com.amela.model.house;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-@Entity
-@Table(name = "house")
-public class House {
+public class HouseForm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long house_id;
 
     @NotNull
     @Size(min = 5, max = 20)
@@ -44,12 +41,12 @@ public class House {
     private Type type;
 
     @NotNull
-    private String sourcePath;
+    private MultipartFile sourcePath;
 
-    public House() {
+    public HouseForm() {
     }
 
-    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,String sourcePath ) {
+    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,MultipartFile sourcePath ) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
@@ -60,33 +57,32 @@ public class House {
         this.sourcePath = sourcePath;
     }
 
-    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , String sourcePath) {
-        this.house_id = house_id;
-        this.house_name = house_name;
-        this.address = address;
-        this.numBedrooms = numBedrooms;
-        this.numBathrooms = numBathrooms;
-        this.des = des;
-        this.price = price;
-        this.type = type;
-        this.sourcePath = sourcePath;
-    }
+//    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath) {
+//        this.house_name = house_name;
+//        this.address = address;
+//        this.numBedrooms = numBedrooms;
+//        this.numBathrooms = numBathrooms;
+//        this.des = des;
+//        this.price = price;
+//        this.type = type;
+//        this.sourcePath = sourcePath;
+//    }
 
-    public String getSourcePath() {
+    public MultipartFile getSourcePath() {
         return sourcePath;
     }
 
-    public void setSourcePath(String sourcePath) {
+    public void setSourcePath(MultipartFile sourcePath) {
         this.sourcePath = sourcePath;
     }
 
-    public long getHouse_id() {
-        return house_id;
-    }
-
-    public void setHouse_id(long house_id) {
-        this.house_id = house_id;
-    }
+//    public long getHouse_id() {
+//        return house_id;
+//    }
+//
+//    public void setHouse_id(long house_id) {
+//        this.house_id = house_id;
+//    }
 
     public String getHouse_name() {
         return house_name;

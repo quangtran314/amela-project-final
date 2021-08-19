@@ -11,6 +11,7 @@ create table house
     des          varchar(255) null,
     constraint FKoyh55b0ttt5x0cd0odrd2kwek
         foreign key (type_id) references house_type (type_id)
+    sourcePath varchar(255) null,
 )
     charset = utf8mb4;
 
