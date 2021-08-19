@@ -1,15 +1,17 @@
 package com.amela.model.house;
 
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class HouseForm {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long house_id;
 
     @NotNull
     @Size(min = 5, max = 20)
@@ -40,7 +42,6 @@ public class HouseForm {
     @JoinColumn(name = "type_id")
     private Type type;
 
-    @NotNull
     private MultipartFile sourcePath;
 
     public HouseForm() {
@@ -58,15 +59,15 @@ public class HouseForm {
     }
 
 //    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath) {
-//        this.house_name = house_name;
-//        this.address = address;
-//        this.numBedrooms = numBedrooms;
-//        this.numBathrooms = numBathrooms;
-//        this.des = des;
-//        this.price = price;
-//        this.type = type;
-//        this.sourcePath = sourcePath;
-//    }
+////        this.house_name = house_name;
+////        this.address = address;
+////        this.numBedrooms = numBedrooms;
+////        this.numBathrooms = numBathrooms;
+////        this.des = des;
+////        this.price = price;
+////        this.type = type;
+////        this.sourcePath = sourcePath;
+////    }
 
     public MultipartFile getSourcePath() {
         return sourcePath;

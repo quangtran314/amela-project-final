@@ -98,12 +98,12 @@ public class HouseController {
     @GetMapping("/create-house")
     public ModelAndView showCreateHouse(){
         ModelAndView modelAndView = new ModelAndView("/house/create");
-        modelAndView.addObject("house", new HouseForm());
+        modelAndView.addObject("house_create", new HouseForm());
         return modelAndView;
     }
 
     @PostMapping("/create-house")
-    public ModelAndView saveHouse(@Validated @ModelAttribute("house") HouseForm houseForm, BindingResult bindingResult){
+    public ModelAndView saveHouse(@Validated @ModelAttribute("house_create") HouseForm houseForm, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             ModelAndView modelAndView = new ModelAndView("/house/create");
             return modelAndView;
@@ -117,7 +117,7 @@ public class HouseController {
         }
         House house = new House(houseForm.getHouse_name(),houseForm.getAddress(),houseForm.getNumBedrooms(),
                 houseForm.getNumBathrooms(),houseForm.getDes(),houseForm.getPrice(),houseForm.getType(),fileName);
-        houseService.save(house);
+//        houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");
         return modelAndView;
