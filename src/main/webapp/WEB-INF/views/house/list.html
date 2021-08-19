@@ -45,7 +45,7 @@
       <th:block th:each="house, house_property : ${houses}">
         <div class="col-lg-6">
           <div class="room-wrap d-md-flex">
-            <a th:href="@{/houses/__${house.house_id}__ }" class="img" th:style="'background-image:url(../Asset/general/images/' + ${image} + ');'"></a>
+            <a th:href="@{/houses/__${house.house_id}__ }" class="img" th:style="'background-image:url(../Asset/general/images/' + ${house.sourcePath} + ');'"></a>
             <div class="half left-arrow d-flex align-items-center">
               <div class="text p-4 p-xl-5 text-center">
                 <p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
