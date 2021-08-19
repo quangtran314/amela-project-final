@@ -147,7 +147,7 @@
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
               <form action="#" class="appointment-form" style="color: unset; padding: 0;">
                 <div class="boxUpRight">
-                  <h3 class="mb-3" style="text-align: center">Book your apartment</h3>
+                  <h3 class="mb-3" style="text-align: center">Chi tiết thuê nhà</h3>
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -171,7 +171,7 @@
                       <div class="form-group">
                         <div class="input-wrap">
                           <div class="icon"><span class="ion-md-calendar"></span></div>
-                          <input type="text" class="form-control appointment_date-check-in" placeholder="Check-In">
+                          <input type="text" class="form-control appointment_date-check-in" placeholder="Ngày vào">
                         </div>
                       </div>
                     </div>
@@ -179,7 +179,7 @@
                       <div class="form-group">
                         <div class="input-wrap">
                           <div class="icon"><span class="ion-md-calendar"></span></div>
-                          <input type="text" class="form-control appointment_date-check-out" placeholder="Check-Out">
+                          <input type="text" class="form-control appointment_date-check-out" placeholder="Ngày ra">
                         </div>
                       </div>
                     </div>
@@ -188,7 +188,7 @@
                         <div class="form-field">
                           <div class="select-wrap">
                             <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="adults_id" class="form-control">
                                   <option value="">Adults</option>
                               <option value="">1</option>
                               <option value="">2</option>
@@ -205,7 +205,7 @@
                         <div class="form-field">
                           <div class="select-wrap">
                             <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="childs_id" class="form-control">
                               <option value="">Children</option>
                               <option value="">1</option>
                               <option value="">2</option>
@@ -231,8 +231,9 @@
                       </div>
                     </div>
                   </div>
+<!--                  fix cứng link dẫn sang trang đăn kí nhà-->
                   <div class="boxUpRight__booking col-md-12">
-                    <button class="btn btn-primary py3-px4">Thuê nhà ngay</button>
+                    <a th:href="@{/houses/renting}" class="btn btn-primary py3-px4">Thuê nhà ngay</a>
                   </div>
                 </div>
               </form>

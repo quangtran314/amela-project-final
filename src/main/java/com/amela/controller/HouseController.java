@@ -37,4 +37,10 @@ public class HouseController {
 
         return modelAndView;
     }
+
+    @GetMapping("/houses/renting")
+    public String rentingHouse() {
+
+        return "/house/renting";
+    }
 }
