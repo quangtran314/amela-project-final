@@ -63,7 +63,6 @@ public class HouseController {
         ModelAndView modelAndView = new ModelAndView("/house/list");
         modelAndView.addObject("houses", houses);
         modelAndView.addObject("all_type", "0");
-        modelAndView.addObject("image","room-1.jpg");
         return modelAndView;
     }
 
@@ -98,12 +97,12 @@ public class HouseController {
     @GetMapping("/create-house")
     public ModelAndView showCreateHouse(){
         ModelAndView modelAndView = new ModelAndView("/house/create");
-        modelAndView.addObject("house_create", new HouseForm());
+        modelAndView.addObject("houseForm", new HouseForm());
         return modelAndView;
     }
 
     @PostMapping("/create-house")
-    public ModelAndView saveHouse(@Validated @ModelAttribute("house_create") HouseForm houseForm, BindingResult bindingResult){
+    public ModelAndView saveHouse(@Validated @ModelAttribute("houseForm") HouseForm houseForm, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             ModelAndView modelAndView = new ModelAndView("/house/create");
             return modelAndView;
@@ -115,9 +114,9 @@ public class HouseController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        House house = new House(houseForm.getHouse_name(),houseForm.getAddress(),houseForm.getNumBedrooms(),
+        House house = new House(houseForm.getHouse_id(),houseForm.getHouse_name(),houseForm.getAddress(),houseForm.getNumBedrooms(),
                 houseForm.getNumBathrooms(),houseForm.getDes(),houseForm.getPrice(),houseForm.getType(),fileName);
-//        houseService.save(house);
+        houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");
         return modelAndView;

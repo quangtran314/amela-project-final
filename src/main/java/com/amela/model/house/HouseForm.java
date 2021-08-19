@@ -58,16 +58,17 @@ public class HouseForm {
         this.sourcePath = sourcePath;
     }
 
-//    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath) {
-////        this.house_name = house_name;
-////        this.address = address;
-////        this.numBedrooms = numBedrooms;
-////        this.numBathrooms = numBathrooms;
-////        this.des = des;
-////        this.price = price;
-////        this.type = type;
-////        this.sourcePath = sourcePath;
-////    }
+    public HouseForm(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath) {
+        this.house_id = house_id;
+        this.house_name = house_name;
+        this.address = address;
+        this.numBedrooms = numBedrooms;
+        this.numBathrooms = numBathrooms;
+        this.des = des;
+        this.price = price;
+        this.type = type;
+        this.sourcePath = sourcePath;
+    }
 
     public MultipartFile getSourcePath() {
         return sourcePath;
@@ -77,13 +78,13 @@ public class HouseForm {
         this.sourcePath = sourcePath;
     }
 
-//    public long getHouse_id() {
-//        return house_id;
-//    }
-//
-//    public void setHouse_id(long house_id) {
-//        this.house_id = house_id;
-//    }
+    public long getHouse_id() {
+        return house_id;
+    }
+
+    public void setHouse_id(long house_id) {
+        this.house_id = house_id;
+    }
 
     public String getHouse_name() {
         return house_name;

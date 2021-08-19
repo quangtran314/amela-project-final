@@ -2,20 +2,28 @@ create table image
 (
     image_id   bigint auto_increment
         primary key,
+    des        varchar(500) null,
     name       varchar(20)  not null,
-    house_id   bigint       null,
-    sourcePath varchar(255) null,
-    des   varchar(255) null,
-    constraint FKgfwbx7t4780faid7r1a8nf72l
-        foreign key (house_id) references house (house_id)
+    sourcePath varchar(255) not null,
+    house_id   bigint       null
 )
-    charset = utf8mb4;
+    engine = MyISAM;
 
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (1, 'img1', 1, 'tự thêm', 'mô tả 1');
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (2, 'img2', 1, 'tự thêm', 'mô tả 2');
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (3, 'img3', 2, 'tự thêm', 'mô tả 3');
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (4, 'img4', 3, 'tự thêm', 'mô tả 4');
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (5, 'img5', 5, 'tự thêm', 'mô tả 5');
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (6, 'img6', 4, 'tự thêm', 'mô tả 6');
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (7, 'img7', 5, 'tự thêm', 'mô tả 7');
-INSERT INTO house_renting.image (image_id, name, house_id, sourcePath, des) VALUES (8, 'img 8', 1, 'tự thêm', 'mô tả 8');
+create index FKgfwbx7t4780faid7r1a8nf72l
+    on image (house_id);
+
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (29, 'Thủ đô của Trung Quốc', 'Bắc Kinh', 'room-2.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (30, 'dfsdf', 'sdfsdf', 'room-1.jpg', 2);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (31, 'Thủ đô của Trung Quốc', 'Bắc Kinh', 'room-1.jpg', 3);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (32, 'Thủ đô của Trung Quốc', 'Bắc Kinh', 'room-3.jpg', 4);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (33, 'Thủ đô của Trung Quốc', 'tedre', 'room-3.jpg', 5);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (34, 'Thủ đô của Trung Quốc', 'Bắc Kinh', '195530229_275541087700652_3280725022280916041_n.jpg', 5);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (35, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (36, 'Thủ đô của Trung Quốc', 'Bắc Kinh', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (37, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (38, 'dfddddfsd', 'Bắc Kinh', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (39, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 2);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (40, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 3);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (41, 'Thủ đô của Trung Quốc', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 5);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (42, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 2);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (43, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 3);
