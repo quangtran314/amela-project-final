@@ -60,25 +60,19 @@
                                     <form method="post" th:action="@{/house/__${house_id}__/renting}" th:object="${contract_form}">
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
-                                                <div class="form-outline datepicker w-100">
-                                                    <input
-                                                            type="date"
-                                                            class="form-control form-control-lg"
-                                                            id="startDay"
-                                                            th:field="*{startDay}"
-                                                    />
-                                                    <label for="startDay" class="form-label">Ngày nhận nhà</label>
+                                                <div class="input-group date" data-provide="datepicker">
+                                                    <input type="text" class="form-control" th:field="*{startDay}" placeholder="Ngày nhận nhà">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-th"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
-                                                <div class="form-outline datepicker">
-                                                    <input
-                                                            type="date"
-                                                            class="form-control"
-                                                            id="endDay"
-                                                            th:field="*{endDay}"
-                                                    />
-                                                    <label for="endDay" class="form-label">Ngày trả nhà</label>
+                                                <div class="input-group date" data-provide="datepicker">
+                                                    <input type="text" class="form-control" th:field="*{endDay}" placeholder="Ngày trả nhà">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-th"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-4">
@@ -89,7 +83,6 @@
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end pt-3">
-                                            <button type="button" class="btn btn-light btn-lg">Reset all &nbsp;</button>
                                             <button type="submit" class="btn btn-warning btn-lg ms-2">Đăng kí</button>
                                         </div>
                                     </form>

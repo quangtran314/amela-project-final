@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <th:block th:replace="/house/layout :: head__template"/>
 
@@ -145,9 +146,9 @@
                 <p>10 đánh giá</p> 
               </div>
             </div>
-            <div class="boxUpRight__booking">
-              <a th:href="@{/edit-house/__${house.house_id}__ }" ><button class="btn btn-primary">Thuê nhà ngay</button></a>
-              <a th:href="@{/upload-image/__${house.house_id}__ }" ><button class="btn btn-primary">Thêm ảnh nhà </button></a>
+            <div class="boxUpRight__booking" sec:authorize="isAuthenticated()">
+              <a th:href="@{/house/__${house.house_id}__/renting}" sec:authorize="isAuthenticated()"><button class="btn btn-primary">Thuê nhà ngay</button></a>
+              <a th:href="@{/upload-image/__${house.house_id}__ }" sec:authorize="hasRole('OWNER')"><button class="btn btn-primary">Thêm ảnh nhà </button></a>
             </div>
           </div>
         </div>

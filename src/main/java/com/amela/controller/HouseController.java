@@ -51,6 +51,8 @@ public class HouseController {
 
     @Autowired
     private IContractService contractService;
+
+    @Autowired
     private IImageService imageService;
 
     @ModelAttribute("houseTypes")
@@ -147,7 +149,7 @@ public class HouseController {
         public ModelAndView showRentingForm(@PathVariable("id") Long house_id){
         Optional<House> house = houseService.findById(house_id);
         if(house.isPresent()){
-            ModelAndView modelAndView = new ModelAndView("/house/renting");
+            ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
             modelAndView.addObject("house_id", house_id);
             modelAndView.addObject("contract_form", new ContractForm());
             return modelAndView;
@@ -160,7 +162,7 @@ public class HouseController {
     @PostMapping("/house/{id}/renting")
     public ModelAndView renting(@Validated @ModelAttribute("contract_form") ContractForm contractForm, @PathVariable("id") Long house_id, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            ModelAndView modelAndView = new ModelAndView("/house/renting");
+            ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
             return modelAndView;
         }
         Optional<User> user = userService.findByEmail(getPrincipal());
