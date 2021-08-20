@@ -1,7 +1,8 @@
 package com.amela.model;
 
 import com.amela.model.house.House;
-import com.amela.model.user.Tenant;
+import com.amela.model.user.User;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -30,27 +31,27 @@ public class Feedback {
     private House house;
 
     @ManyToOne
-    @JoinColumn(name = "tenant_id")
-    private Tenant tenant;
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
     public Feedback() {
     }
 
-    public Feedback(String comment, int rate, LocalDate amt_date, House house, Tenant tenant) {
+    public Feedback(String comment, int rate, LocalDate amt_date, House house, User owner) {
         this.comment = comment;
         this.rate = rate;
         this.amt_date = amt_date;
         this.house = house;
-        this.tenant = tenant;
+        this.owner = owner;
     }
 
-    public Feedback(long feedback_id, String comment, int rate, LocalDate amt_date, House house, Tenant tenant) {
+    public Feedback(long feedback_id, String comment, int rate, LocalDate amt_date, House house, User owner) {
         this.feedback_id = feedback_id;
         this.comment = comment;
         this.rate = rate;
         this.amt_date = amt_date;
         this.house = house;
-        this.tenant = tenant;
+        this.owner = owner;
     }
 
     public long getFeedback_id() {
@@ -93,11 +94,11 @@ public class Feedback {
         this.house = house;
     }
 
-    public Tenant getTenant() {
-        return tenant;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

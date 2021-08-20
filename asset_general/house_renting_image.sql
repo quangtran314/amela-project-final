@@ -12,18 +12,12 @@ create table image
 create index FKgfwbx7t4780faid7r1a8nf72l
     on image (house_id);
 
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (29, 'Thủ đô của Trung Quốc', 'Bắc Kinh', 'room-2.jpg', 1);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (30, 'dfsdf', 'sdfsdf', 'room-1.jpg', 2);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (31, 'Thủ đô của Trung Quốc', 'Bắc Kinh', 'room-1.jpg', 3);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (32, 'Thủ đô của Trung Quốc', 'Bắc Kinh', 'room-3.jpg', 4);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (33, 'Thủ đô của Trung Quốc', 'tedre', 'room-3.jpg', 5);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (34, 'Thủ đô của Trung Quốc', 'Bắc Kinh', '195530229_275541087700652_3280725022280916041_n.jpg', 5);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (35, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (36, 'Thủ đô của Trung Quốc', 'Bắc Kinh', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (37, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (38, 'dfddddfsd', 'Bắc Kinh', '195530229_275541087700652_3280725022280916041_n.jpg', 1);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (39, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 2);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (40, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 3);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (41, 'Thủ đô của Trung Quốc', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 5);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (42, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 2);
-INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (43, 'dfddddfsd', 'nguyen amnh toan', '195530229_275541087700652_3280725022280916041_n.jpg', 3);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (1, 'mô tả 1', 'img1', 'room-1.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (2, 'mô tả 2', 'img2', 'room-1.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (3, 'mô tả 3', 'img3', 'room-2.jpg', 2);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (4, 'mô tả 4', 'img4', 'room-3.jpg', 3);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (5, 'mô tả 5', 'img5', 'room-4.jpg', 5);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (6, 'mô tả 6', 'img6', 'room-5.jpg', 4);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (7, 'mô tả 7', 'img7', 'room-6.jpg', 5);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (10, 'lorem ipsum', 'avatar', '5ac1538309a5ed2d4fc23de4a4909c89.jpg', 1);
+INSERT INTO house_renting.image (image_id, des, name, sourcePath, house_id) VALUES (9, 'lorem ipsum', 'hello', '60541461_296828641200785_600533399752409088_n.jpg', 1);
