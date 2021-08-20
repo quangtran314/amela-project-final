@@ -67,11 +67,17 @@ public class HouseController {
     @Autowired
     private IImageService imageService;
 
+
     @ModelAttribute("houseTypes")
-    public Iterable<Type> initHouseTypeList()
+    public Iterable<User> initHouseTypeList()
     {
-        return houseTypeService.findAll();
+        return userService.findAll();
     }
+//    @ModelAttribute("user")
+//    public Iterable<Type> initUser()
+//    {
+//        return houseTypeService.findAll();
+//    }
 
     private String getPrincipal() {
         String userName = null;

@@ -19,7 +19,7 @@ public class Image {
     @NotNull
     private String sourcePath;
     
-    @Size(min = 5, max = 5000)
+    @Size(min = 5, max = 500)
     private String des;
 
     @ManyToOne

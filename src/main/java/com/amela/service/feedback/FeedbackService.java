@@ -1,6 +1,7 @@
 package com.amela.service.feedback;
 
 import com.amela.model.Feedback;
+import com.amela.model.house.House;
 import com.amela.repository.IFeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,4 +32,6 @@ public class FeedbackService implements IFeedbackService{
     public void remove(Long id) {
         feedbackRepository.deleteById(id);
     }
+
+
 }
