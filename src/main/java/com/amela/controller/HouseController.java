@@ -68,16 +68,16 @@ public class HouseController {
     private IImageService imageService;
 
 
-    @ModelAttribute("houseTypes")
+    @ModelAttribute("user")
     public Iterable<User> initHouseTypeList()
     {
         return userService.findAll();
     }
-//    @ModelAttribute("user")
-//    public Iterable<Type> initUser()
-//    {
-//        return houseTypeService.findAll();
-//    }
+    @ModelAttribute("houseTypes")
+    public Iterable<Type> initUser()
+    {
+        return houseTypeService.findAll();
+    }
 
     private String getPrincipal() {
         String userName = null;
