@@ -14,26 +14,18 @@
 
     <!-- mainContent -->
     <div class="slideshow-container">
-      <div class="fieldSlides ">
-          <div class="fieldSlides__numbertext">1 / 3</div>
-          <img src="../Asset/general/images/room-1.jpg" style="width:100%">
-      </div>
-  
-      <div class="fieldSlides ">
-          <div class="fieldSlides__numbertext">2 / 3</div>
-          <img src="../Asset/general/images/room-2.jpg" style="width:100%">
-      </div>
-  
-      <div class="fieldSlides ">
-          <div class="fieldSlides__numbertext">3 / 3</div>
-          <img src="../Asset/general/images/room-3.jpg" style="width:100%">
-      </div>
-
+      <th:block th:each="image , state : ${images}">
+        <div class="fieldSlides ">
+          <div class="fieldSlides__numbertext"><span th:text="${state.index+1}"></span>/<span th:text="${state.size}"></span></div>
+          <img th:src="@{/Asset/general/images/__${image.sourcePath}__}" style="width:100%">
+        </div>
+      </th:block>
       <a class="slideshow-container__prev" onclick="plusSlides(-1)">&#10094;</a>
       <a class="slideshow-container__next" onclick="plusSlides(1)">&#10095;</a>
     </div>
-    <br> 
 
+
+    <br>
     <div class="container" th:object="${house}">
       <div class="row" >
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 mainContent-Left">
@@ -155,7 +147,8 @@
               </div>
             </div>
             <div class="boxUpRight__booking">
-                <button class="btn btn-primary">Thuê nhà ngay</button>
+              <a th:href="@{/edit-house/__${house.house_id}__ }" ><button class="btn btn-primary">Thuê nhà ngay</button></a>
+              <a th:href="@{/upload-image/__${house.house_id}__ }" ><button class="btn btn-primary">Thêm ảnh nhà </button></a>
             </div>
            
           </div>

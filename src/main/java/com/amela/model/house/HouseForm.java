@@ -1,14 +1,13 @@
 package com.amela.model.house;
 
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
-@Entity
-@Table(name = "house")
-public class House {
+public class HouseForm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,13 +42,12 @@ public class House {
     @JoinColumn(name = "type_id")
     private Type type;
 
-    @NotNull
-    private String sourcePath;
+    private MultipartFile sourcePath;
 
-    public House() {
+    public HouseForm() {
     }
 
-    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,String sourcePath ) {
+    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,MultipartFile sourcePath ) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
@@ -60,7 +58,7 @@ public class House {
         this.sourcePath = sourcePath;
     }
 
-    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , String sourcePath) {
+    public HouseForm(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath) {
         this.house_id = house_id;
         this.house_name = house_name;
         this.address = address;
@@ -72,11 +70,11 @@ public class House {
         this.sourcePath = sourcePath;
     }
 
-    public String getSourcePath() {
+    public MultipartFile getSourcePath() {
         return sourcePath;
     }
 
-    public void setSourcePath(String sourcePath) {
+    public void setSourcePath(MultipartFile sourcePath) {
         this.sourcePath = sourcePath;
     }
 
