@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- Custom -->
+    <link rel="stylesheet" th:href="@{/Asset/general/css/renting-style.css}">
+</head>
+
+<body>
+<!-- Header -->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<form method="post" th:action="@{/house/__${house_id}__/renting}" th:object="${contract_form}">
+    <table>
+        <tr>
+            <td>Start</td>
+            <td><input type="text" th:field="*{startDay}"></td>
+        </tr>
+        <tr>
+            <td>End</td>
+            <td><input type="text" th:field="*{endDay}"></td>
+        </tr>
+        <tr>
+            <td>Person</td>
+            <td><input type="number" th:field="*{maxPerson}"></td>
+        </tr>
+        <td><button type="submit">Submit</button></td>
+    </table>
+</form>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+</body>
+</html>

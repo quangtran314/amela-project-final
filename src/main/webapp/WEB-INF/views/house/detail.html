@@ -142,22 +142,103 @@
             </div>
           </section>
         </div>
-    
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 mainContent-Right">
-          <div class="boxUpRight">
-            <div class="boxUpRight__title">
-              <div class="boxUpRight__title--price">
-                <p th:text="${house.price}"> </p>
-              </div>
-              <div class="boxUpRight__title--vote">
-                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;"><path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" fill-rule="evenodd"></path></svg>
-                <p>10 đánh giá</p> 
-              </div>
+
+        <div class="ftco-section ftco-book ftco-no-pt ftco-no-pb mainContent-Right">
+          <div class="row justify-content-end">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+              <form action="#" class="appointment-form" style="color: unset; padding: 0;">
+                <div class="boxUpRight">
+                  <h3 class="mb-3" style="text-align: center">Chi tiết thuê nhà</h3>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <div class="input-wrap">
+                          <div class="boxUpRight__title">
+                            <div class="boxUpRight__title--price">
+                              <span aria-hidden="true"><p>Tổng tiền:&nbsp;<a th:text="${house.price}"/>&nbsp;VNĐ</p></span>
+                            </div>
+                            <div class="boxUpRight__title--vote">
+                              <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation"
+                                   focusable="false" style="display: block; height: 12px; width: 12px; fill: currentColor; font-size: 12px">
+                                <path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" fill-rule="evenodd"></path>
+                              </svg>
+                              <span aria-hidden="true">10 votes</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-wrap">
+                          <div class="icon"><span class="ion-md-calendar"></span></div>
+                          <input type="text" class="form-control appointment_date-check-in" placeholder="Ngày vào">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-wrap">
+                          <div class="icon"><span class="ion-md-calendar"></span></div>
+                          <input type="text" class="form-control appointment_date-check-out" placeholder="Ngày ra">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="form-field">
+                          <div class="select-wrap">
+                            <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                            <select name="" id="adults_id" class="form-control">
+                              <option value="">Adults</option>
+                              <option value="">1</option>
+                              <option value="">2</option>
+                              <option value="">3</option>
+                              <option value="">4</option>
+                              <option value="">5</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="form-field">
+                          <div class="select-wrap">
+                            <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                            <select name="" id="childs_id" class="form-control">
+                              <option value="">Children</option>
+                              <option value="">1</option>
+                              <option value="">2</option>
+                              <option value="">3</option>
+                              <option value="">4</option>
+                              <option value="">5</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Phone number">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-wrap">
+                          <div class="icon"><span class="ion-ios-clock"></span></div>
+                          <input type="text" class="form-control appointment_time" placeholder="Time">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--                  fix cứng link dẫn sang trang đăn kí nhà-->
+                  <div class="boxUpRight__booking col-md-12">
+                    <a th:href="@{/house/__${house.house_id}__/renting}" class="btn btn-primary py3-px4">Thuê nhà ngay</a>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="boxUpRight__booking">
-                <button class="btn btn-primary">Thuê nhà ngay</button>
-            </div>
-           
           </div>
         </div>
       </div>

@@ -27,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -111,6 +112,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.addDialect(new SpringSecurityDialect());
+        templateEngine.addDialect(new Java8TimeDialect());
         return templateEngine;
     }
 
@@ -174,11 +176,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        LocalDateFormatter stringToLocalDateConverter = new LocalDateFormatter("dd/MM/yyyy");
-
-        registry.addFormatter(stringToLocalDateConverter);
+        registry.addFormatter(new LocalDateFormatter("MM/dd/yyyy"));
         registry.addFormatter(new HouseFormatter(applicationContext.getBean(HouseService.class)));
     }
-
-
 }

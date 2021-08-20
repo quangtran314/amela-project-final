@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- Custom -->
+    <link rel="stylesheet" th:href="@{/Asset/general/css/renting-style.css}">
+</head>
+
+<body>
+<!-- Header -->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<!-- Main Content -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('../Asset/general/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs mb-2"><span class="mr-2"><a href="home.html">Trang chủ<i class="fa fa-chevron-right"></i></a></span> <span>Căn hộ<i class="fa fa-chevron-right"></i></span></p>
+                <h1 class="mb-0 bread">Đăng kí thuê nhà</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <section class="w-100 p-0 h-100 bg-white">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card card-registration my-4">
+                        <div class="row g-0">
+                            <div class="col-xl-6 d-none d-xl-block">
+                                <img
+                                        src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-registration/img4.jpg"
+                                        alt="Sample photo"
+                                        class="img-fluid"
+                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"
+                                />
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-5 text-uppercase">Form đăng kí thuê nhà</h3>
+
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-md-6 mb-4">-->
+<!--                                            <div class="form-outline">-->
+<!--                                                <input type="text" id="form3Example1m" class="form-control form-control-lg" />-->
+<!--                                                <label class="form-label" for="form3Example1m">Họ</label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-6 mb-4">-->
+<!--                                            <div class="form-outline">-->
+<!--                                                <input type="text" id="form3Example1n" class="form-control form-control-lg" />-->
+<!--                                                <label class="form-label" for="form3Example1n">Tên</label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <form method="post" th:action="@{/house/__${house_id}__/renting}" th:object="${contract_form}">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline datepicker w-100">
+                                                    <input
+                                                            type="date"
+                                                            class="form-control form-control-lg"
+                                                            id="startDay"
+                                                            th:field="*{startDay}"
+                                                    />
+                                                    <label for="startDay" class="form-label">Ngày nhận nhà</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline datepicker">
+                                                    <input
+                                                            type="date"
+                                                            class="form-control"
+                                                            id="endDay"
+                                                            th:field="*{endDay}"
+                                                    />
+                                                    <label for="endDay" class="form-label">Ngày trả nhà</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <input type="number" id="persons" class="form-control form-control-lg" th:min="1" th:max="10" th:field="*{maxPerson}"/>
+                                                    <label class="form-label" for="persons">Số người</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end pt-3">
+                                            <button type="button" class="btn btn-light btn-lg">Reset all &nbsp;</button>
+                                            <button type="submit" class="btn btn-warning btn-lg ms-2">Đăng kí</button>
+                                        </div>
+                                    </form>
+
+<!--                                    <div class="form-outline mb-4">-->
+<!--                                        <input type="text" id="form3Example8" class="form-control form-control-lg" />-->
+<!--                                        <label class="form-label" for="form3Example8">Địa chỉ</label>-->
+<!--                                    </div>-->
+
+<!--                                    <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">-->
+
+<!--                                        <h6 class="mb-0 me-4">Giới tính: &nbsp;</h6>-->
+
+<!--                                        <div class="form-check form-check-inline mb-0 me-4">-->
+<!--                                            <input-->
+<!--                                                    class="form-check-input"-->
+<!--                                                    type="radio"-->
+<!--                                                    name="inlineRadioOptions"-->
+<!--                                                    id="femaleGender"-->
+<!--                                                    value="option1"-->
+<!--                                            />-->
+<!--                                            <label class="form-check-label" for="femaleGender">Nữ</label>-->
+<!--                                        </div>-->
+
+<!--                                        <div class="form-check form-check-inline mb-0 me-4">-->
+<!--                                            <input-->
+<!--                                                    class="form-check-input"-->
+<!--                                                    type="radio"-->
+<!--                                                    name="inlineRadioOptions"-->
+<!--                                                    id="maleGender"-->
+<!--                                                    value="option2"-->
+<!--                                            />-->
+<!--                                            <label class="form-check-label" for="maleGender">Nam</label>-->
+<!--                                        </div>-->
+
+<!--                                        <div class="form-check form-check-inline mb-0">-->
+<!--                                            <input-->
+<!--                                                    class="form-check-input"-->
+<!--                                                    type="radio"-->
+<!--                                                    name="inlineRadioOptions"-->
+<!--                                                    id="otherGender"-->
+<!--                                                    value="option3"-->
+<!--                                            />-->
+<!--                                            <label class="form-check-label" for="otherGender">Khác</label>-->
+<!--                                        </div>-->
+
+<!--                                    </div>-->
+
+<!--                                    <div class="form-outline mb-4">-->
+<!--                                        <input type="text" id="form3Example9" class="form-control form-control-lg appointment_date-check-in" />-->
+<!--                                        <label class="form-label" for="form3Example9">Ngày sinh</label>-->
+<!--                                    </div>-->
+
+<!--                                    <div class="form-outline mb-4">-->
+<!--                                        <input type="text" id="form3Example97" class="form-control form-control-lg" />-->
+<!--                                        <label class="form-label" for="form3Example97">Email</label>-->
+<!--                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+</body>
+</html>

@@ -2,8 +2,11 @@ package com.amela.model;
 
 import com.amela.model.user.User;
 import com.amela.model.house.House;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -13,16 +16,26 @@ import java.time.LocalDate;
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long contract_id;
+    private long id;
 
     @NotNull
-    private LocalDate start_day;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private LocalDate startDay;
 
     @NotNull
-    private LocalDate end_day;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private LocalDate endDay;
 
     @NotNull
-    private int max_person;
+    @Min(1)
+    @Max(10)
+    private int maxPerson;
+
+    @NotNull
+    private float totalPrice;
+    
+    @NotNull
+    private LocalDate dateContractSign;
 
     @ManyToOne
     @JoinColumn(name = "house_id")
@@ -35,54 +48,81 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract( LocalDate start_day, LocalDate end_day, int max_person, House house, User user) {
-
-        this.start_day = start_day;
-        this.end_day = end_day;
-        this.max_person = max_person;
+    public Contract( LocalDate startDay, LocalDate endDay, int maxPerson, float totalPrice, LocalDate dateContractSign, House house, User user) {
+        this.totalPrice = totalPrice;
+        this.dateContractSign = dateContractSign;
+        this.startDay = startDay;
+        this.endDay = endDay;
+        this.maxPerson = maxPerson;
         this.house = house;
         this.user = user;
     }
 
-    public Contract(long contract_id, LocalDate start_day, LocalDate end_day, int max_person, House house, User user) {
-        this.contract_id = contract_id;
-        this.start_day = start_day;
-        this.end_day = end_day;
-        this.max_person = max_person;
+    public Contract(long id, LocalDate startDay, LocalDate endDay, int maxPerson, float totalPrice, LocalDate dateContractSign, House house, User user) {
+        this.id = id;
+        this.totalPrice = totalPrice;
+        this.dateContractSign = dateContractSign;
+        this.startDay = startDay;
+        this.endDay = endDay;
+        this.maxPerson = maxPerson;
         this.house = house;
         this.user = user;
     }
 
-    public long getContract_id() {
-        return contract_id;
+    public long getId() {
+        return id;
     }
 
-    public void setContract_id(long contract_id) {
-        this.contract_id = contract_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public LocalDate getStart_day() {
-        return start_day;
+    public LocalDate getStartDay() {
+        return startDay;
     }
 
-    public void setStart_day(LocalDate start_day) {
-        this.start_day = start_day;
+    public void setStartDay(LocalDate startDay) {
+        this.startDay = startDay;
     }
 
-    public LocalDate getEnd_day() {
-        return end_day;
+    public LocalDate getEndDay() {
+        return endDay;
     }
 
-    public void setEnd_day(LocalDate end_day) {
-        this.end_day = end_day;
+    public void setEndDay(LocalDate endDay) {
+        this.endDay = endDay;
     }
 
-    public int getMax_person() {
-        return max_person;
+    public int getMaxPerson() {
+        return maxPerson;
     }
 
-    public void setMax_person(int max_person) {
-        this.max_person = max_person;
+    public void setMaxPerson(int maxPerson) {
+        this.maxPerson = maxPerson;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDate getDateContractSign() {
+        return dateContractSign;
+    }
+
+    public void setDateContractSign(LocalDate dateContractSign) {
+        this.dateContractSign = dateContractSign;
     }
 
     public House getHouse() {

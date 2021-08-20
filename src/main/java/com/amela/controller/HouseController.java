@@ -1,10 +1,12 @@
 package com.amela.controller;
 
 
+import com.amela.form.ContractForm;
 import com.amela.model.Contract;
 import com.amela.model.house.House;
 import com.amela.model.house.Type;
 import com.amela.model.user.User;
+import com.amela.service.contract.IContractService;
 import com.amela.service.house.IHouseService;
 import com.amela.service.house.IHouseTypeService;
 import com.amela.service.user.IUserService;
@@ -20,6 +22,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,11 +39,8 @@ public class HouseController {
     @Autowired
     private IUserService userService;
 
-    @ModelAttribute("house")
-    public House initHouse()
-    {
-        return new House();
-    }
+    @Autowired
+    private IContractService contractService;
 
     @ModelAttribute("houseTypes")
     public Iterable<Type> initHouseTypeList()
@@ -71,6 +72,7 @@ public class HouseController {
         Iterable<House> houses = houseService.findAll();
         ModelAndView modelAndView = new ModelAndView("/house/list");
         modelAndView.addObject("houses", houses);
+        modelAndView.addObject("house", new House());
         modelAndView.addObject("all_type", "0");
         return modelAndView;
     }
@@ -120,9 +122,49 @@ public class HouseController {
         return modelAndView;
     }
 
-    @GetMapping("/renting")
-    public ModelAndView renting(){
-        ModelAndView modelAndView = new ModelAndView("");
+    @GetMapping("/house/{id}/renting")
+        public ModelAndView showRentingForm(@PathVariable("id") Long house_id){
+        Optional<House> house = houseService.findById(house_id);
+        if(house.isPresent()){
+            ModelAndView modelAndView = new ModelAndView("/house/renting");
+            modelAndView.addObject("house_id", house_id);
+            modelAndView.addObject("contract_form", new ContractForm());
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
+            return modelAndView;
+        }
+    }
+
+    @PostMapping("/house/{id}/renting")
+    public ModelAndView renting(@Validated @ModelAttribute("contract_form") ContractForm contractForm, @PathVariable("id") Long house_id, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("/house/renting");
+            return modelAndView;
+        }
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        Optional<House> house = houseService.findById(house_id);
+        Contract contract = new Contract();
+        contract.setStartDay(contractForm.getStartDay());
+        contract.setEndDay(contractForm.getEndDay());
+        contract.setDateContractSign(LocalDate.now());
+        contract.setTotalPrice(contractService.getTotalPrice(house.get().getPrice(), contractForm.getStartDay(), contractForm.getEndDay()));
+        contract.setMaxPerson(contractForm.getMaxPerson());
+        ModelAndView modelAndView = new ModelAndView("/house/renting-confirm");
+        modelAndView.addObject("contract", contract);
+        modelAndView.addObject("user", user.get());
+        modelAndView.addObject("house", house.get());
+        return modelAndView;
+    }
+
+    @PostMapping("/house/{id}/renting-confirm")
+    public ModelAndView rentingConfirm(@Validated @ModelAttribute("contract") Contract contract, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
+            return modelAndView;
+        }
+        contractService.save(contract);
+        ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         return modelAndView;
     }
 }
