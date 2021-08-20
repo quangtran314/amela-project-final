@@ -119,8 +119,10 @@ public class HouseController {
 //Create
     @GetMapping("/create-house")
     public ModelAndView showCreateHouse(){
+        Optional<User> user = userService.findByEmail(getPrincipal());
         ModelAndView modelAndView = new ModelAndView("/house/create");
         modelAndView.addObject("houseForm", new HouseForm());
+        modelAndView.addObject("user", user.get());
         return modelAndView;
     }
 
@@ -138,7 +140,7 @@ public class HouseController {
             ex.printStackTrace();
         }
         House house = new House(houseForm.getHouse_id(),houseForm.getHouse_name(),houseForm.getAddress(),houseForm.getNumBedrooms(),
-                houseForm.getNumBathrooms(),houseForm.getDes(),houseForm.getPrice(),houseForm.getType(),fileName);
+                houseForm.getNumBathrooms(),houseForm.getDes(),houseForm.getPrice(),houseForm.getType(), fileName, houseForm.getOwner());
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");

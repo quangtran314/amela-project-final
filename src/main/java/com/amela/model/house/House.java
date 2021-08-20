@@ -1,5 +1,7 @@
 package com.amela.model.house;
 
+import com.amela.model.user.User;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -43,13 +45,17 @@ public class House {
     @JoinColumn(name = "type_id")
     private Type type;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     @NotNull
     private String sourcePath;
 
     public House() {
     }
 
-    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,String sourcePath ) {
+    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,String sourcePath, User owner) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
@@ -58,9 +64,10 @@ public class House {
         this.price = price;
         this.type = type;
         this.sourcePath = sourcePath;
+        this.owner = owner;
     }
 
-    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , String sourcePath) {
+    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , String sourcePath, User owner) {
         this.house_id = house_id;
         this.house_name = house_name;
         this.address = address;
@@ -70,6 +77,7 @@ public class House {
         this.price = price;
         this.type = type;
         this.sourcePath = sourcePath;
+        this.owner = owner;
     }
 
     public String getSourcePath() {
@@ -148,5 +156,13 @@ public class House {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

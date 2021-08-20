@@ -1,5 +1,6 @@
 package com.amela.model.house;
 
+import com.amela.model.user.User;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,12 +43,16 @@ public class HouseForm {
     @JoinColumn(name = "type_id")
     private Type type;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     private MultipartFile sourcePath;
 
     public HouseForm() {
     }
 
-    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,MultipartFile sourcePath ) {
+    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,MultipartFile sourcePath, User owner ) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
@@ -56,9 +61,10 @@ public class HouseForm {
         this.price = price;
         this.type = type;
         this.sourcePath = sourcePath;
+        this.owner = owner;
     }
 
-    public HouseForm(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath) {
+    public HouseForm(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath, User owner) {
         this.house_id = house_id;
         this.house_name = house_name;
         this.address = address;
@@ -68,6 +74,7 @@ public class HouseForm {
         this.price = price;
         this.type = type;
         this.sourcePath = sourcePath;
+        this.owner = owner;
     }
 
     public MultipartFile getSourcePath() {
@@ -146,5 +153,13 @@ public class HouseForm {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

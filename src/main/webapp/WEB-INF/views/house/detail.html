@@ -147,7 +147,7 @@
               </div>
             </div>
             <div class="boxUpRight__booking" sec:authorize="isAuthenticated()">
-              <a th:href="@{/house/__${house.house_id}__/renting}" sec:authorize="isAuthenticated()"><button class="btn btn-primary">Thuê nhà ngay</button></a>
+              <a th:href="@{/house/__${house.house_id}__/renting}" sec:authorize="hasRole('TENANT')"><button class="btn btn-primary">Thuê nhà ngay</button></a>
               <a th:href="@{/upload-image/__${house.house_id}__ }" sec:authorize="hasRole('OWNER')"><button class="btn btn-primary">Thêm ảnh nhà </button></a>
             </div>
           </div>
