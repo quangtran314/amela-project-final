@@ -1,7 +1,9 @@
 package com.amela.controller;
 
 
+import com.amela.model.Feedback;
 import com.amela.model.house.*;
+import com.amela.service.feedback.IFeedbackService;
 import com.amela.service.house.IHouseService;
 import com.amela.service.house.IHouseTypeService;
 import com.amela.service.image.IImageService;
@@ -38,6 +40,9 @@ public class HouseController {
 
     @Autowired
     private IImageService imageService;
+
+    @Autowired
+    private IFeedbackService feedbackService;
 
     @ModelAttribute("house")
     public House initHouse()
@@ -87,7 +92,9 @@ public class HouseController {
     public ModelAndView detailHouse(@PathVariable Long id){
         Optional<House> house = houseService.findById(id);
         Iterable<Image> images = imageService.findAllByHouse(house.get());
+        Iterable<Feedback> feedbacks = feedbackService.findAll();
         ModelAndView modelAndView = new ModelAndView("/house/detail");
+        modelAndView.addObject("feedbacks", feedbacks);
         modelAndView.addObject("house", house.get());
         modelAndView.addObject("images", images);
         return modelAndView;

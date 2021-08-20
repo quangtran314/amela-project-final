@@ -19,7 +19,7 @@ public class FeedbackController {
     @RequestMapping("/feedback")
     public ModelAndView showListFeedback(){
         Iterable<Feedback> feedbacks = feedbackService.findAll();
-        ModelAndView modelAndView = new ModelAndView("/house/feedback");
+        ModelAndView modelAndView = new ModelAndView("/house/detail");
         modelAndView.addObject("feedbacks", feedbacks);
         return modelAndView;
 
