@@ -4,6 +4,7 @@ import com.amela.formatter.HouseFormatter;
 import com.amela.formatter.LocalDateFormatter;
 import com.amela.service.house.HouseService;
 
+import com.amela.service.image.ImageService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -37,6 +39,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
@@ -47,6 +50,9 @@ import java.util.Properties;
 @EnableJpaRepositories("com.amela.repository")
 @PropertySource("classpath:application.properties")
 public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
+
+    @Value("${file-upload}")
+    private String fileUpload;
 
     private ApplicationContext applicationContext;
 
@@ -92,6 +98,16 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(resourceHandler)
                 .addResourceLocations(resourceLocation);
+        registry.addResourceHandler("/src/main/resources/Asset/general/images/**")
+                .addResourceLocations("file:" + fileUpload);
+    }
+
+    // upload image configuration
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getResolver() throws IOException {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSizePerFile(52428800);
+        return resolver;
     }
 
     //Thymeleaf configuration

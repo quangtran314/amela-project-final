@@ -42,4 +42,6 @@ public class ImageService implements IImageService {
     public Iterable<Image> findAllByHouse(House house) {
         return imageRepository.findAllByHouse(house);
     }
+
+
 }
