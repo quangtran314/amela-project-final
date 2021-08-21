@@ -6,13 +6,9 @@ create table feedback
     comment     varchar(255) not null,
     rate        int          not null,
     house_id    bigint       null,
-    tenant_id   bigint       null,
     owner_id    bigint       null
 )
     engine = MyISAM;
-
-create index FKivf05qpjgxuim7yio40ur23s6
-    on feedback (tenant_id);
 
 create index FKllpo45jfcfbcnbe9mn6297ewv
     on feedback (owner_id);
