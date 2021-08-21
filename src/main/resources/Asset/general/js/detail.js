@@ -1,3 +1,4 @@
+// Slide show
 var slideIndex = 1;
 showSlides(slideIndex);
 
@@ -20,3 +21,12 @@ function showSlides(n) {
  
   slides[slideIndex-1].style.display = "block";  
 }
+
+// Vote star
+(function(){
+  var rating = document.querySelector('.rating');
+  var handle = document.getElementById('toggle-rating');
+  handle.onchange = function(event) {
+    rating.classList.toggle('rating', handle.checked);
+  };
+}());
