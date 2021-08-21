@@ -36,7 +36,7 @@
                 <div class="container">
                     <div class="row justify-content-between">
                             <div class="col d-flex align-items-center">
-                                <p class="mb-0 phone"><span class="mailus">Số điện thoại:</span> <a href="#">+0332815990</a> hoặc <span class="mailus">email:</span> <a href="#">nmt15300@email.com</a></p>
+
                             </div>
                             <div class="col d-flex justify-content-end">
                                 <div class="social-media">
@@ -53,7 +53,7 @@
             </div>
             <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	    	<a class="navbar-brand" href="../image/index.html">Vacation<span>Rental</span></a>
+	    	<a class="navbar-brand" th:href="@{/houses}">Vacation<span>Rental</span></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="fa fa-bars"></span> Menu
 	      </button>
@@ -62,13 +62,23 @@
 	        	<li class="nav-item active"><a th:href="@{/houses}" class="nav-link">Trang chủ</a></li>
 	        	<li class="nav-item"><a href="about.html" class="nav-link">Về chúng tôi</a></li>
 	        	<li class="nav-item"><a href="services.html" class="nav-link">Dịch vụ</a></li>
-	        	<li class="nav-item"><a href="rooms.html" class="nav-link">Căn hộ</a></li>
-	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="contact.html" class="nav-link">Liên hệ</a></li>
-                <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/logout}" class="nav-link">Logout</a></li>
+	        	<li class="nav-item"><a href="#" class="nav-link">Căn hộ</a></li>
+<!--                <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>-->
+<!--	            <li class="nav-item"><a href="contact.html" class="nav-link">Liên hệ</a></li>-->
+<!--                <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/logout}" class="nav-link">Logout</a></li>-->
                 <li class="nav-item" sec:authorize="isAnonymous()"><a th:href="@{/login}" class="nav-link">Login</a></li>
+                <li class="dropdown" sec:authorize="isAuthenticated()"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+                    <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                        <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+                        <li><a class="dropdown-item" th:href="@{/logout}"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                    </ul>
+                </li>
+
             </ul>
+
 	      </div>
+
 	    </div>
 	  </nav>
         </header>

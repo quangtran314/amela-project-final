@@ -157,93 +157,47 @@
 
 
   <!--Banner-->
-  <th:block th:fragment="banner__template">
-    <section class="ftco-section testimony-section bg-light">
-      <div class="container">
-        <div class="row justify-content-center pb-5 mb-3">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-            <h2>Happy Clients &amp; Feedbacks</h2>
+    <th:block th:fragment="banner__template">
+      <section class="ftco-section testimony-section bg-light"  >
+        <div class="container"  >
+          <div class="row justify-content-center pb-5 mb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+              <h2>Happy Clients &amp; Feedbacks</h2>
+            </div>
           </div>
-        </div>
-        <div class="row ftco-animate">
-          <div class="col-md-12">
-            <div class="carousel-testimony owl-carousel">
-              <div class="item">
-                <div class="testimony-wrap d-flex">
-                  <div class="user-img" style="background-image: url(../Asset/general/images/person_1.jpg)">
+          <div class="row ftco-animate">
+            <div class="col-md-12">
+              <div class="carousel-testimony owl-carousel">
+                  <div class="item" th:each="feedback, feedback_property : ${feedbacks}">
+                    <div class="testimony-wrap d-flex" >
+                      <div class="user-img" style="background-image: url(../Asset/general/images/person_1.jpg)">
+                      </div>
+                      <div class="text pl-4">
+                        <span class="quote d-flex align-items-center justify-content-center">
+                          <i class="fa fa-quote-left"></i>
+                        </span>
+
+                        <p class="name" th:if="${feedback.owner}" th:text="${feedback.owner.fullName}"></p>
+                        <p class="name" th:text="${feedback.rate}"></p>
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                             role="presentation" focusable="false"
+                             style="display: block; height: 12px; width: 12px; fill: currentcolor;">
+                          <path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z"
+                                fill-rule="evenodd"></path>
+                        </svg>
+
+                        <p th:text="${feedback.comment}"></p>
+
+                        <span class="position" th:text="${feedback.amt_date}"></span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="text pl-4">
-                  	<span class="quote d-flex align-items-center justify-content-center">
-                      <i class="fa fa-quote-left"></i>
-                    </span>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Racky Henderson</p>
-                    <span class="position">Father</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap d-flex">
-                  <div class="user-img" style="background-image: url(../Asset/general/images/person_2.jpg)">
-                  </div>
-                  <div class="text pl-4">
-                  	<span class="quote d-flex align-items-center justify-content-center">
-                      <i class="fa fa-quote-left"></i>
-                    </span>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Henry Dee</p>
-                    <span class="position">Businesswoman</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap d-flex">
-                  <div class="user-img" style="background-image: url(../Asset/general/images/person_3.jpg)">
-                  </div>
-                  <div class="text pl-4">
-                  	<span class="quote d-flex align-items-center justify-content-center">
-                      <i class="fa fa-quote-left"></i>
-                    </span>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Mark Huff</p>
-                    <span class="position">Businesswoman</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap d-flex">
-                  <div class="user-img" style="background-image: url(../Asset/general/images/person_4.jpg)">
-                  </div>
-                  <div class="text pl-4">
-                  	<span class="quote d-flex align-items-center justify-content-center">
-                      <i class="fa fa-quote-left"></i>
-                    </span>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Rodel Golez</p>
-                    <span class="position">Businesswoman</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap d-flex">
-                  <div class="user-img" style="background-image: url(../Asset/general/images/person_1.jpg)">
-                  </div>
-                  <div class="text pl-4">
-                  	<span class="quote d-flex align-items-center justify-content-center">
-                      <i class="fa fa-quote-left"></i>
-                    </span>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Ken Bosh</p>
-                    <span class="position">Businesswoman</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </th:block>
+      </section>
+    </th:block>
 
   <!--Footer-->
   <th:block th:replace="/house/layout :: footer__template"/>

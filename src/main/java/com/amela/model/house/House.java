@@ -1,5 +1,6 @@
 package com.amela.model.house;
 
+import com.amela.model.Feedback;
 import com.amela.model.user.User;
 
 import javax.persistence.*;
@@ -49,8 +50,13 @@ public class House {
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @OneToMany(targetEntity = Feedback.class)
+    private List<Feedback> feedbacks;
+
+
     @NotNull
     private String sourcePath;
+
 
     public House() {
     }
@@ -164,5 +170,13 @@ public class House {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 }

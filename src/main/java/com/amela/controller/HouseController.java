@@ -1,11 +1,16 @@
 package com.amela.controller;
 
+import com.amela.model.Feedback;
+import com.amela.model.house.*;
+import com.amela.service.feedback.IFeedbackService;
+
 import com.amela.form.ContractForm;
 import com.amela.model.Contract;
 import com.amela.model.house.House;
 import com.amela.model.house.Type;
 import com.amela.model.user.User;
 import com.amela.service.contract.IContractService;
+
 import com.amela.service.house.IHouseService;
 import com.amela.service.house.IHouseTypeService;
 import com.amela.service.user.IUserService;
@@ -13,9 +18,7 @@ import com.amela.model.house.*;
 import com.amela.service.image.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -50,13 +53,28 @@ public class HouseController {
     private IUserService userService;
 
     @Autowired
+
+    private IFeedbackService feedbackService;
+
+    @ModelAttribute("house")
+    public House initHouse()
+    {
+        return new House();
+    }
+
     private IContractService contractService;
 
     @Autowired
     private IImageService imageService;
 
+
+    @ModelAttribute("user")
+    public Iterable<User> initHouseTypeList()
+    {
+        return userService.findAll();
+    }
     @ModelAttribute("houseTypes")
-    public Iterable<Type> initHouseTypeList()
+    public Iterable<Type> initUser()
     {
         return houseTypeService.findAll();
     }
@@ -110,7 +128,9 @@ public class HouseController {
     public ModelAndView detailHouse(@PathVariable Long id){
         Optional<House> house = houseService.findById(id);
         Iterable<Image> images = imageService.findAllByHouse(house.get());
+        Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
         ModelAndView modelAndView = new ModelAndView("/house/detail");
+        modelAndView.addObject("feedbacks", feedbacks);
         modelAndView.addObject("house", house.get());
         modelAndView.addObject("images", images);
         return modelAndView;

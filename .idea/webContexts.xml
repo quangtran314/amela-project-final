@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/image/index.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/image" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/list.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login/userdetail.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login" />
       </map>
     </option>
   </component>

@@ -4,7 +4,6 @@ import com.amela.formatter.HouseFormatter;
 import com.amela.formatter.LocalDateFormatter;
 import com.amela.service.house.HouseService;
 
-import com.amela.service.image.ImageService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

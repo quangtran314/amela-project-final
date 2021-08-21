@@ -388,7 +388,9 @@ mark,
 .img-fluid {
   max-width: 100%;
   height: auto; }
+/*=====*/
 
+/*=====*/
 .img-thumbnail {
   padding: 0.25rem;
   background-color: #fff;
@@ -8124,6 +8126,93 @@ h1, h2, h3, h4, h5,
           color: #fff; }
           .ftco-navbar-light .navbar-nav > .nav-item > .nav-link:hover:before {
             display: none; } }
+/*add new css profile*/
+element.style{
+  position: absolute;
+  transform: translate3d(-117px, 50px, 0px);
+  top: 0px;
+  left: 0px;
+  will-change: transform;
+}
+.dropup,
+.dropright,
+.dropdown,
+.dropleft {
+  position: relative;
+}
+.app-nav__item {
+  display: block;
+  margin-top: 20px;
+  padding: 15px;
+  line-height: 20px;
+  color: #e83e8c;
+  -webkit-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+.app-nav__item:hover, .app-nav__item:focus {
+  background: rgba(0, 0, 0, 0.1);
+  color: #f6f6f6;
+}
+.dropdown-menu.dropdown-menu-right {
+  left: auto;
+  right: 0;
+}
+.dropdown-menu.show {
+  display: block;
+}
+.dropdown-menu[x-placement^="top"], .dropdown-menu[x-placement^="right"], .dropdown-menu[x-placement^="bottom"], .dropdown-menu[x-placement^="left"] {
+  right: auto;
+  bottom: auto;
+}
+.dropdown-menu {
+  border-radius: 0;
+  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: 0 0;
+  margin: 0 0 0;
+  font-size: 0.875rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #FFF;
+  background-clip: padding-box;
+  border: 0 solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-bottom: 0;
+}
+ol, ul, dl {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+ul ul {
+  list-style-type: circle;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+}
+/* end */
   .ftco-navbar-light .navbar-nav > .nav-item .dropdown-menu {
     border: none;
     background: #fff;
