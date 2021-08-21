@@ -2,8 +2,10 @@ package com.amela.configuration.application;
 
 import com.amela.formatter.HouseFormatter;
 import com.amela.formatter.LocalDateFormatter;
+import com.amela.formatter.UserFormatter;
 import com.amela.service.house.HouseService;
 
+import com.amela.service.user.UserService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -193,5 +195,6 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new LocalDateFormatter("MM/dd/yyyy"));
         registry.addFormatter(new HouseFormatter(applicationContext.getBean(HouseService.class)));
+        registry.addFormatter(new UserFormatter(applicationContext.getBean(UserService.class)));
     }
 }

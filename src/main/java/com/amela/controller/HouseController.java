@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.io.File;
@@ -125,7 +126,7 @@ public class HouseController {
 
 //Detail
     @GetMapping("/houses/{id}")
-    public ModelAndView detailHouse(@PathVariable Long id){
+    public ModelAndView detailHouse(@PathVariable Long id , Principal principal ){
         Optional<House> house = houseService.findById(id);
         Iterable<Image> images = imageService.findAllByHouse(house.get());
         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
@@ -133,6 +134,23 @@ public class HouseController {
         modelAndView.addObject("feedbacks", feedbacks);
         modelAndView.addObject("house", house.get());
         modelAndView.addObject("images", images);
+        modelAndView.addObject("feedback", new Feedback());
+        Optional<User> user = userService.findByEmail(principal.getName());
+        modelAndView.addObject("user", user.get() );
+        return modelAndView;
+    }
+
+    @PostMapping("/houses/{id}")
+    public ModelAndView saveFeedBack(@ModelAttribute("feedback") Feedback feedBack , @PathVariable Long id){
+        Optional<House> house = houseService.findById(id);
+        Iterable<Image> images = imageService.findAllByHouse(house.get());
+         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
+//        feedbackService.save(feedBack);
+        ModelAndView modelAndView = new ModelAndView("/house/detail");
+        modelAndView.addObject("feedbacks", feedbacks);
+        modelAndView.addObject("house", house.get());
+        modelAndView.addObject("images", images);
+        modelAndView.addObject("feedback", new Feedback());
         return modelAndView;
     }
 
