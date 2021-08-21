@@ -1,7 +1,9 @@
 package com.amela.controller;
 
 import com.amela.form.LoginForm;
+import com.amela.model.Feedback;
 import com.amela.model.house.House;
+import com.amela.model.house.Image;
 import com.amela.model.user.User;
 import com.amela.model.user.UserPrinciple;
 import com.amela.service.role.IRoleService;
@@ -17,6 +19,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @Controller
 public class AuthController {
 
@@ -30,7 +34,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @GetMapping("/signup")
-    public ModelAndView showSignupForm(){
+    public ModelAndView showSignupForm() {
         ModelAndView modelAndView = new ModelAndView("/login/signup");
         modelAndView.addObject("roles", roleService.findAll());
         modelAndView.addObject("user", new User());
@@ -38,8 +42,8 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ModelAndView userSignup(@Validated @ModelAttribute("user") User user, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ModelAndView userSignup(@Validated @ModelAttribute("user") User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("/login/signup");
             return modelAndView;
         }
@@ -51,14 +55,14 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public ModelAndView getLoginForm(){
+    public ModelAndView getLoginForm() {
         ModelAndView modelAndView = new ModelAndView("/login/login");
         modelAndView.addObject("login", new LoginForm());
         return modelAndView;
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute("login") LoginForm login){
+    public ModelAndView login(@ModelAttribute("login") LoginForm login) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
 
@@ -69,8 +73,27 @@ public class AuthController {
     }
 
     @RequestMapping("/access-denied")
-    public ModelAndView accessDenied(){
+    public ModelAndView accessDenied() {
         ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
         return modelAndView;
     }
+
+    @PostMapping("/edit-user")
+    public ModelAndView updateNote(@ModelAttribute("users") User user) {
+        userService.save(user);
+        ModelAndView modelAndView = new ModelAndView("/login/userdetail");
+        modelAndView.addObject("users", user);
+        modelAndView.addObject("message", " Profile updated successfully");
+        return modelAndView;
+    }
+
+    @GetMapping("/view-user/{id}")
+    public ModelAndView viewProvince(@PathVariable("id") long id) {
+        Optional<User> user = userService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("/login/userdetail");
+        modelAndView.addObject("users", user.get());
+        return modelAndView;
+    }
 }
+
+
