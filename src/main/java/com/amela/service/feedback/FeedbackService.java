@@ -34,4 +34,8 @@ public class FeedbackService implements IFeedbackService{
     }
 
 
+    @Override
+    public Iterable<Feedback> findAllByHouse(House house) {
+        return feedbackRepository.findAllByHouse(house);
+    }
 }
