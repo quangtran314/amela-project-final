@@ -77,21 +77,33 @@ public class AuthController {
         ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
         return modelAndView;
     }
+    // edit user
+    @GetMapping("/edit-user/{id}")
+    public ModelAndView showEditForm(@PathVariable("id") long id) {
+        Optional<User> user = userService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("/login/edituser");
+        modelAndView.addObject("users", user.get());
 
-    @PostMapping("/edit-user")
-    public ModelAndView updateNote(@ModelAttribute("users") User user) {
-        userService.save(user);
-        ModelAndView modelAndView = new ModelAndView("/login/userdetail");
-        modelAndView.addObject("users", user);
-        modelAndView.addObject("message", " Profile updated successfully");
         return modelAndView;
     }
 
+
+    @PostMapping("/edit-user")
+    public ModelAndView updateUser(@ModelAttribute("users") User user) {
+        userService.save(user);
+        ModelAndView modelAndView = new ModelAndView("/login/edituser");
+        modelAndView.addObject("users", user);
+        modelAndView.addObject("message", "Profile updated successfully");
+        return modelAndView;
+    }
+
+// view user
     @GetMapping("/view-user/{id}")
     public ModelAndView viewProvince(@PathVariable("id") long id) {
         Optional<User> user = userService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/login/userdetail");
         modelAndView.addObject("users", user.get());
+        modelAndView.addObject("id", id);
         return modelAndView;
     }
 }

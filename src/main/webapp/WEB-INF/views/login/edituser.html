@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:replace="/house/layout :: head__template"/>
 
@@ -27,53 +28,13 @@
 <!-- Header -->
 <th:block th:replace="/house/layout :: header__template"/>
 
-<!-- Main Content -->
-<section class="hero-wrap hero-wrap-2" style="background-image: url('../Asset/general/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row no-gutters slider-text align-items-center justify-content-center">
-            <div class="col-md-9 ftco-animate text-center">
-                <p class="breadcrumbs mb-2"><span class="mr-2"><a href="home.html">Trang chủ<i class="fa fa-chevron-right"></i></a></span> <span>Căn hộ<i class="fa fa-chevron-right"></i></span></p>
-                <h1 class="mb-0 bread">Đăng kí thuê nhà</h1>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!--<section class="ftco-section bg-light ftco-no-pt ftco-no-pb">-->
-<!--    <div class="container-fluid px-md-0">-->
-<!--        <div class="login-form" th:object="${users}">-->
-
-<!--                <div class="form-group">-->
-<!--                    <label for="inputfullname">Họ và Tên :</label>-->
-<!--                    <label class="form-control" id="inputfullname" th:text="${users.fullName}"></label>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <label for="inputfullname" >Số điện thoại :</label>-->
-<!--                    <label th:text="${users.phoneNumber}"></label>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <label >Địa chỉ :</label>-->
-<!--                    <label th:text="${users.address}"></label>-->
-<!--                </div>-->
-
-<!--                <div class="form-group">-->
-<!--                    <label >Thành phố :</label>-->
-<!--                    <label th:text="${users.city}"></label>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <label >PIN :</label>-->
-<!--                    <label th:text="${users.PIN}"></label>-->
-<!--                </div>-->
-
-
-<!--&lt;!&ndash;                <a th:href="@{/signup}" type="submit" class="btn btn-primary"></a>&ndash;&gt;-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-<div class="container">
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+    <span th:text="${message}"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="container" sec:authorize="isAuthenticated()">
     <section class="w-100 p-0 h-100 bg-white">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -93,36 +54,35 @@
                                     <h3 class="mb-5 text-uppercase">Thông tin cá nhân </h3>
                                     <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
                                         <div class="container-fluid px-md-0">
-                                            <div class="login-form" th:object="${users}">
+                                            <form th:action="@{/edit-user}" th:object="${users}" method="post">
+                                                <input th:type="hidden" name="id" th:field="*{id}"/>
 
                                                     <div class="form-group">
-                                                        <label> Họ và Tên :</label>&emsp;&emsp;&emsp;&emsp;
-                                                        <label  th:text="${users.fullName}"></label>
+                                                        <label for="inputfullname">Họ và Tên :</label>
+                                                        <input type="text" class="form-control" id="inputfullname" th:field="*{fullName}"/>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label  >Số điện thoại :</label>&emsp;&emsp;&nbsp;&nbsp;
-                                                        <label th:text="${users.phoneNumber}"></label>
+                                                        <label for="inputphone" >Số điện thoại :</label>
+                                                        <input type="text" class="form-control" id="inputphone" th:field="*{phoneNumber}"/>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label > Địa chỉ :</label>&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
-                                                        <label th:text="${users.address}"></label>
+                                                        <label for="inputaddress" > Địa chỉ :</label>
+                                                        <input type="text" id="inputaddress" class="form-control" th:field="*{address}"/>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label >Thành phố :</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-                                                        <label th:text="${users.city}"></label>
+                                                        <label for="inputaddress" >Thành phố :</label>
+                                                        <input  type="text"  class="form-control" th:field="*{city}"/>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label >PIN :</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
-                                                        <label th:text="${users.PIN}"></label>
+                                                        <label >PIN :</label>
+                                                        <input type="text" class="form-control" th:field="*{PIN}"/>
                                                     </div>
-                                                    <div class="form-group">
-                                                         <label >Mật Khẩu :</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&ensp;
-                                                         <label > **************</label>&emsp;&emsp;<a href="#">Thay đổi mật khẩu</a>
-                                                    </div>
-                                                     <a th:href="@{/signup}" type="submit" class="btn btn-primary" style="margin-left: 38%">Sửa thông tin</a>
+
+                                                   <input th:type="hidden"  th:field="*{email}"/>
+
+                                                     <input  type="submit" class="btn btn-primary" style="margin-left: 38%" value=" Lưu thông tin"/>
                                                 </form>
-                                            </div>
                                         </div>
                                     </section>
                                 </div>

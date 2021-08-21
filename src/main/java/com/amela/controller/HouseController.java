@@ -96,7 +96,7 @@ public class HouseController {
         return imageService.findAll();
     }
 
-//List
+    //List
     @GetMapping("/houses")
     public ModelAndView listHouses(){
         Iterable<House> houses = houseService.findAll();
@@ -123,7 +123,7 @@ public class HouseController {
     }
 
 
-//Detail
+    //Detail
     @GetMapping("/houses/{id}")
     public ModelAndView detailHouse(@PathVariable Long id){
         Optional<House> house = houseService.findById(id);
@@ -136,7 +136,7 @@ public class HouseController {
         return modelAndView;
     }
 
-//Create
+    //Create
     @GetMapping("/create-house")
     public ModelAndView showCreateHouse(){
         Optional<User> user = userService.findByEmail(getPrincipal());
@@ -168,7 +168,7 @@ public class HouseController {
     }
 
     @GetMapping("/house/{id}/renting")
-        public ModelAndView showRentingForm(@PathVariable("id") Long house_id){
+    public ModelAndView showRentingForm(@PathVariable("id") Long house_id){
         Optional<House> house = houseService.findById(house_id);
         if(house.isPresent()){
             ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
@@ -213,7 +213,7 @@ public class HouseController {
         return modelAndView;
     }
 
-//Upload image
+    //Upload image
     @GetMapping("/upload-image/{id}")
     public ModelAndView showImageForm(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("/house/image");
