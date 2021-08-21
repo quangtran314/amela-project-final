@@ -128,7 +128,7 @@ public class HouseController {
     public ModelAndView detailHouse(@PathVariable Long id){
         Optional<House> house = houseService.findById(id);
         Iterable<Image> images = imageService.findAllByHouse(house.get());
-        Iterable<Feedback> feedbacks = feedbackService.findAll();
+        Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
         ModelAndView modelAndView = new ModelAndView("/house/detail");
         modelAndView.addObject("feedbacks", feedbacks);
         modelAndView.addObject("house", house.get());

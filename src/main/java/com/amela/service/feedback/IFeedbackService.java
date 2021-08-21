@@ -6,5 +6,5 @@ import com.amela.model.house.Image;
 import com.amela.service.IGeneralService;
 
 public interface IFeedbackService extends IGeneralService<Feedback> {
-
+    Iterable<Feedback> findAllByHouse(House house);
 }
