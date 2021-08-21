@@ -20,7 +20,7 @@ public class ImageForm {
     private String name;
 
     @NotNull
-    private MultipartFile sourcePath;
+    private MultipartFile[] sourcePath;
 
     @Size(min = 5, max = 500)
     private String des;
@@ -32,14 +32,14 @@ public class ImageForm {
     public ImageForm() {
     }
 
-    public ImageForm(String name, MultipartFile sourcePath, String des, House house) {
+    public ImageForm(String name, MultipartFile[] sourcePath, String des, House house) {
         this.name = name;
         this.sourcePath = sourcePath;
         this.des = des;
         this.house = house;
     }
 
-    public ImageForm(long image_id, String name, MultipartFile sourcePath, String des, House house) {
+    public ImageForm(long image_id, String name, MultipartFile[] sourcePath, String des, House house) {
         this.image_id = image_id;
         this.name = name;
         this.sourcePath = sourcePath;
@@ -55,11 +55,11 @@ public class ImageForm {
         this.image_id = image_id;
     }
 
-    public MultipartFile getSourcePath() {
+    public MultipartFile[] getSourcePath() {
         return sourcePath;
     }
 
-    public void setSourcePath(MultipartFile sourcePath) {
+    public void setSourcePath(MultipartFile[] sourcePath) {
         this.sourcePath = sourcePath;
     }
 

@@ -204,20 +204,28 @@ public class HouseController {
 
     @PostMapping("/upload-image/{id}")
     public ModelAndView updateImage(@PathVariable Long id , @ModelAttribute ImageForm imageForm ) {
-        MultipartFile multipartFile = imageForm.getSourcePath();
-        String fileName = multipartFile.getOriginalFilename();
+        MultipartFile[] multipartFile = imageForm.getSourcePath();
+        String fileNames[] = new String[multipartFile.length];
+        for (int i=0; i< multipartFile.length;i++){
+            fileNames[i] = multipartFile[i].getOriginalFilename();
+        }
         try {
-            FileCopyUtils.copy(imageForm.getSourcePath().getBytes(), new File(fileUpload + fileName));
+            for (int i=0; i< fileNames.length; i++){
+                FileCopyUtils.copy(imageForm.getSourcePath()[i].getBytes(), new File(fileUpload + fileNames[i]));
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Image image = new Image(imageForm.getImage_id(),imageForm.getName(),
-                fileName , imageForm.getDes() , imageForm.getHouse());
-        imageService.save(image);
+        for(int i=0; i< fileNames.length; i++){
+            Image image = new Image(imageForm.getImage_id(),imageForm.getName(),
+                    fileNames[i],imageForm.getDes(),imageForm.getHouse());
+            imageService.save(image);
+        }
         ModelAndView modelAndView = new ModelAndView("/house/image");
         modelAndView.addObject("imageForm", imageForm);
         modelAndView.addObject("house_id", id);
         modelAndView.addObject("message", "Update successfully !");
         return modelAndView;
     }
+
 }

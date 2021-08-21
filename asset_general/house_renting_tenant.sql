@@ -1,4 +1,4 @@
-create table user
+create table tenant
 (
     tenant_id    bigint auto_increment
         primary key,

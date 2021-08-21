@@ -39,10 +39,10 @@
         }
 
         input[type=submit] {
-            width: 300px;
+            width: 95px;
             background-color: #4CAF50;
             color: white;
-            padding: 14px 20px;
+            padding: 13px 20px;
             margin: 8px 0;
             border: none;
             border-radius: 4px;
@@ -87,17 +87,21 @@
                 <input type="hidden" th:field="*{image_id}"/>
                 <div>
                     <label>Tên ảnh :</label>
-                    <input type="text" th:field="*{name}"/>
+                    <input type="text" th:field="*{name}" required/>
                 </div>
                 <div>
                     <label>Mô tả :</label>
-                    <input type="text" th:field="*{des}"/>
+                    <input type="text" th:field="*{des}" required/>
                 </div>
                 <div>
                     <label>Ảnh :</label>
-                    <input type="file" th:field="*{sourcePath}"/>
+                    <input type="file" th:multiple="multiple" th:field="*{sourcePath}"/>
                 </div>
-                <input type="submit" value="Lưu"/>
+                <br>
+                <div>
+                    <input class="btn btn-warning" type="submit" value="Lưu"/>
+                    <a class="btn btn-warning" th:href="@{/houses/__${house_id}__ }" >Thoát</a>
+                </div>
             </form>
         </div>
         <!-- </div> -->
