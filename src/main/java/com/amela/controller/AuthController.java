@@ -1,11 +1,13 @@
 package com.amela.controller;
 
+import com.amela.form.ContractForm;
 import com.amela.form.LoginForm;
 import com.amela.model.Feedback;
 import com.amela.model.house.House;
 import com.amela.model.house.Image;
 import com.amela.model.user.User;
 import com.amela.model.user.UserPrinciple;
+import com.amela.service.house.IHouseService;
 import com.amela.service.role.IRoleService;
 import com.amela.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private IHouseService houseService;
 
     @GetMapping("/signup")
     public ModelAndView showSignupForm() {
@@ -103,9 +108,9 @@ public class AuthController {
         Optional<User> user = userService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/login/userdetail");
         modelAndView.addObject("users", user.get());
-        modelAndView.addObject("id", id);
         return modelAndView;
     }
+
 }
 
 
