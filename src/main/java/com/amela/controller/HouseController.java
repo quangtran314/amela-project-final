@@ -126,7 +126,7 @@ public class HouseController {
 
 //Detail
     @GetMapping("/houses/{id}")
-    public ModelAndView detailHouse(@PathVariable Long id , Principal principal ){
+    public ModelAndView detailHouse(@PathVariable Long id ){
         Optional<House> house = houseService.findById(id);
         Iterable<Image> images = imageService.findAllByHouse(house.get());
         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
@@ -135,22 +135,20 @@ public class HouseController {
         modelAndView.addObject("house", house.get());
         modelAndView.addObject("images", images);
         modelAndView.addObject("feedback", new Feedback());
-        Optional<User> user = userService.findByEmail(principal.getName());
-        modelAndView.addObject("user", user.get() );
         return modelAndView;
     }
 
     @PostMapping("/houses/{id}")
-    public ModelAndView saveFeedBack(@ModelAttribute("feedback") Feedback feedBack , @PathVariable Long id){
+    public ModelAndView saveFeedBack(@ModelAttribute("feedback") Feedback feedBack , @PathVariable Long id,
+                                     Principal principal){
+
+        Optional<User> user = userService.findByEmail(principal.getName());
         Optional<House> house = houseService.findById(id);
-        Iterable<Image> images = imageService.findAllByHouse(house.get());
-         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
-//        feedbackService.save(feedBack);
-        ModelAndView modelAndView = new ModelAndView("/house/detail");
-        modelAndView.addObject("feedbacks", feedbacks);
-        modelAndView.addObject("house", house.get());
-        modelAndView.addObject("images", images);
-        modelAndView.addObject("feedback", new Feedback());
+        feedBack.setOwner(user.get());
+        feedBack.setHouse(house.get());
+        feedBack.setAmt_date(LocalDate.now());
+        feedbackService.save(feedBack);
+        ModelAndView modelAndView = new ModelAndView("redirect:/houses/"+id);
         return modelAndView;
     }
 
@@ -185,6 +183,7 @@ public class HouseController {
         return modelAndView;
     }
 
+//Renting
     @GetMapping("/house/{id}/renting")
         public ModelAndView showRentingForm(@PathVariable("id") Long house_id){
         Optional<House> house = houseService.findById(house_id);

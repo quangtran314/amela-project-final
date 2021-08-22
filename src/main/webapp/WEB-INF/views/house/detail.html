@@ -137,21 +137,19 @@
             <div class="feedback">
               <h4>Hãy để lại nhận xét của bạn!</h4>
               <form method="post" th:object="${feedback}">
-                <input th:type="hidden" th:field="*{feedback_id}">
-                <input th:type="hidden" th:field="*{house}" th:value="${house.house_id}">
-                <input th:type="hidden" th:field="*{owner}" th:value="${user.id}">
+                <input type="hidden" th:field="*{feedback_id}">
                 <div class="feedback__rate">
                   <p class="feedback__title">Chất lượng: </p>
                   <div class="rating">
-                    <input id="demo-1" type="radio" name="rate" value="1">
+                    <input id="demo-1" type="radio" th:field="*{rate}" value="1">
                     <label for="demo-1">1 star</label>
-                    <input id="demo-2" type="radio" name="rate" value="2">
+                    <input id="demo-2" type="radio" th:field="*{rate}" value="2">
                     <label for="demo-2">2 stars</label>
-                    <input id="demo-3" type="radio" name="rate" value="3">
+                    <input id="demo-3" type="radio" th:field="*{rate}" value="3">
                     <label for="demo-3">3 stars</label>
-                    <input id="demo-4" type="radio" name="rate" value="4">
+                    <input id="demo-4" type="radio" th:field="*{rate}" value="4">
                     <label for="demo-4">4 stars</label>
-                    <input id="demo-5" type="radio" name="rate" value="5">
+                    <input id="demo-5" type="radio" th:field="*{rate}" value="5">
                     <label for="demo-5">5 stars</label>
 
                     <div class="stars">
@@ -165,10 +163,10 @@
                 </div>
                 <div class="feedback__comment">
                   <p class="feedback__title">Nhận xét: </p>
-                  <textarea id="feedback__comment" name="comment" rows="4"></textarea>
+                  <textarea id="feedback__comment" th:field="*{comment}" rows="4"></textarea>
                 </div>
                 <div>
-                  <input type="submit" class="btn btn-primary" name="" id="feedback__submit" value="Gửi">
+                  <input type="submit" class="btn btn-primary" id="feedback__submit" value="Gửi">
                 </div>
               </form>
             </div>
@@ -184,7 +182,7 @@
               </div>
               <div class="boxUpRight__title--vote">
                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;"><path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" fill-rule="evenodd"></path></svg>
-                <p>10 đánh giá</p> 
+                <p>10 đánh giá</p>
               </div>
             </div>
             <div class="boxUpRight__booking" sec:authorize="isAuthenticated()">

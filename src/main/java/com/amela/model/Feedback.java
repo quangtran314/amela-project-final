@@ -102,5 +102,15 @@ public class Feedback {
         this.owner = owner;
     }
 
-
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "feedback_id=" + feedback_id +
+                ", comment='" + comment + '\'' +
+                ", rate=" + rate +
+                ", amt_date=" + amt_date +
+                ", house=" + house.getHouse_name() +
+                ", owner=" + owner.getFullName() +
+                '}';
+    }
 }
