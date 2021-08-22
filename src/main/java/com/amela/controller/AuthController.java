@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -34,9 +36,6 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private IHouseService houseService;
 
     @GetMapping("/signup")
     public ModelAndView showSignupForm() {
@@ -73,7 +72,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/houses");
+        ModelAndView modelAndView = new ModelAndView("redirect:/user/{id}/house");
         return modelAndView;
     }
 
@@ -103,14 +102,21 @@ public class AuthController {
     }
 
 // view user
-    @GetMapping("/view-user/{id}")
-    public ModelAndView viewProvince(@PathVariable("id") long id) {
-        Optional<User> user = userService.findById(id);
+//    @GetMapping("/view-user/{id}")
+//    public ModelAndView viewUser(@PathVariable("id") long id) {
+//        Optional<User> user = userService.findById(id);
+//        ModelAndView modelAndView = new ModelAndView("/login/userdetail");
+//        modelAndView.addObject("users", user.get());
+//        return modelAndView;
+//    }
+
+    @GetMapping("/view-user")
+    public ModelAndView viewUser(Principal principal) {
+        Optional<User> user = userService.findById(principal.getId());
         ModelAndView modelAndView = new ModelAndView("/login/userdetail");
         modelAndView.addObject("users", user.get());
         return modelAndView;
     }
-
 }
 
 
