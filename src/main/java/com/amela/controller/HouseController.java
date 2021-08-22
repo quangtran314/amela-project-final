@@ -29,6 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -139,16 +140,26 @@ public class HouseController {
     }
 
     @PostMapping("/houses/{id}")
-    public ModelAndView saveFeedBack(@ModelAttribute("feedback") Feedback feedBack , @PathVariable Long id,
-                                     Principal principal){
-
-        Optional<User> user = userService.findByEmail(principal.getName());
+    public ModelAndView saveFeedBack(@Validated @ModelAttribute("feedback") Feedback feedBack, BindingResult bindingResult ,
+                                     @PathVariable Long id, Principal principal, RedirectAttributes redirect){
+        ModelAndView modelAndView = new ModelAndView("/house/detail");
         Optional<House> house = houseService.findById(id);
+        if (bindingResult.hasErrors())
+        {
+            Iterable<Image> images = imageService.findAllByHouse(house.get());
+            Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
+            modelAndView.addObject("feedbacks", feedbacks);
+            modelAndView.addObject("house", house.get());
+            modelAndView.addObject("images", images);
+            return modelAndView;
+        }
+        Optional<User> user = userService.findByEmail(principal.getName());
         feedBack.setOwner(user.get());
         feedBack.setHouse(house.get());
         feedBack.setAmt_date(LocalDate.now());
         feedbackService.save(feedBack);
-        ModelAndView modelAndView = new ModelAndView("redirect:/houses/"+id);
+        redirect.addFlashAttribute("message", "Thank you your feed back!");
+        modelAndView.setViewName("redirect:/houses/"+id);
         return modelAndView;
     }
 

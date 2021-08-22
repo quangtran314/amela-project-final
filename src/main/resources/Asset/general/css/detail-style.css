@@ -234,3 +234,20 @@ label[for]:hover {
   width: 30px;
   font-size: 20px;
 }
+
+/*Banner*/
+.rating__show, .rating__show--value
+{
+  display: inline-block;
+  margin: 0;
+}
+
+.testimony-wrap
+{
+  min-height: 200px;
+}
+
+.rating__show--date
+{
+  margin: 0;
+}

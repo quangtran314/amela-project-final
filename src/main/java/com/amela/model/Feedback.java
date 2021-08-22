@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -18,8 +19,10 @@ public class Feedback {
     private long feedback_id;
 
     @NotNull
+    @Size(min = 5, max = 50)
     private String comment;
 
+    @NotNull
     @Min(1)
     @Max(5)
     private int rate;
@@ -102,15 +105,4 @@ public class Feedback {
         this.owner = owner;
     }
 
-    @Override
-    public String toString() {
-        return "Feedback{" +
-                "feedback_id=" + feedback_id +
-                ", comment='" + comment + '\'' +
-                ", rate=" + rate +
-                ", amt_date=" + amt_date +
-                ", house=" + house.getHouse_name() +
-                ", owner=" + owner.getFullName() +
-                '}';
-    }
 }
