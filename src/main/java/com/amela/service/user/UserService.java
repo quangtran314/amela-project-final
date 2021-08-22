@@ -60,7 +60,7 @@ public class UserService implements IUserService {
         }
         return UserPrinciple.build(userOptional.get());
     }
-    
+
 
     @Override
     public Optional<User> findByEmail(String email) {

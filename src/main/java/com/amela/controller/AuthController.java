@@ -72,7 +72,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/user/{id}/house");
+        ModelAndView modelAndView = new ModelAndView("redirect:/user/{id}/houses");
         return modelAndView;
     }
 
@@ -101,22 +101,19 @@ public class AuthController {
         return modelAndView;
     }
 
+
+
 // view user
-//    @GetMapping("/view-user/{id}")
-//    public ModelAndView viewUser(@PathVariable("id") long id) {
-//        Optional<User> user = userService.findById(id);
-//        ModelAndView modelAndView = new ModelAndView("/login/userdetail");
-//        modelAndView.addObject("users", user.get());
-//        return modelAndView;
-//    }
 
     @GetMapping("/view-user")
     public ModelAndView viewUser(Principal principal) {
-        Optional<User> user = userService.findById(principal.getId());
+        Optional<User> user = userService.findByEmail(principal.getName());
         ModelAndView modelAndView = new ModelAndView("/login/userdetail");
         modelAndView.addObject("users", user.get());
         return modelAndView;
     }
+
+
 }
 
 
