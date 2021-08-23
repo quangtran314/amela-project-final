@@ -1,21 +1,23 @@
 package com.amela.controller;
 
-import com.amela.form.ContractForm;
+
+
 import com.amela.form.LoginForm;
-import com.amela.model.Feedback;
-import com.amela.model.house.House;
-import com.amela.model.house.Image;
+
 import com.amela.model.user.User;
+
 import com.amela.model.user.UserPrinciple;
-import com.amela.service.house.IHouseService;
 import com.amela.service.role.IRoleService;
 import com.amela.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +32,9 @@ public class AuthController {
 
     @Autowired
     private IRoleService roleService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private IUserService userService;
@@ -93,7 +98,7 @@ public class AuthController {
 
 
     @PostMapping("/edit-user")
-    public ModelAndView updateUser(@ModelAttribute("users") User user) {
+    public ModelAndView updateUser(@Validated @ModelAttribute("users") User user) {
         userService.save(user);
         ModelAndView modelAndView = new ModelAndView("/login/edituser");
         modelAndView.addObject("users", user);
@@ -112,7 +117,41 @@ public class AuthController {
         modelAndView.addObject("users", user.get());
         return modelAndView;
     }
+ // Change password
 
+    @GetMapping("/change-password")
+    public ModelAndView showForm(Principal principal) {
+        Optional<User> user = userService.findByEmail(principal.getName());
+        ModelAndView modelAndView = new ModelAndView("/login/changepassword");
+        modelAndView.addObject("users", user.get());
+
+        return modelAndView;
+    }
+    @PostMapping("/change-password")
+    public ModelAndView updatePass(@Validated @RequestParam("newPassword") String newPassword,Principal principal,
+                                   @RequestParam("oldPassword") String oldPassword) {
+        ModelAndView modelAndView ;
+        Optional<User> optionalUser = userService.findByEmail(principal.getName());
+
+        if (this.passwordEncoder.matches(oldPassword,optionalUser.get().getPassword()))
+        {
+            modelAndView = new ModelAndView("/login/userdetail");
+            modelAndView.addObject("message","Old password is incorrect ");
+
+        }
+        if (oldPassword.equals(newPassword))
+        {
+            modelAndView = new ModelAndView("/login/userdetail");
+            modelAndView.addObject("message","New pass must be different than the old one ! ");
+        }
+        User user = optionalUser.get();
+
+        userService.savepassword(newPassword,user,passwordEncoder);
+        modelAndView = new ModelAndView("/login/userdetail");
+        modelAndView.addObject("users", user);
+        modelAndView.addObject("message", "Password updated successfully");
+        return modelAndView;
+    }
 
 }
 

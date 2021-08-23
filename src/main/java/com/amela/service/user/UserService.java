@@ -1,9 +1,10 @@
 package com.amela.service.user;
 
+
 import com.amela.model.user.User;
 import com.amela.model.user.UserPrinciple;
 import com.amela.repository.IUserRepository;
-import com.amela.service.user.IUserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
+
 import java.util.Optional;
 
 @Service
@@ -38,7 +39,7 @@ public class UserService implements IUserService {
         if(userOptional.isPresent()) {
             if (StringUtils.isEmpty(user.getPassword())) {
                 user.setPassword(userOptional.get().getPassword());
-            } else {
+            }else {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
         }else {
@@ -66,4 +67,14 @@ public class UserService implements IUserService {
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+
+
+    @Override
+    public void savepassword(String newpassword, User user,PasswordEncoder passwordEncoder) {
+        String encodedPassword = passwordEncoder.encode(newpassword);
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+    }
+
 }
