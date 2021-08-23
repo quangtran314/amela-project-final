@@ -23,15 +23,15 @@
   </div>
 </section>
 <section>
-  <form th:object="${house}" th:method="POST">
+  <form th:method="POST">
     <div class="searchBar" style="text-align: center;">
-      <input type="text" class="form__control--address" placeholder="Nhập địa điểm" th:field="*{address}" th:value="${house.address}">
+      <input type="text" class="form__control--address" placeholder="Nhập địa điểm" th:name="address" th:value="${address}">
       Giá tiền (Triệu) :
       <input type="text" class="form__control--price" placeholder="Từ" th:name="price_from" th:value="${price_from}">
       <input type="text" class="form__control--price" placeholder="Đến" th:name="price_to" th:value="${price_to}">
 
       Loại nhà:
-      <select class="form__control" id="type_house_selection" th:field="*{type}" th:selected="${house_type}">
+      <select class="form__control" id="type_house_selection" th:name="type" th:selected="${house_type}">
         <option th:value="${all_type}" >Tất cả</option>
         <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}"></option>
       </select>
@@ -68,9 +68,9 @@
   <div class="pagination-field">
     <div class="pagination">
       <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
-      <a th:href="@{'/houses'(page=${houses.number - 1}, address=__${house.address}__, price_from =__${price_from}__, price_to =__${price_to}__)}" id="page_prev" th:text="${houses.number}" ></a>
+      <a th:href="@{'/houses'(page=${houses.number - 1}, address=__${address}__, price_from =__${price_from}__, price_to =__${price_to}__, type=__${house_type}__)}" id="page_prev" th:text="${houses.number}" ></a>
       <a class="paging__active" href="#" id="page_current" th:text="${houses.number}+1"></a>
-      <a th:href="@{'/houses'(page=${houses.number + 1}, address=__${house.address}__, price_from =__${price_from}__, price_to =__${price_to}__)}" id="page_next" th:text="${houses.number} + 2" ></a>
+      <a th:href="@{'/houses'(page=${houses.number + 1}, address=__${address}__, price_from =__${price_from}__, price_to =__${price_to}__, type=__${house_type}__)}" id="page_next" th:text="${houses.number} + 2" ></a>
       <a id="pagination__next" onclick="pushOn(1)" >»</a>
 
       <p id="totalPages"  th:text="${houses.totalPages}"></p>
