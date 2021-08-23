@@ -25,13 +25,13 @@
 <section>
   <form th:object="${house}" th:method="POST">
     <div class="searchBar" style="text-align: center;">
-      <input type="text" class="form__control--address" name="" id="" placeholder="Nhập địa điểm" th:field="*{address}">
+      <input type="text" class="form__control--address" placeholder="Nhập địa điểm" th:field="*{address}" th:value="${house.address}">
       Giá tiền (Triệu) :
-      <input type="text" class="form__control--price" name="" id="" placeholder="Từ" th:name="price_from">
-      <input type="text" class="form__control--price" name="" id="" placeholder="Đến" th:name="price_to">
+      <input type="text" class="form__control--price" placeholder="Từ" th:name="price_from" th:value="${price_from}">
+      <input type="text" class="form__control--price" placeholder="Đến" th:name="price_to" th:value="${price_to}">
 
       Loại nhà:
-      <select name="" class="form__control" id="type_house_selection" th:field="*{type}">
+      <select class="form__control" id="type_house_selection" th:field="*{type}" th:selected="${house_type}">
         <option th:value="${all_type}" >Tất cả</option>
         <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}"></option>
       </select>
@@ -65,6 +65,17 @@
       </th:block>
     </div>
   </div>
+  <div class="pagination-field">
+    <div class="pagination">
+      <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
+      <a th:href="@{'/houses'(page=${houses.number - 1}, address=__${house.address}__, price_from =__${price_from}__, price_to =__${price_to}__)}" id="page_prev" th:text="${houses.number}" ></a>
+      <a class="paging__active" href="#" id="page_current" th:text="${houses.number}+1"></a>
+      <a th:href="@{'/houses'(page=${houses.number + 1}, address=__${house.address}__, price_from =__${price_from}__, price_to =__${price_to}__)}" id="page_next" th:text="${houses.number} + 2" ></a>
+      <a id="pagination__next" onclick="pushOn(1)" >»</a>
+
+      <p id="totalPages"  th:text="${houses.totalPages}"></p>
+    </div>
+  </div>
 </section>
 
 <!--Banner-->
@@ -76,6 +87,7 @@
 
 <!--Script-->
 <th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/list.js"></script>
 
 </body>
 </html>
