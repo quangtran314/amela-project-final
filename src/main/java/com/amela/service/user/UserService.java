@@ -8,6 +8,7 @@ import com.amela.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -39,8 +40,6 @@ public class UserService implements IUserService {
         if(userOptional.isPresent()) {
             if (StringUtils.isEmpty(user.getPassword())) {
                 user.setPassword(userOptional.get().getPassword());
-            }else {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
         }else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -71,7 +70,7 @@ public class UserService implements IUserService {
 
 
     @Override
-    public void savepassword(String newpassword, User user,PasswordEncoder passwordEncoder) {
+    public void savepassword(String newpassword, User user, BCryptPasswordEncoder bCryptPasswordEncoder) {
         String encodedPassword = passwordEncoder.encode(newpassword);
         user.setPassword(encodedPassword);
         userRepository.save(user);

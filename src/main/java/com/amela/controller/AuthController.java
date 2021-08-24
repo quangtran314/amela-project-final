@@ -34,7 +34,7 @@ public class AuthController {
     private IRoleService roleService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private IUserService userService;
@@ -128,27 +128,35 @@ public class AuthController {
         return modelAndView;
     }
     @PostMapping("/change-password")
-    public ModelAndView updatePass(@Validated @RequestParam("newPassword") String newPassword,Principal principal,
-                                   @RequestParam("oldPassword") String oldPassword) {
+    public ModelAndView updatePass(@Validated @RequestParam("newPassword") String newpassword,Principal principal,
+                                   @RequestParam("oldPassword") String oldpassword,
+                                   @RequestParam("confirmPass") String confirmpass) {
         ModelAndView modelAndView ;
         Optional<User> optionalUser = userService.findByEmail(principal.getName());
-
-        if (this.passwordEncoder.matches(oldPassword,optionalUser.get().getPassword()))
-        {
-            modelAndView = new ModelAndView("/login/userdetail");
-            modelAndView.addObject("message","Old password is incorrect ");
-
-        }
-        if (oldPassword.equals(newPassword))
-        {
-            modelAndView = new ModelAndView("/login/userdetail");
-            modelAndView.addObject("message","New pass must be different than the old one ! ");
-        }
         User user = optionalUser.get();
 
-        userService.savepassword(newPassword,user,passwordEncoder);
-        modelAndView = new ModelAndView("/login/userdetail");
-        modelAndView.addObject("users", user);
+        if (!bCryptPasswordEncoder.matches(oldpassword,user.getPassword()))
+        {
+            modelAndView = new ModelAndView("/login/changepassword");
+            modelAndView.addObject("message","Old password is incorrect ");
+            return modelAndView;
+        }
+        if (oldpassword.equals(newpassword))
+        {
+            modelAndView = new ModelAndView("/login/changepassword");
+            modelAndView.addObject("message","New pass must be different than the old one ! ");
+            return modelAndView;
+        }
+        if (!newpassword.equals(confirmpass)){
+            modelAndView = new ModelAndView("/login/changepassword");
+            modelAndView.addObject("message","New password do not match  ");
+            return modelAndView;
+        }
+
+
+        userService.savepassword(newpassword,user,bCryptPasswordEncoder);
+        modelAndView = new ModelAndView("/login/changepassword");
+
         modelAndView.addObject("message", "Password updated successfully");
         return modelAndView;
     }
