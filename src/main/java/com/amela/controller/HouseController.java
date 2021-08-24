@@ -62,8 +62,7 @@ public class HouseController {
     private IFeedbackService feedbackService;
 
     @ModelAttribute("house")
-    public House initHouse()
-    {
+    public House initHouse() {
         return new House();
     }
 
@@ -74,13 +73,12 @@ public class HouseController {
 
 
     @ModelAttribute("user")
-    public Iterable<User> initHouseTypeList()
-    {
+    public Iterable<User> initHouseTypeList() {
         return userService.findAll();
     }
+
     @ModelAttribute("houseTypes")
-    public Iterable<Type> initUser()
-    {
+    public Iterable<Type> initUser() {
         return houseTypeService.findAll();
     }
 
@@ -97,63 +95,55 @@ public class HouseController {
     }
 
     @ModelAttribute("images")
-    public Iterable<Image> initHouseImages(){
+    public Iterable<Image> initHouseImages() {
         return imageService.findAll();
     }
 
-//List
+    //List
     @GetMapping("/houses")
     public ModelAndView listHouses(@PageableDefault(value = 4) Pageable pageable,
                                    @RequestParam("address") Optional<String> address,
                                    @RequestParam("price_from") Optional<Float> price_from,
                                    @RequestParam("price_to") Optional<Float> price_to,
                                    @RequestParam("type") Optional<Long> type
-    ){
+    ) {
         ModelAndView modelAndView = new ModelAndView("/house/list");
         modelAndView.addObject("all_type", "0");
 
-        if (!address.isPresent() && !type.isPresent() && !price_from.isPresent() && !price_to.isPresent())
-        {
+        if (!address.isPresent() && !type.isPresent() && !price_from.isPresent() && !price_to.isPresent()) {
             Page<House> houses = houseService.findAll(pageable);
             modelAndView.addObject("houses", houses);
-        }
-        else
-        {
+        } else {
             String address_val = address.orElse("");
-            Long type_val = type.isPresent()?type.get():0;
-            float price_from_val =  price_from.isPresent()?price_from.get():0;
-            float price_to_val =   price_to.isPresent()?price_to.get():99999999;
+            Long type_val = type.isPresent() ? type.get() : 0;
+            float price_from_val = price_from.isPresent() ? price_from.get() : 0;
+            float price_to_val = price_to.isPresent() ? price_to.get() : 99999999;
 
             Page<House> houseList = null;
 
             Optional<Type> house_type = houseTypeService.findById(type_val);
-            if (house_type.isPresent())
-            {
+            if (house_type.isPresent()) {
                 houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(pageable, address_val, price_from_val, price_to_val, house_type.get());
                 modelAndView.addObject("house_type", type_val);
-            }
-            else
-            {
+            } else {
                 houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(pageable, address_val, price_from_val, price_to_val);
                 modelAndView.addObject("house_type", 0);
             }
 
             modelAndView.addObject("address", address_val);
-            if(price_from.isPresent())
+            if (price_from.isPresent())
                 modelAndView.addObject("price_from", price_from.get());
-            if(price_to.isPresent())
+            if (price_to.isPresent())
                 modelAndView.addObject("price_to", price_to.get());
             modelAndView.addObject("houses", houseList);
         }
-
-
         return modelAndView;
     }
 
 
 //Detail
     @GetMapping("/houses/{id}")
-    public ModelAndView detailHouse(@PathVariable Long id ){
+    public ModelAndView detailHouse(@PathVariable Long id) {
         Optional<House> house = houseService.findById(id);
         Iterable<Image> images = imageService.findAllByHouse(house.get());
         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
@@ -166,12 +156,11 @@ public class HouseController {
     }
 
     @PostMapping("/houses/{id}")
-    public ModelAndView saveFeedBack(@Validated @ModelAttribute("feedback") Feedback feedBack, BindingResult bindingResult ,
-                                     @PathVariable Long id, Principal principal, RedirectAttributes redirect){
+    public ModelAndView saveFeedBack(@Validated @ModelAttribute("feedback") Feedback feedBack, BindingResult bindingResult,
+                                     @PathVariable Long id, Principal principal, RedirectAttributes redirect) {
         ModelAndView modelAndView = new ModelAndView("/house/detail");
         Optional<House> house = houseService.findById(id);
-        if (bindingResult.hasErrors())
-        {
+        if (bindingResult.hasErrors()) {
             Iterable<Image> images = imageService.findAllByHouse(house.get());
             Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
             modelAndView.addObject("feedbacks", feedbacks);
@@ -185,13 +174,13 @@ public class HouseController {
         feedBack.setAmt_date(LocalDate.now());
         feedbackService.save(feedBack);
         redirect.addFlashAttribute("message", "Thank you your feed back!");
-        modelAndView.setViewName("redirect:/houses/"+id);
+        modelAndView.setViewName("redirect:/houses/" + id);
         return modelAndView;
     }
 
 //Create
     @GetMapping("/create-house")
-    public ModelAndView showCreateHouse(){
+    public ModelAndView showCreateHouse() {
         Optional<User> user = userService.findByEmail(getPrincipal());
         ModelAndView modelAndView = new ModelAndView("/house/create");
         modelAndView.addObject("houseForm", new HouseForm());
@@ -200,8 +189,8 @@ public class HouseController {
     }
 
     @PostMapping("/create-house")
-    public ModelAndView saveHouse(@Validated @ModelAttribute("houseForm") HouseForm houseForm, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ModelAndView saveHouse(@Validated @ModelAttribute("houseForm") HouseForm houseForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("/house/create");
             return modelAndView;
         }
@@ -212,8 +201,8 @@ public class HouseController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        House house = new House(houseForm.getHouse_id(),houseForm.getHouse_name(),houseForm.getAddress(),houseForm.getNumBedrooms(),
-                houseForm.getNumBathrooms(),houseForm.getDes(),houseForm.getPrice(),houseForm.getType(), fileName, houseForm.getOwner());
+        House house = new House(houseForm.getHouse_id(), houseForm.getHouse_name(), houseForm.getAddress(), houseForm.getNumBedrooms(),
+                houseForm.getNumBathrooms(), houseForm.getDes(), houseForm.getPrice(), houseForm.getType(), fileName, houseForm.getOwner());
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");
@@ -222,9 +211,9 @@ public class HouseController {
 
 //Renting
     @GetMapping("/house/{id}/renting")
-        public ModelAndView showRentingForm(@PathVariable("id") Long house_id){
+    public ModelAndView showRentingForm(@PathVariable("id") Long house_id) {
         Optional<House> house = houseService.findById(house_id);
-        if(house.isPresent()){
+        if (house.isPresent()) {
             ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
             modelAndView.addObject("house_id", house_id);
             modelAndView.addObject("contract_form", new ContractForm());
@@ -236,8 +225,8 @@ public class HouseController {
     }
 
     @PostMapping("/house/{id}/renting")
-    public ModelAndView renting(@Validated @ModelAttribute("contract_form") ContractForm contractForm, @PathVariable("id") Long house_id, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ModelAndView renting(@Validated @ModelAttribute("contract_form") ContractForm contractForm, @PathVariable("id") Long house_id, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
             return modelAndView;
         }
@@ -257,8 +246,8 @@ public class HouseController {
     }
 
     @PostMapping("/house/{id}/renting-confirm")
-    public ModelAndView rentingConfirm(@Validated @ModelAttribute("contract") Contract contract, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ModelAndView rentingConfirm(@Validated @ModelAttribute("contract") Contract contract, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
             return modelAndView;
         }
@@ -269,7 +258,7 @@ public class HouseController {
 
 //Upload image
     @GetMapping("/upload-image/{id}")
-    public ModelAndView showImageForm(@PathVariable Long id){
+    public ModelAndView showImageForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("/house/image");
         modelAndView.addObject("imageForm", new ImageForm());
         modelAndView.addObject("house_id", id);
@@ -277,22 +266,22 @@ public class HouseController {
     }
 
     @PostMapping("/upload-image/{id}")
-    public ModelAndView updateImage(@PathVariable Long id , @ModelAttribute ImageForm imageForm ) {
+    public ModelAndView updateImage(@PathVariable Long id, @ModelAttribute ImageForm imageForm) {
         MultipartFile[] multipartFile = imageForm.getSourcePath();
         String fileNames[] = new String[multipartFile.length];
-        for (int i=0; i< multipartFile.length;i++){
+        for (int i = 0; i < multipartFile.length; i++) {
             fileNames[i] = multipartFile[i].getOriginalFilename();
         }
         try {
-            for (int i=0; i< fileNames.length; i++){
+            for (int i = 0; i < fileNames.length; i++) {
                 FileCopyUtils.copy(imageForm.getSourcePath()[i].getBytes(), new File(fileUpload + fileNames[i]));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        for(int i=0; i< fileNames.length; i++){
-            Image image = new Image(imageForm.getImage_id(),imageForm.getName(),
-                    fileNames[i],imageForm.getDes(),imageForm.getHouse());
+        for (int i = 0; i < fileNames.length; i++) {
+            Image image = new Image(imageForm.getImage_id(), imageForm.getName(),
+                    fileNames[i], imageForm.getDes(), imageForm.getHouse());
             imageService.save(image);
         }
         ModelAndView modelAndView = new ModelAndView("/house/image");

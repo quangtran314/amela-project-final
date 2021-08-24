@@ -12,12 +12,14 @@ import java.util.stream.Collectors;
 public class UserPrinciple implements UserDetails {
 
     private static final long serialVersionUID = 1L;
+    private User user;
 
     private Long id;
 
     private String username;
 
     private String password;
+
 
     private Collection<? extends GrantedAuthority> roles;
 
@@ -28,6 +30,10 @@ public class UserPrinciple implements UserDetails {
         this.username = username;
         this.password = password;
         this.roles = roles;
+    }
+
+    public UserPrinciple(User user) {
+        this.user = user;
     }
 
     public static UserPrinciple build(User user) {
@@ -95,5 +101,13 @@ public class UserPrinciple implements UserDetails {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
