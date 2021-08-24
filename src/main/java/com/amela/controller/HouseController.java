@@ -103,16 +103,54 @@ public class HouseController {
 
 //List
     @GetMapping("/houses")
-    public ModelAndView listHouses(@PageableDefault(value = 4) Pageable pageable  ){
-        Page<House> houses = houseService.findAll(pageable);
+    public ModelAndView listHouses(@PageableDefault(value = 4) Pageable pageable,
+                                   @RequestParam("address") Optional<String> address,
+                                   @RequestParam("price_from") Optional<Float> price_from,
+                                   @RequestParam("price_to") Optional<Float> price_to,
+                                   @RequestParam("type") Optional<Long> type
+    ){
         ModelAndView modelAndView = new ModelAndView("/house/list");
-        modelAndView.addObject("houses", houses);
         modelAndView.addObject("all_type", "0");
+
+        if (!address.isPresent() && !type.isPresent() && !price_from.isPresent() && !price_to.isPresent())
+        {
+            Page<House> houses = houseService.findAll(pageable);
+            modelAndView.addObject("houses", houses);
+        }
+        else
+        {
+            String address_val = address.orElse("");
+            Long type_val = type.isPresent()?type.get():0;
+            float price_from_val =  price_from.isPresent()?price_from.get():0;
+            float price_to_val =   price_to.isPresent()?price_to.get():99999999;
+
+            Page<House> houseList = null;
+
+            Optional<Type> house_type = houseTypeService.findById(type_val);
+            if (house_type.isPresent())
+            {
+                houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(pageable, address_val, price_from_val, price_to_val, house_type.get());
+                modelAndView.addObject("house_type", type_val);
+            }
+            else
+            {
+                houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(pageable, address_val, price_from_val, price_to_val);
+                modelAndView.addObject("house_type", 0);
+            }
+
+            modelAndView.addObject("address", address_val);
+            if(price_from.isPresent())
+                modelAndView.addObject("price_from", price_from.get());
+            if(price_to.isPresent())
+                modelAndView.addObject("price_to", price_to.get());
+            modelAndView.addObject("houses", houseList);
+        }
+
 
         return modelAndView;
     }
 
-    @PostMapping("/houses")
+   /* @PostMapping("/houses")
     public ModelAndView listHouses(@PageableDefault(value = 4) Pageable pageable,
                                    @RequestParam("address") Optional<String> address,
                                    @RequestParam("price_from") Optional<Float> price_from,
@@ -147,7 +185,7 @@ public class HouseController {
         modelAndView.addObject("houses", houseList);
 
         return modelAndView;
-    }
+    }*/
 
 
 //Detail

@@ -7,6 +7,13 @@ var page_prev =  document.getElementById("page_prev");
 var page_current =  document.getElementById("page_current");
 var page_next =  document.getElementById("page_next");
 
+//Get field in Search Bar
+var searchBar_field = document.getElementsByClassName("searchBar_field");
+var field_address = searchBar_field[0].value;
+var field_price_from = searchBar_field[1].value;
+var field_price_to = searchBar_field[2].value;
+var field_type = searchBar_field[3].value;
+
 setUpBtnDefault();
 
 function setUpBtnDefault()
@@ -85,9 +92,12 @@ function pushOn(n)
     }
 
     //Change attribute of a tag
-    page_prev.setAttribute("href","/houses?page="+(page_prev.text-1));
-    page_current.setAttribute("href","/houses?page="+(page_current.text-1));
-    page_next.setAttribute("href","/houses?page="+(page_next.text-1));
+    page_prev.setAttribute("href","/houses?page="+(page_prev.text-1)+"&address="+field_address+"&price_from="+field_price_from+"&price_to="+field_price_to+"&type="+field_type);
+    page_current.setAttribute("href","/houses?page="+(page_current.text-1)+"&address="+field_address+"&price_from="+field_price_from+"&price_to="+field_price_to+"&type="+field_type);
+    page_next.setAttribute("href","/houses?page="+(page_next.text-1)+"&address="+field_address+"&price_from="+field_price_from+"&price_to="+field_price_to+"&type="+field_type);
+
+    // page_current.setAttribute("href","/houses?page="+(page_current.text-1));
+    // page_next.setAttribute("href","/houses?page="+(page_next.text-1));
 
     //Update paging
     setUpBtnDefault();

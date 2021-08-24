@@ -23,17 +23,19 @@
   </div>
 </section>
 <section>
-  <form th:method="POST">
+  <form th:action="@{/houses}" th:method="GET">
     <div class="searchBar" style="text-align: center;">
-      <input type="text" class="form__control--address" placeholder="Nhập địa điểm" th:name="address" th:value="${address}">
+      <input type="text" class="form__control--address searchBar_field" placeholder="Nhập địa điểm"  th:name="address" th:value="${address}">
       Giá tiền (Triệu) :
-      <input type="text" class="form__control--price" placeholder="Từ" th:name="price_from" th:value="${price_from}">
-      <input type="text" class="form__control--price" placeholder="Đến" th:name="price_to" th:value="${price_to}">
+      <input type="text" class="form__control--price searchBar_field" placeholder="Từ"  th:name="price_from" th:value="${price_from}">
+      <input type="text" class="form__control--price searchBar_field" placeholder="Đến"  th:name="price_to" th:value="${price_to}">
 
       Loại nhà:
-      <select class="form__control" id="type_house_selection" th:name="type" th:selected="${house_type}">
-        <option th:value="${all_type}" >Tất cả</option>
-        <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}"></option>
+      <select class="form__control searchBar_field" id="type_house_selection" th:name="type" >
+          <option th:value="${all_type}" th:if="${all_value}==${house_type}" selected>Tất cả</option>
+          <option th:value="${all_type}" th:unless="${all_value}==${house_type}">Tất cả</option>
+          <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:if="${type_item.type_id}==${house_type}" selected></option>
+          <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:unless="${type_item.type_id}==${house_type}"></option>
       </select>
       <button type="submit" class="btn btn-primary">Tìm kiếm</button>
     </div>
