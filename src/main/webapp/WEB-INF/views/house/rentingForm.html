@@ -42,21 +42,6 @@
                             <div class="col-xl-6">
                                 <div class="card-body p-md-5 text-black">
                                     <h3 class="mb-5 text-uppercase">Form đăng kí thuê nhà</h3>
-
-                                    <!--                                    <div class="row">-->
-                                    <!--                                        <div class="col-md-6 mb-4">-->
-                                    <!--                                            <div class="form-outline">-->
-                                    <!--                                                <input type="text" id="form3Example1m" class="form-control form-control-lg" />-->
-                                    <!--                                                <label class="form-label" for="form3Example1m">Họ</label>-->
-                                    <!--                                            </div>-->
-                                    <!--                                        </div>-->
-                                    <!--                                        <div class="col-md-6 mb-4">-->
-                                    <!--                                            <div class="form-outline">-->
-                                    <!--                                                <input type="text" id="form3Example1n" class="form-control form-control-lg" />-->
-                                    <!--                                                <label class="form-label" for="form3Example1n">Tên</label>-->
-                                    <!--                                            </div>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
                                     <form method="post" th:action="@{/house/__${house_id}__/renting}" th:object="${contract_form}">
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
@@ -77,8 +62,8 @@
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-outline">
-                                                    <input type="number" id="persons" class="form-control form-control-lg" th:min="1" th:max="10" th:field="*{maxPerson}"/>
                                                     <label class="form-label" for="persons">Số người</label>
+                                                    <input type="number" id="persons" class="form-control form-control-lg" th:min="1" th:max="10" th:field="*{maxPerson}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -86,60 +71,6 @@
                                             <button type="submit" class="btn btn-warning btn-lg ms-2">Đăng kí</button>
                                         </div>
                                     </form>
-
-                                    <!--                                    <div class="form-outline mb-4">-->
-                                    <!--                                        <input type="text" id="form3Example8" class="form-control form-control-lg" />-->
-                                    <!--                                        <label class="form-label" for="form3Example8">Địa chỉ</label>-->
-                                    <!--                                    </div>-->
-
-                                    <!--                                    <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">-->
-
-                                    <!--                                        <h6 class="mb-0 me-4">Giới tính: &nbsp;</h6>-->
-
-                                    <!--                                        <div class="form-check form-check-inline mb-0 me-4">-->
-                                    <!--                                            <input-->
-                                    <!--                                                    class="form-check-input"-->
-                                    <!--                                                    type="radio"-->
-                                    <!--                                                    name="inlineRadioOptions"-->
-                                    <!--                                                    id="femaleGender"-->
-                                    <!--                                                    value="option1"-->
-                                    <!--                                            />-->
-                                    <!--                                            <label class="form-check-label" for="femaleGender">Nữ</label>-->
-                                    <!--                                        </div>-->
-
-                                    <!--                                        <div class="form-check form-check-inline mb-0 me-4">-->
-                                    <!--                                            <input-->
-                                    <!--                                                    class="form-check-input"-->
-                                    <!--                                                    type="radio"-->
-                                    <!--                                                    name="inlineRadioOptions"-->
-                                    <!--                                                    id="maleGender"-->
-                                    <!--                                                    value="option2"-->
-                                    <!--                                            />-->
-                                    <!--                                            <label class="form-check-label" for="maleGender">Nam</label>-->
-                                    <!--                                        </div>-->
-
-                                    <!--                                        <div class="form-check form-check-inline mb-0">-->
-                                    <!--                                            <input-->
-                                    <!--                                                    class="form-check-input"-->
-                                    <!--                                                    type="radio"-->
-                                    <!--                                                    name="inlineRadioOptions"-->
-                                    <!--                                                    id="otherGender"-->
-                                    <!--                                                    value="option3"-->
-                                    <!--                                            />-->
-                                    <!--                                            <label class="form-check-label" for="otherGender">Khác</label>-->
-                                    <!--                                        </div>-->
-
-                                    <!--                                    </div>-->
-
-                                    <!--                                    <div class="form-outline mb-4">-->
-                                    <!--                                        <input type="text" id="form3Example9" class="form-control form-control-lg appointment_date-check-in" />-->
-                                    <!--                                        <label class="form-label" for="form3Example9">Ngày sinh</label>-->
-                                    <!--                                    </div>-->
-
-                                    <!--                                    <div class="form-outline mb-4">-->
-                                    <!--                                        <input type="text" id="form3Example97" class="form-control form-control-lg" />-->
-                                    <!--                                        <label class="form-label" for="form3Example97">Email</label>-->
-                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>

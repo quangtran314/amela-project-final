@@ -91,7 +91,7 @@ public class AuthController {
     public ModelAndView showEditForm(@PathVariable("id") long id) {
         Optional<User> user = userService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/login/edituser");
-        modelAndView.addObject("users", user.get());
+        modelAndView.addObject("user", user.get());
 
         return modelAndView;
     }
@@ -101,7 +101,7 @@ public class AuthController {
     public ModelAndView updateUser(@Validated @ModelAttribute("users") User user) {
         userService.save(user);
         ModelAndView modelAndView = new ModelAndView("/login/edituser");
-        modelAndView.addObject("users", user);
+        modelAndView.addObject("user", user);
         modelAndView.addObject("message", "Profile updated successfully");
         return modelAndView;
     }
