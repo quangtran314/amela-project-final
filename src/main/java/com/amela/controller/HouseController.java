@@ -66,6 +66,7 @@ public class HouseController {
         return new House();
     }
 
+    @Autowired
     private IContractService contractService;
 
     @Autowired
