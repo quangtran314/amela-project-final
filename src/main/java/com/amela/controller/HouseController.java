@@ -291,17 +291,14 @@ public class HouseController {
         modelAndView.addObject("message", "Update successfully !");
         return modelAndView;
     }
-// View contract by user id
-    @GetMapping("/viewContracts")
-    public ModelAndView viewContractByUserid(Principal principal,@PageableDefault(value = 10) Pageable pageable){
-        Iterable<House> house = houseService.findAll();
-        Optional<User> userOptional = userService.findByEmail(principal.getName());
-        User user = userOptional.get();
-        Iterable<Contract> contract = contractService.findAllByUser(user,pageable);
-        ModelAndView modelAndView = new ModelAndView("/house/listcontract_byuserid");
 
+//History Renting
+    @GetMapping("/viewContracts")
+    public ModelAndView viewContractByUserid(@PageableDefault(value = 4) Pageable pageable){
+        Optional<User> userOptional = userService.findByEmail(getPrincipal());
+        Page<Contract> contract = contractService.findAllByUser(userOptional.get(),pageable);
+        ModelAndView modelAndView = new ModelAndView("/house/history-renting");
         modelAndView.addObject("contracts",contract);
-        modelAndView.addObject("houses",house);
         return modelAndView;
     }
 }

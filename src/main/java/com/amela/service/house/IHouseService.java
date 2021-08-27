@@ -12,9 +12,6 @@ public interface IHouseService extends IGeneralService<House> {
     Iterable<House> findAllByType(Type houseType);
     Page<House> findAll(Pageable pageable);
 
-    Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(String address, float price_from, float price_to);
-    Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(String address, float price_from, float price_to, Type houseType);
-
     Page<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(Pageable pageable, String address, float price_from, float price_to);
     Page<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(Pageable pageable, String address, float price_from, float price_to, Type houseType);
 }

@@ -52,16 +52,6 @@ public class HouseService implements IHouseService {
     }
 
     @Override
-    public Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(String address, float price_from, float price_to) {
-        return houseRepository.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(address, price_from, price_to);
-    }
-
-    @Override
-    public Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(String address, float price_from, float price_to, Type houseType) {
-        return houseRepository.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(address, price_from, price_to, houseType);
-    }
-
-    @Override
     public Page<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(Pageable pageable, String address, float price_from, float price_to) {
         return houseRepository.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(pageable, address, price_from, price_to);
     }
