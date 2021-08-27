@@ -31,57 +31,55 @@
   <body>
 <!--    Header-->
     <th:block th:fragment="header__template">
-        <header>
-            <div class="wrap">
-                <div class="container">
-                    <div class="row justify-content-between">
-                            <div class="col d-flex align-items-center">
+    <header>
+        <div class="wrap">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col d-flex align-items-center">
 
-                            </div>
-                            <div class="col d-flex justify-content-end">
-                                <div class="social-media">
-                                <p class="mb-0 d-flex">
-                                    <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
-                                    <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
-                                    <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
-                                    <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
-                                </p>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <div class="social-media">
+                            <p class="mb-0 d-flex">
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+                            </p>
                         </div>
-                            </div>
                     </div>
                 </div>
             </div>
-            <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	    	<a class="navbar-brand" th:href="@{/houses}">Vacation<span>Rental</span></a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="fa fa-bars"></span> Menu
-	      </button>
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	        	<li class="nav-item active"><a th:href="@{/houses}" class="nav-link">Trang chủ</a></li>
-	        	<li class="nav-item"><a href="#" class="nav-link">Về chúng tôi</a></li>
-	        	<li class="nav-item"><a href="#" class="nav-link">Dịch vụ</a></li>
-	        	<li class="nav-item"><a href="#" class="nav-link">Căn hộ</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
-	            <li class="nav-item"><a href="#" class="nav-link">Liên hệ</a></li>
-<!--                <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/logout}" class="nav-link">Logout</a></li>-->
-                <li class="nav-item" sec:authorize="isAnonymous()"><a th:href="@{/login}" class="nav-link">Login</a></li>
-                <li class="dropdown" sec:authorize="isAuthenticated()"><a class="app-nav__item" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
-                    <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                        <li><a  class="dropdown-item"  th:href="@{/view-user}"><i class="fa fa-user fa-lg" ></i> Profile</a></li>
-                        <li><a class="dropdown-item" th:href="@{/logout}"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/houses}">Vacation<span>Rental</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fa fa-bars"></span> Menu
+                </button>
+                <div class="collapse navbar-collapse" id="ftco-nav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active"><a th:href="@{/houses}" class="nav-link">Trang chủ</a></li>
+                        <li class="nav-item" sec:authorize="hasRole('OWNER')"><a href="#" class="nav-link">Quản lý nhà</a></li>
+                        <li class="nav-item" sec:authorize="hasRole('TENANT')"><a th:href="@{/viewContracts}" class="nav-link">Lịch sử thuê nhà</a></li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()"><a href="#" class="nav-link">Liên hệ</a></li>
+                        <!--                <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/logout}" class="nav-link">Logout</a></li>-->
+                        <li class="nav-item" sec:authorize="isAnonymous()"><a th:href="@{/login}" class="nav-link">Login</a></li>
+                        <li class="dropdown" sec:authorize="isAuthenticated()"><a class="app-nav__item" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+                            <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                                <li><a  class="dropdown-item"  th:href="@{/view-user}"><i class="fa fa-user fa-lg" ></i> Profile</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                            </ul>
+                        </li>
+
                     </ul>
-                </li>
 
-            </ul>
+                </div>
 
-	      </div>
-
-	    </div>
-	  </nav>
-        </header>
-    </th:block>
+            </div>
+        </nav>
+    </header>
+</th:block>
 
 <!--Main Content    -->
 
