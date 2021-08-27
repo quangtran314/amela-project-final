@@ -4,7 +4,6 @@ import com.amela.formatter.HouseFormatter;
 import com.amela.formatter.LocalDateFormatter;
 import com.amela.formatter.UserFormatter;
 import com.amela.service.house.HouseService;
-
 import com.amela.service.user.UserService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +29,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -104,7 +102,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                 .addResourceLocations("file:" + fileUpload);
     }
 
-    // upload image configuration
+    // Upload image configuration
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver getResolver() throws IOException {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
@@ -198,9 +196,9 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         registry.addFormatter(new HouseFormatter(applicationContext.getBean(HouseService.class)));
         registry.addFormatter(new UserFormatter(applicationContext.getBean(UserService.class)));
     }
+
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder()
-    {
-        return  new BCryptPasswordEncoder();
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

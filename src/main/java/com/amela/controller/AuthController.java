@@ -1,7 +1,5 @@
 package com.amela.controller;
 
-
-
 import com.amela.form.LoginForm;
 
 import com.amela.model.user.User;
