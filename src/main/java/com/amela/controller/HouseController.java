@@ -301,4 +301,11 @@ public class HouseController {
         modelAndView.addObject("contracts",contract);
         return modelAndView;
     }
+    @GetMapping("/viewContracts/{id}")
+    public ModelAndView showDetailContractById(@PathVariable("id") long id){
+        Optional<Contract> contract = contractService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("/house/detail_history-renting");
+        modelAndView.addObject("contracts", contract.get());
+        return modelAndView;
+    }
 }

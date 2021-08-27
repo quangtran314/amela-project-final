@@ -54,7 +54,7 @@
                 <td th:text="${contract.startDay}" ></td>
                 <td th:text="${contract.endDay}"></td>
                 <td> <span th:text="${contract.totalPrice}"></span> VND</td>
-                <td><a href="#"><i class="fa fa-arrow-right"></i></a></td>
+                <td><a th:href="@{/viewContracts/__${contract.id}__}"><i class="fa fa-arrow-right"></i></a></td>
             </tr>
             </tbody>
         </table>
