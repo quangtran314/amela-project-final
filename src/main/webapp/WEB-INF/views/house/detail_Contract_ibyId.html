@@ -1,39 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- Custom -->
+    <link rel="stylesheet" th:href="@{/Asset/general/css/renting-style.css}">
+    <style>
+        @media (min-width: 1200px){
+            .col-xl-80 {
+                -webkit-box-flex: 0;
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+        .img-profile {
+            max-width: 100%;
+            height: auto;
+            margin-left: 15px;
+        }
+
+
+    </style>
 </head>
+
 <body>
-<div th:object="${contracts}" >
-<div >
-    <label> Id :</label>&emsp;&emsp;&emsp;&emsp;
-    <label  th:text="${contracts.id}"></label>
+<!-- Header -->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<div class="container"  ><!--sec:authorize="isAuthenticated()"-->
+    <section class="w-100 p-0 h-100 bg-white" th:object="${contracts}">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card card-registration my-4">
+                        <div class="row g-0">
+                            <div class="col-xl-80 d-none d-xl-block">
+                                <img
+                                        th:src="@{../Asset/general/images/${contracts.house.sourcePath}}"
+                                        alt="Sample photo"
+                                        class="img-profile"
+                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"
+                                />
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-5 text-uppercase">Chi Tiết Đặt Thuê Nhà </h3>
+                                    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+                                        <div class="container-fluid px-md-0">
+                                            <div class="login-form" >
+                                                <div class="form-group">
+                                                    <label> Tên nhà :</label>
+                                                    <label th:text="${contracts.house.house_name}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Người đặt thuê :</label>
+                                                    <label th:text="${contracts.user.fullName}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Giá Tiền :</label>
+                                                    <label   th:text="${contracts.totalPrice}"></label>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Ngày bắt đầu thuê :</label>
+                                                    <label th:text="${contracts.startDay}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Ngày kết thúc thuê :</label>
+                                                    <label th:text="${contracts.endDay}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Số người tối đa :</label>
+                                                    <label th:text="${contracts.maxPerson}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Ngày đặt thuê :</label>
+                                                    <label th:text="${contracts.dateContractSign}"></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-<div >
-    <label  >Ngày bắt đầu thuê :</label>
-    <label th:text="${contracts.startDay}"></label>
-</div>
-<div >
-    <label > Ngày kết thúc thuê :</label>
-    <label th:text="${contracts.endDay}"></label>
-</div>
-    <div >
-        <label  >Số người tối đa :</label>
-        <label th:text="${contracts.maxPerson}"></label>
-    </div>
-    <div >
-        <label > Ngày đặt thuê :</label>
-        <label th:text="${contracts.dateContractSign}"></label>
-    </div>
-    <div >
-        <label > Tên nhà :</label>
-        <label th:if="${contracts.house}" th:text="${contracts.house.house_name}"></label>
-    </div>
-    <div >
-        <label > Người đặt thuê :</label>
-        <label th:if="${contracts.user}" th:text="${contracts.user.fullName}"></label>
-    </div>
-</div>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
 </body>
 </html>
