@@ -1,0 +1,12 @@
+@media (min-width: 1200px){
+    .col-xl-80 {
+        -webkit-box-flex: 0;
+        flex: 0 0 50%;
+        max-width: 20%;
+    }
+}
+.img-profile {
+    max-width: 60%;
+    height: auto;
+    margin-left: 15px;
+}
