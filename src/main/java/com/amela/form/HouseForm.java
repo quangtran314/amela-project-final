@@ -1,5 +1,7 @@
-package com.amela.model.house;
+package com.amela.form;
 
+import com.amela.model.house.Image;
+import com.amela.model.house.Type;
 import com.amela.model.user.User;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;

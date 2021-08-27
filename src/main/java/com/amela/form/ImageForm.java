@@ -1,5 +1,6 @@
-package com.amela.model.house;
+package com.amela.form;
 
+import com.amela.model.house.House;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.web.multipart.MultipartFile;
 
