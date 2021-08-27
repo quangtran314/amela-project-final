@@ -10,10 +10,6 @@ import java.util.List;
 
 public class HouseForm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long house_id;
-
     @NotNull
     @Size(min = 5, max = 20)
     private String house_name;
@@ -36,6 +32,10 @@ public class HouseForm {
     @NotNull
     private float price;
 
+    @Min(1)
+    @Max(5)
+    private int cancelableTime = 1;
+
     @OneToMany(targetEntity = Image.class)
     private List<Image> images;
 
@@ -52,7 +52,7 @@ public class HouseForm {
     public HouseForm() {
     }
 
-    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,MultipartFile sourcePath, User owner ) {
+    public HouseForm(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,MultipartFile sourcePath, User owner, int cancelableTime) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
@@ -62,19 +62,7 @@ public class HouseForm {
         this.type = type;
         this.sourcePath = sourcePath;
         this.owner = owner;
-    }
-
-    public HouseForm(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , MultipartFile sourcePath, User owner) {
-        this.house_id = house_id;
-        this.house_name = house_name;
-        this.address = address;
-        this.numBedrooms = numBedrooms;
-        this.numBathrooms = numBathrooms;
-        this.des = des;
-        this.price = price;
-        this.type = type;
-        this.sourcePath = sourcePath;
-        this.owner = owner;
+        this.cancelableTime = cancelableTime;
     }
 
     public MultipartFile getSourcePath() {
@@ -83,14 +71,6 @@ public class HouseForm {
 
     public void setSourcePath(MultipartFile sourcePath) {
         this.sourcePath = sourcePath;
-    }
-
-    public long getHouse_id() {
-        return house_id;
-    }
-
-    public void setHouse_id(long house_id) {
-        this.house_id = house_id;
     }
 
     public String getHouse_name() {
@@ -161,5 +141,13 @@ public class HouseForm {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public int getCancelableTime() {
+        return cancelableTime;
+    }
+
+    public void setCancelableTime(int cancelableTime) {
+        this.cancelableTime = cancelableTime;
     }
 }
