@@ -32,8 +32,8 @@
 
       Loại nhà:
       <select class="form__control searchBar_field" id="type_house_selection" th:name="type" >
-          <option th:value="${all_type}" th:if="${all_value}==${house_type}" selected>Tất cả</option>
-          <option th:value="${all_type}" th:unless="${all_value}==${house_type}">Tất cả</option>
+          <option th:value="${all_type}" th:if="${all_type}==${house_type}" selected>Tất cả</option>
+          <option th:value="${all_type}" th:unless="${all_type}==${house_type}">Tất cả</option>
           <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:if="${type_item.type_id}==${house_type}" selected></option>
           <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:unless="${type_item.type_id}==${house_type}"></option>
       </select>
