@@ -27,9 +27,16 @@
 .option__detail
 {
    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
-.option__detail .back
+
+.option__detail .right
 {
     float: right;
 }
+
+.option__detail .cancel-renting
+{
+    margin-right: 20px;
+}
+
