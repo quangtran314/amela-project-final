@@ -27,6 +27,8 @@
         <th>totalPrice</th>
         <th>house_id</th>
 
+
+
     </tr>
     </thead>
     <tbody>
@@ -36,9 +38,9 @@
         <td th:text="${contract.startDay}" ></td>
         <td  th:text="${contract.endDay}"></td>
         <td th:text="${contract.maxPerson}"></td>
-        <td><a th:text="${contract.totalPrice}"></a></td>
+        <td th:text="${contract.totalPrice}"></td>
 
-<!--        <td><a th:href="@{/view-note/__${note.id}__}">View</a></td>-->
+        <td><a th:href="@{/detail-contract/__${contract.id}__}">View</a></td>
     </tr>
     </tbody>
 </table>

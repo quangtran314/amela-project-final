@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:object="${contracts}" >
+<div >
+    <label> Id :</label>&emsp;&emsp;&emsp;&emsp;
+    <label  th:text="${contracts.id}"></label>
+</div>
+<div >
+    <label  >Ngày bắt đầu thuê :</label>
+    <label th:text="${contracts.startDay}"></label>
+</div>
+<div >
+    <label > Ngày kết thúc thuê :</label>
+    <label th:text="${contracts.endDay}"></label>
+</div>
+    <div >
+        <label  >Số người tối đa :</label>
+        <label th:text="${contracts.maxPerson}"></label>
+    </div>
+    <div >
+        <label > Ngày đặt thuê :</label>
+        <label th:text="${contracts.dateContractSign}"></label>
+    </div>
+    <div >
+        <label > Tên nhà :</label>
+        <label th:if="${contracts.house}" th:text="${contracts.house.house_name}"></label>
+    </div>
+    <div >
+        <label > Người đặt thuê :</label>
+        <label th:if="${contracts.user}" th:text="${contracts.user.fullName}"></label>
+    </div>
+</div>
+</body>
+</html>
