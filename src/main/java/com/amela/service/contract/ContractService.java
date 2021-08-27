@@ -1,12 +1,16 @@
 package com.amela.service.contract;
 
 import com.amela.model.Contract;
+import com.amela.model.user.User;
 import com.amela.repository.IConTractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ContractService implements IContractService{
@@ -42,5 +46,10 @@ public class ContractService implements IContractService{
     @Override
     public float getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay) {
         return unitPrice * getDuration(startDay, endDay);
+    }
+
+    @Override
+    public Page<Contract> findAllByUser(User user, Pageable pageable) {
+        return conTractRepository.findAllByUser(user,pageable);
     }
 }
