@@ -325,7 +325,7 @@ public class HouseController {
         modelAndView.addObject("houses",houses);
         return  modelAndView;
     }
-    @GetMapping("/manage-house-renting")
+        @GetMapping("/manage-house-renting")
     public ModelAndView showManageHouseRenting(@PageableDefault(value = 4)Pageable pageable){
         Optional<User> user = userService.findByEmail(getPrincipal());
         Page<House> house_temp = houseService.findAllByOwner(pageable,user.get());
