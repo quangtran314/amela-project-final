@@ -2,6 +2,7 @@ package com.amela.controller;
 
 
 
+import com.amela.exception.ForbiddenException;
 import com.amela.form.LoginForm;
 
 import com.amela.model.user.User;
@@ -82,10 +83,10 @@ public class AuthController {
     }
 
     @RequestMapping("/access-denied")
-    public ModelAndView accessDenied() {
-        ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
-        return modelAndView;
+    public void accessDenied() {
+        throw new ForbiddenException();
     }
+
     // edit user
     @GetMapping("/edit-user/{id}")
     public ModelAndView showEditForm(@PathVariable("id") long id) {

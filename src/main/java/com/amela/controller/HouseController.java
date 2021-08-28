@@ -192,8 +192,13 @@ public class HouseController {
 
     @PostMapping("/create-house")
     public ModelAndView saveHouse(@Validated @ModelAttribute("houseForm") HouseForm houseForm, BindingResult bindingResult) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if(!user.isPresent()){
+            throw new UnauthorizedException();
+        }
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("/house/create");
+            modelAndView.addObject("user", user.get());
             return modelAndView;
         }
         MultipartFile multipartFile = houseForm.getSourcePath();
