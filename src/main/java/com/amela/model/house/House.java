@@ -18,14 +18,14 @@ public class House {
     private long house_id;
 
     @NotNull
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 1000)
     private String house_name;
 
     @NotNull
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 1000)
     private String address;
 
-    @Size(min = 5, max = 500)
+    @Size(min = 5, max = 10000)
     private String des;
 
     @NotNull
