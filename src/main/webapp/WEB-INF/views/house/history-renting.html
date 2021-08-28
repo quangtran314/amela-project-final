@@ -49,7 +49,7 @@
             </thead>
             <tbody>
             <tr th:each="contract,rowProperty : ${contracts}">
-                <th scope="row" th:text="${rowProperty.count}"></th>
+                <th scope="row" th:text="4*(${contracts.number}+1)-4 + ${rowProperty.count}"></th>
                 <td th:text="${contract.house.house_name}" ></td>
                 <td th:text="${contract.startDay}" ></td>
                 <td th:text="${contract.endDay}"></td>

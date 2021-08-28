@@ -308,4 +308,6 @@ public class HouseController {
         modelAndView.addObject("contracts", contract.get());
         return modelAndView;
     }
+
+
 }
