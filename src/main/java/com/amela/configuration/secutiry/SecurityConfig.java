@@ -28,10 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
-//    @Bean
-//    public RestAuthenticationEntryPoint restServicesEntryPoint() {
-//        return new RestAuthenticationEntryPoint();
-//    }
+    //    @Bean
+    //    public RestAuthenticationEntryPoint restServicesEntryPoint() {
+    //        return new RestAuthenticationEntryPoint();
+    //    }
 
     @Bean
     public CustomAccessDeniedHandler customAccessDeniedHandler() {
@@ -59,14 +59,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**");
-//        http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
+        //http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
                 .antMatchers("/houses", "/signup", "/login").permitAll()
                 .antMatchers( "/create*/**", "/delete*/**").access("hasRole('ROLE_OWNER')")
                 .antMatchers("/**/*renting*").access("hasRole('ROLE_TENANT')")
-                .and().formLogin().loginPage("/login").successHandler(new CustomSuccessHandler())
-                .and().logout().logoutSuccessUrl("/login")
-                .and().csrf().disable();
+                .and()
+                    .formLogin().loginPage("/login").successHandler(new CustomSuccessHandler())
+                .and()
+                    .logout().logoutSuccessUrl("/login")
+                .and()
+                    .csrf().disable();
         http.cors();
     }
 }

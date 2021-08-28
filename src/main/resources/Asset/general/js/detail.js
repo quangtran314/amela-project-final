@@ -1,5 +1,5 @@
 // Slide show
-var slideIndex = 1;
+let slideIndex = 1;
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -11,8 +11,8 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("fieldSlides");
+  let i;
+  const slides = document.getElementsByClassName("fieldSlides");
   if (n > slides.length) {slideIndex = 1}    
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
@@ -24,8 +24,8 @@ function showSlides(n) {
 
 // Vote star
 (function(){
-  var rating = document.querySelector('.rating');
-  var handle = document.getElementById('toggle-rating');
+  const rating = document.querySelector('.rating');
+  const handle = document.getElementById('toggle-rating');
   handle.onchange = function(event) {
     rating.classList.toggle('rating', handle.checked);
   };

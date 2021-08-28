@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
+
 @Service
-public class ContractService implements IContractService{
+public class ContractService implements IContractService {
 
     @Autowired
-    private IConTractRepository  conTractRepository;
+    private IConTractRepository conTractRepository;
+
     @Override
     public Iterable<Contract> findAll() {
         return conTractRepository.findAll();
@@ -33,11 +35,10 @@ public class ContractService implements IContractService{
         conTractRepository.deleteById(id);
     }
 
-    public long getDuration(LocalDate startDay, LocalDate endDay){
+    public long getDuration(LocalDate startDay, LocalDate endDay) {
         long duration = startDay.until(endDay, ChronoUnit.DAYS);
         return duration;
     }
-
 
     @Override
     public float getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay) {

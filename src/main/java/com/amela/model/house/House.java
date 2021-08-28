@@ -53,7 +53,6 @@ public class House {
     @OneToMany(targetEntity = Feedback.class)
     private List<Feedback> feedbacks;
 
-
     @NotNull
     private String sourcePath;
 
@@ -61,7 +60,7 @@ public class House {
     public House() {
     }
 
-    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,String sourcePath, User owner) {
+    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type, String sourcePath, User owner) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
@@ -73,7 +72,7 @@ public class House {
         this.owner = owner;
     }
 
-    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , String sourcePath, User owner) {
+    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type, String sourcePath, User owner) {
         this.house_id = house_id;
         this.house_name = house_name;
         this.address = address;
@@ -118,7 +117,9 @@ public class House {
         this.address = address;
     }
 
-    public List<Image> getImages() { return images; }
+    public List<Image> getImages() {
+        return images;
+    }
 
     public void setImages(List<Image> images) {
         this.images = images;

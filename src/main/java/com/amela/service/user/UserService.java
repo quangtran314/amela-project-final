@@ -70,8 +70,8 @@ public class UserService implements IUserService {
 
 
     @Override
-    public void savepassword(String newpassword, User user, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        String encodedPassword = passwordEncoder.encode(newpassword);
+    public void savePassword(String newPassword, User user, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }

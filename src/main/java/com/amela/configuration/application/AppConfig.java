@@ -102,7 +102,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                 .addResourceLocations("file:" + fileUpload);
     }
 
-    // Upload image configuration
+    //Upload image configuration
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver getResolver() throws IOException {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
@@ -115,8 +115,8 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix(templateLocationPrefix);
-        templateResolver.setSuffix(templateLocationSuffix);
+        templateResolver.setPrefix("/WEB-INF/views");
+        templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
 

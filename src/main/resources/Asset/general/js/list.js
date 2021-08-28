@@ -1,18 +1,18 @@
-var activeIndex = document.getElementsByClassName("paging__active")[0].text;
-var totalPages = document.getElementById("totalPages").innerHTML;
+const activeIndex = document.getElementsByClassName("paging__active")[0].text;
+const totalPages = document.getElementById("totalPages").innerHTML;
 
-var pagination__prev = document.getElementById("pagination__prev");
-var pagination__next = document.getElementById("pagination__next");
-var page_prev = document.getElementById("page_prev");
-var page_current = document.getElementById("page_current");
-var page_next = document.getElementById("page_next");
+const pagination__prev = document.getElementById("pagination__prev");
+const pagination__next = document.getElementById("pagination__next");
+const page_prev = document.getElementById("page_prev");
+const page_current = document.getElementById("page_current");
+const page_next = document.getElementById("page_next");
 
 //Get field in Search Bar
-var searchBar_field = document.getElementsByClassName("searchBar_field");
-var field_address = searchBar_field[0].value;
-var field_price_from = searchBar_field[1].value;
-var field_price_to = searchBar_field[2].value;
-var field_type = searchBar_field[3].value;
+let searchBar_field = document.getElementsByClassName("searchBar_field");
+let field_address = searchBar_field[0].value;
+let field_price_from = searchBar_field[1].value;
+let field_price_to = searchBar_field[2].value;
+let field_type = searchBar_field[3].value;
 
 setUpBtnDefault();
 
@@ -36,7 +36,7 @@ function setUpBtnDefault() {
 
 
 function pushOn(n) {
-    //Change text on page
+    // Change text on page
     page_prev.text = parseInt(page_prev.text) + n;
     page_current.text = parseInt(page_current.text) + n;
     page_next.text = parseInt(page_next.text) + n;

@@ -231,7 +231,7 @@
 				return parseInt(d, 10);
 			});
 
-			var plc = String(o.orientation).toLowerCase().split(/\s+/g),
+			let plc = String(o.orientation).toLowerCase().split(/\s+/g),
 				_plc = o.orientation.toLowerCase();
 			plc = $.grep(plc, function(word){
 				return (/^auto|left|right|top|bottom$/).test(word);
@@ -280,7 +280,8 @@
 			}
 		},
 		_unapplyEvents: function(evs){
-			for (var i=0, el, ev, ch; i < evs.length; i++){
+			let i = 0, el, ev, ch;
+			for (; i < evs.length; i++){
 				el = evs[i][0];
 				if (evs[i].length === 2){
 					ch = undefined;

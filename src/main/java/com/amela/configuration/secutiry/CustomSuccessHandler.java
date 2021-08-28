@@ -75,5 +75,4 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;
     }
-
 }

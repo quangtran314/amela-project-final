@@ -1,46 +1,39 @@
 /*Searching*/
 
-#type_house_selection
-{
+#type_house_selection {
     width: 150px;
 }
 
-
-.searchBar
-{
+.searchBar {
     margin: 20px auto;
 }
 
 
-.searchBar button
-{
+.searchBar button {
     margin-left: 50px;
 }
 
-.searchBar select
-{
-    height: 30px;   
+.searchBar select {
+    height: 30px;
     margin-left: 10px;
 }
-.form__control--address
-{
+
+.form__control--address {
     margin: auto 20px;
 }
 
-.form__control--price
-{
-   margin-right: 10px;
+.form__control--price {
+    margin-right: 10px;
 }
 
 /*Paging*/
-.pagination-field
-{
+.pagination-field {
     display: block;
     margin-bottom: 100px;
     margin-top: 30px;
 }
-.pagination
-{
+
+.pagination {
     display: inline-block;
     border: 1px solid black;
     border-radius: 5px;
@@ -56,29 +49,28 @@
     cursor: pointer;
     transition: background-color .3s;
 }
-/* thiết lập style cho class active */
+
+/* Thiết lập style cho class active */
 .pagination a.paging__active {
-    background-color: rgb(253,119,146);
+    background-color: rgb(253, 119, 146);
     color: white;
 }
-/* thêm màu nền khi người dùng hover vào class không active */
+
+/* Thêm màu nền khi người dùng hover vào class không active */
 .pagination a:hover:not(.paging__active) {
     background-color: #ddd;
 }
 
-.paging__active
-{
+.paging__active {
     cursor: default;
     pointer-events: none;
 }
 
-#totalPages
-{
+#totalPages {
     display: none;
 }
 
-.pagination > a
-{
-    border: 1px solid rgba(0,0,0,0.2);
+.pagination > a {
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
