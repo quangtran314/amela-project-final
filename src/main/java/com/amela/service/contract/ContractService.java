@@ -2,8 +2,8 @@ package com.amela.service.contract;
 
 import com.amela.model.Contract;
 import com.amela.model.house.House;
-import com.amela.repository.IConTractRepository;
-import com.amela.service.house.IHouseService;
+import com.amela.model.user.User;
+import com.amela.repository.IContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +14,26 @@ import java.util.Optional;
 public class ContractService implements IContractService{
 
     @Autowired
-    private IConTractRepository  conTractRepository;
+    private IContractRepository contractRepository;
 
     @Override
     public Iterable<Contract> findAll() {
-        return conTractRepository.findAll();
+        return contractRepository.findAll();
     }
 
     @Override
     public Optional<Contract> findById(Long id) {
-        return conTractRepository.findById(id);
+        return contractRepository.findById(id);
     }
 
     @Override
     public void save(Contract contract) {
-        conTractRepository.save(contract);
+        contractRepository.save(contract);
     }
 
     @Override
     public void remove(Long id) {
-        conTractRepository.deleteById(id);
+        contractRepository.deleteById(id);
     }
 
     @Override
@@ -44,7 +44,12 @@ public class ContractService implements IContractService{
 
     @Override
     public Iterable<Contract> findAllByHouse(House house) {
-        return conTractRepository.findAllByHouse(house);
+        return contractRepository.findAllByHouse(house);
+    }
+
+    @Override
+    public Optional<Contract> findByIdAndUser(Long id, User user) {
+        return contractRepository.findByIdAndUser(id, user);
     }
 
     @Override

@@ -304,9 +304,13 @@ public class HouseController {
         return modelAndView;
     }
 
-    @GetMapping("/rented-house/{id}")
-    public ModelAndView showHouseRentedContract(@PathVariable("id") Long contract_id){
-        Optional<Contract> contract = contractService.findById(contract_id);
+    @GetMapping("/rented-house/{id}/cancel")
+    public ModelAndView confirmCancelRentedHouse(@PathVariable("id") Long contract_id){
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if(!user.isPresent()){
+            throw new UnauthorizedException();
+        }
+        Optional<Contract> contract = contractService.findByIdAndUser(contract_id, user.get());
         if(contract.isPresent()){
             ModelAndView modelAndView = new ModelAndView("/house/rentedContract");
             modelAndView.addObject("contract", contract.get());
@@ -318,7 +322,11 @@ public class HouseController {
 
     @PostMapping("/rented-house/{id}/cancel")
     public ModelAndView cancelRentedHouse(@PathVariable("id") Long contract_id){
-        Optional<Contract> contract = contractService.findById(contract_id);
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if(!user.isPresent()){
+            throw new UnauthorizedException();
+        }
+        Optional<Contract> contract = contractService.findByIdAndUser(contract_id, user.get());
         ModelAndView modelAndView = null;
         if(contract.isPresent()){
             LocalDate today = LocalDate.now();
@@ -326,10 +334,12 @@ public class HouseController {
                 modelAndView = new ModelAndView("redirect:/houses");
                 contractService.remove(contract_id);
             } else {
-                modelAndView = new ModelAndView("/error/accessDenied");
+                modelAndView = new ModelAndView("/house/rentedContract");
+                modelAndView.addObject("contract", contract.get());
+                modelAndView.addObject("message", "Cannot cancel the contract because the time limit for cancellation has passed");
             }
         } else{
-            modelAndView = new ModelAndView("/error/accessDenied");
+            throw new NotFoundException();
         }
         return modelAndView;
     }
