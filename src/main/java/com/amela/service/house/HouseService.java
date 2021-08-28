@@ -2,6 +2,7 @@ package com.amela.service.house;
 
 import com.amela.model.house.House;
 import com.amela.model.house.Type;
+import com.amela.model.user.User;
 import com.amela.repository.IHouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,6 +50,11 @@ public class HouseService implements IHouseService {
     @Override
     public Page<House> findAll(Pageable pageable) {
         return houseRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<House> findAllByOwner(Pageable pageable, User user) {
+        return houseRepository.findAllByOwner(pageable,user);
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface IHouseRepository extends JpaRepository<House, Long> {
 
     Iterable<House> findAllByType(Type houseType);
-
+    Page<House> findAllByOwner(Pageable pageable,User user);
     Page<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(Pageable pageable, String address, float price_from, float price_to);
     Page<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(Pageable pageable, String address, float price_from, float price_to, Type houseType);
 }

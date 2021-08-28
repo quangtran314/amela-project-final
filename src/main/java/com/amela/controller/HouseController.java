@@ -2,6 +2,7 @@ package com.amela.controller;
 
 import com.amela.model.Feedback;
 import com.amela.model.house.*;
+import com.amela.model.user.Role;
 import com.amela.service.feedback.IFeedbackService;
 
 import com.amela.form.ContractForm;
@@ -13,6 +14,7 @@ import com.amela.service.contract.IContractService;
 
 import com.amela.service.house.IHouseService;
 import com.amela.service.house.IHouseTypeService;
+import com.amela.service.role.IRoleService;
 import com.amela.service.user.IUserService;
 import com.amela.model.house.*;
 import com.amela.service.image.IImageService;
@@ -41,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class HouseController {
@@ -71,6 +74,9 @@ public class HouseController {
 
     @Autowired
     private IImageService imageService;
+
+    @Autowired
+    private IRoleService roleService;
 
 
     @ModelAttribute("user")
@@ -306,6 +312,27 @@ public class HouseController {
         Optional<Contract> contract = contractService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/house/detail_history-renting");
         modelAndView.addObject("contracts", contract.get());
+        return modelAndView;
+    }
+// Manage-house
+    @GetMapping("/manage-house")
+    public ModelAndView showListHouseByUser(@PageableDefault(value = 4) Pageable pageable){
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        Page<House> houses = houseService.findAllByOwner(pageable,user.get());
+        ModelAndView modelAndView = new ModelAndView("/house/manage-house");
+        modelAndView.addObject("houses",houses);
+        return  modelAndView;
+    }
+    @GetMapping("/manage-house-renting")
+    public ModelAndView showManageHouseRenting(@PageableDefault(value = 4)Pageable pageable){
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        Page<House> house_temp = houseService.findAllByOwner(pageable,user.get());
+        Page<Contract> contracts = contractService.findAllByUser(user.get(),pageable);
+        List<House> houses = null;
+        for (Contract contract : contracts)
+            houses.addAll(house_temp.stream().filter(p->p.getHouse_id() == contract.getHouse().getHouse_id()).collect(Collectors.toList()));
+        ModelAndView modelAndView = new ModelAndView("/house/manage-house_renting");
+        modelAndView.addObject("houses",houses);
         return modelAndView;
     }
 }
