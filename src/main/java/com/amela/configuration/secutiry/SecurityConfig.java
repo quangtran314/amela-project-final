@@ -61,12 +61,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/**");
 //        http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/houses", "/signup", "/login").permitAll()
+                .antMatchers("/houses").permitAll()
+                .antMatchers("/login", "/signup").anonymous()
                 .antMatchers( "/create*/**", "/delete*/**").access("hasRole('ROLE_OWNER')")
-                .antMatchers("/**/*renting*").access("hasRole('ROLE_TENANT')")
+                .antMatchers("/**/*renting*", "/rented-house/**").access("hasRole('ROLE_TENANT')")
                 .and().formLogin().loginPage("/login").successHandler(new CustomSuccessHandler())
                 .and().logout().logoutSuccessUrl("/login")
-                .and().csrf().disable();
+                .and().csrf().disable()
+                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());;
         http.cors();
     }
 }

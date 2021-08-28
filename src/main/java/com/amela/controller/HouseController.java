@@ -1,5 +1,9 @@
 package com.amela.controller;
 
+import com.amela.exception.NotFoundException;
+import com.amela.exception.UnauthorizedException;
+import com.amela.form.HouseForm;
+import com.amela.form.ImageForm;
 import com.amela.model.Feedback;
 import com.amela.model.house.*;
 import com.amela.model.user.Role;
@@ -16,7 +20,6 @@ import com.amela.service.house.IHouseService;
 import com.amela.service.house.IHouseTypeService;
 import com.amela.service.role.IRoleService;
 import com.amela.service.user.IUserService;
-import com.amela.model.house.*;
 import com.amela.service.image.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +30,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +40,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,11 +65,6 @@ public class HouseController {
     @Autowired
 
     private IFeedbackService feedbackService;
-
-    @ModelAttribute("house")
-    public House initHouse() {
-        return new House();
-    }
 
     @Autowired
     private IContractService contractService;
@@ -153,6 +149,9 @@ public class HouseController {
     @GetMapping("/houses/{id}")
     public ModelAndView detailHouse(@PathVariable Long id) {
         Optional<House> house = houseService.findById(id);
+        if(!house.isPresent()){
+            throw new NotFoundException();
+        }
         Iterable<Image> images = imageService.findAllByHouse(house.get());
         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
         ModelAndView modelAndView = new ModelAndView("/house/detail");
@@ -190,6 +189,9 @@ public class HouseController {
     @GetMapping("/create-house")
     public ModelAndView showCreateHouse() {
         Optional<User> user = userService.findByEmail(getPrincipal());
+        if(!user.isPresent()){
+            throw new UnauthorizedException();
+        }
         ModelAndView modelAndView = new ModelAndView("/house/create");
         modelAndView.addObject("houseForm", new HouseForm());
         modelAndView.addObject("user", user.get());
@@ -198,8 +200,13 @@ public class HouseController {
 
     @PostMapping("/create-house")
     public ModelAndView saveHouse(@Validated @ModelAttribute("houseForm") HouseForm houseForm, BindingResult bindingResult) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if(!user.isPresent()){
+            throw new UnauthorizedException();
+        }
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("/house/create");
+            modelAndView.addObject("user", user.get());
             return modelAndView;
         }
         MultipartFile multipartFile = houseForm.getSourcePath();
@@ -209,8 +216,8 @@ public class HouseController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        House house = new House(houseForm.getHouse_id(), houseForm.getHouse_name(), houseForm.getAddress(), houseForm.getNumBedrooms(),
-                houseForm.getNumBathrooms(), houseForm.getDes(), houseForm.getPrice(), houseForm.getType(), fileName, houseForm.getOwner());
+        House house = new House(houseForm.getHouse_name(), houseForm.getAddress(), houseForm.getNumBedrooms(),
+                houseForm.getNumBathrooms(), houseForm.getDes(), houseForm.getPrice(), houseForm.getType(), fileName, houseForm.getOwner(), houseForm.getCancelableTime());
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New note created successfully");
@@ -219,11 +226,11 @@ public class HouseController {
 
 //Renting
     @GetMapping("/house/{id}/renting")
-    public ModelAndView showRentingForm(@PathVariable("id") Long house_id) {
-        Optional<House> house = houseService.findById(house_id);
+    public ModelAndView showRentingForm(@PathVariable("id") Long houseId) {
+        Optional<House> house = houseService.findById(houseId);
         if (house.isPresent()) {
             ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
-            modelAndView.addObject("house_id", house_id);
+            modelAndView.addObject("house_id", houseId);
             modelAndView.addObject("contract_form", new ContractForm());
             return modelAndView;
         } else {
@@ -233,24 +240,35 @@ public class HouseController {
     }
 
     @PostMapping("/house/{id}/renting")
-    public ModelAndView renting(@Validated @ModelAttribute("contract_form") ContractForm contractForm, @PathVariable("id") Long house_id, BindingResult bindingResult) {
+    public ModelAndView renting(@Validated @ModelAttribute("contract_form") ContractForm contractForm,
+                                @PathVariable("id") Long houseId,
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
             return modelAndView;
         }
         Optional<User> user = userService.findByEmail(getPrincipal());
-        Optional<House> house = houseService.findById(house_id);
-        Contract contract = new Contract();
-        contract.setStartDay(contractForm.getStartDay());
-        contract.setEndDay(contractForm.getEndDay());
-        contract.setDateContractSign(LocalDate.now());
-        contract.setTotalPrice(contractService.getTotalPrice(house.get().getPrice(), contractForm.getStartDay(), contractForm.getEndDay()));
-        contract.setMaxPerson(contractForm.getMaxPerson());
-        ModelAndView modelAndView = new ModelAndView("/house/renting-confirm");
-        modelAndView.addObject("contract", contract);
-        modelAndView.addObject("user", user.get());
-        modelAndView.addObject("house", house.get());
-        return modelAndView;
+        Optional<House> house = houseService.findById(houseId);
+        if(contractService.checkContractConflict(house.get(), contractForm.getStartDay(), contractForm.getEndDay())){
+            Contract contract = new Contract();
+            contract.setStartDay(contractForm.getStartDay());
+            contract.setEndDay(contractForm.getEndDay());
+            contract.setDateContractSign(LocalDate.now());
+            contract.setTotalPrice(contractService.getTotalPrice(house.get().getPrice(), contractForm.getStartDay(), contractForm.getEndDay()));
+            contract.setMaxPerson(contractForm.getMaxPerson());
+            ModelAndView modelAndView = new ModelAndView("/house/renting-confirm");
+            modelAndView.addObject("contract", contract);
+            modelAndView.addObject("user", user.get());
+            modelAndView.addObject("house", house.get());
+            modelAndView.addObject("message", "Renting success.");
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("/house/rentingForm");
+            modelAndView.addObject("house_id", houseId);
+            modelAndView.addObject("contract_form", new ContractForm());
+            modelAndView.addObject("message", "This house is rented in this time.");
+            return modelAndView;
+        }
     }
 
     @PostMapping("/house/{id}/renting-confirm")
@@ -335,6 +353,47 @@ public class HouseController {
             contracts.addAll(contract_temp.stream().filter(p->p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
         ModelAndView modelAndView = new ModelAndView("/house/manage-house_renting");
         modelAndView.addObject("contracts",contracts);
+        return modelAndView;
+    }
+
+//Cancel Contract House
+    @GetMapping("/rented-house/{id}/cancel")
+    public ModelAndView confirmCancelRentedHouse(@PathVariable("id") Long contract_id){
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if(!user.isPresent()){
+            throw new UnauthorizedException();
+        }
+        Optional<Contract> contract = contractService.findByIdAndUser(contract_id, user.get());
+        if(contract.isPresent()){
+            ModelAndView modelAndView = new ModelAndView("/house/rentedContract");
+            modelAndView.addObject("contract", contract.get());
+            return modelAndView;
+        } else{
+            throw new NotFoundException();
+        }
+    }
+
+    @PostMapping("/rented-house/{id}/cancel")
+    public ModelAndView cancelRentedHouse(@PathVariable("id") Long contract_id) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if (!user.isPresent()) {
+            throw new UnauthorizedException();
+        }
+        Optional<Contract> contract = contractService.findByIdAndUser(contract_id, user.get());
+        ModelAndView modelAndView = null;
+        if (contract.isPresent()) {
+            LocalDate today = LocalDate.now();
+            if (contractService.getDuration(today, contract.get().getStartDay()) > contract.get().getHouse().getHouse_id()) {
+                modelAndView = new ModelAndView("redirect:/houses");
+                contractService.remove(contract_id);
+            } else {
+                modelAndView = new ModelAndView("/house/rentedContract");
+                modelAndView.addObject("contract", contract.get());
+                modelAndView.addObject("message", "Cannot cancel the contract because the time limit for cancellation has passed");
+            }
+        } else {
+            throw new NotFoundException();
+        }
         return modelAndView;
     }
 }
