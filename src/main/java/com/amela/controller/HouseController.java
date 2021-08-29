@@ -149,12 +149,16 @@ public class HouseController {
     @GetMapping("/houses/{id}")
     public ModelAndView detailHouse(@PathVariable Long id) {
         Optional<House> house = houseService.findById(id);
+        Optional<User> user = userService.findByEmail(getPrincipal());
         if(!house.isPresent()){
             throw new NotFoundException();
         }
         Iterable<Image> images = imageService.findAllByHouse(house.get());
         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
         ModelAndView modelAndView = new ModelAndView("/house/detail");
+        if(user.isPresent()){
+            modelAndView.addObject("user", user.get());
+        }
         modelAndView.addObject("feedbacks", feedbacks);
         modelAndView.addObject("house", house.get());
         modelAndView.addObject("images", images);

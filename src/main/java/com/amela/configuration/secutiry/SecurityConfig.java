@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/houses").permitAll()
                 .antMatchers("/login", "/signup").anonymous()
-                .antMatchers( "/create*/**", "/delete*/**").access("hasRole('ROLE_OWNER')")
+                .antMatchers( "/create*/**", "/delete*/**", "/manage-house-renting").access("hasRole('ROLE_OWNER')")
                 .antMatchers("/**/*renting*", "/rented-house/**").access("hasRole('ROLE_TENANT')")
                 .and().formLogin().loginPage("/login").successHandler(new CustomSuccessHandler())
                 .and().logout().logoutSuccessUrl("/login")
