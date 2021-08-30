@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface IContractService extends IGeneralService<Contract> {
     float getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay);
     Page<Contract> findAllByUser(User user, Pageable pageable);
+    Optional<Contract> findAllByEndDay(LocalDate date);
 }

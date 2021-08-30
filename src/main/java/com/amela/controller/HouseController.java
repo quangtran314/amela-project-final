@@ -18,6 +18,8 @@ import com.amela.service.role.IRoleService;
 import com.amela.service.user.IUserService;
 import com.amela.model.house.*;
 import com.amela.service.image.IImageService;
+import com.google.gson.JsonObject;
+import com.mysql.cj.xdevapi.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -38,10 +40,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -335,6 +340,23 @@ public class HouseController {
             contracts.addAll(contract_temp.stream().filter(p->p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
         ModelAndView modelAndView = new ModelAndView("/house/manage-house_renting");
         modelAndView.addObject("contracts",contracts);
+        return modelAndView;
+    }
+    @GetMapping("/manage-house-revenue")
+    public ModelAndView manageHouseRevenue(@PageableDefault(value = 4)Pageable pageable,LocalDate date){
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        Page<House> house_temp = houseService.findAllByOwner(pageable,user.get());
+        List<Contract> contract_temp = (List)contractService.findAll();
+        List<Contract> contracts = new ArrayList<>();
+        for (House house : house_temp)
+            contracts.addAll(contract_temp.stream().filter(p->p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
+
+        List<Float> priceList = contracts.stream().map(x->x.getTotalPrice()).collect(Collectors.toList());
+        List<LocalDate> dateList =contracts.stream().map(x->x.getEndDay()).collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView("/house/manage-revenue");
+        modelAndView.addObject("contracts",contracts);
+        modelAndView.addObject("totalprice",priceList);
+        modelAndView.addObject("date",dateList);
         return modelAndView;
     }
 }

@@ -52,4 +52,9 @@ public class ContractService implements IContractService{
     public Page<Contract> findAllByUser(User user, Pageable pageable) {
         return conTractRepository.findAllByUser(user,pageable);
     }
+
+    @Override
+    public Optional<Contract> findAllByEndDay(LocalDate date) {
+        return conTractRepository.findAllByEndDay(date);
+    }
 }
