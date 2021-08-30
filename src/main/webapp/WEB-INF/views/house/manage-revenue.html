@@ -15,7 +15,7 @@
     <div class="row header">
         <div class="title_page">
 
-            <h4><i class="fas fa-chevron-left"></i> Doanh thu 2021 <i class="fas fa-chevron-right"></i></h4>
+            <h4><a th:href="@{/manage-revenue(year_value=__${year_value}__-1)}"><i class="fas fa-chevron-left"></i></a>  <span th:text="${year_value}"></span> <a th:href="@{/manage-revenue(year_value=__${year_value}__+1)}"><i class="fas fa-chevron-right"></i></a></h4>
         </div>
         <div class="searchBar">
             <form action="">
@@ -32,7 +32,7 @@
             <ul>
                 <a th:href="@{/manage-house}"><li>Danh sách nhà</li></a>
                 <a th:href="@{/create-house}"><li>Thêm mới</li></a>
-                <a href="#"><li>Nhà đang cho thuê</li></a>
+                <a th:href="@{/manage-house-renting}"><li>Nhà đang cho thuê</li></a>
                 <a href="#"><li>Nhà chưa cho thuê</li></a>
                 <a th:href="@{/manage-revenue}"><li class="active">Thống kê doanh thu</li></a>
             </ul>
@@ -66,7 +66,7 @@
                 text: 'Thống kê doanh thu'
             },
             subtitle: {
-                text: 'năm 2021'
+                text: 'năm '+[[${year_value}]]
             },
             xAxis: {
                 categories: [[${price.keySet()}]],

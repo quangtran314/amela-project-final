@@ -403,9 +403,10 @@ public class HouseController {
         return modelAndView;
     }
 
-//Manage revenue - by month
+//Manage revenue
     @GetMapping("/manage-revenue")
-    public ModelAndView manageHouseRevenue(@PageableDefault(value = 4)Pageable pageable,LocalDate date) {
+    public ModelAndView manageHouseRevenue(@PageableDefault(value = 4)Pageable pageable,LocalDate date, @RequestParam("year_value") Optional<Integer> year_value) {
+        //Tìm user -> nhà sở hữu -> bản hợp đồng -> doanh thu
         Optional<User> user = userService.findByEmail(getPrincipal());
         Page<House> house_temp = houseService.findAllByOwner(pageable, user.get());
         List<Contract> contract_temp = (List) contractService.findAll();
@@ -414,35 +415,40 @@ public class HouseController {
             contracts.addAll(contract_temp.stream().filter(p -> p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
         ModelAndView modelAndView = new ModelAndView("/house/manage-revenue");
         Map<Integer, Float> priceByMonth = new HashMap<>();
-
-        for (int i= 1; i<= 12; i++)
-        {
-            if (i<= LocalDate.now().getMonthValue())
-            {
-                float totalPrice= 0;
-                for (Contract contract: contracts)
-                {
-                    if (contract.getEndDay().getMonthValue()==i && i < LocalDate.now().getMonthValue())
-                    {
-                        totalPrice+= contract.getTotalPrice();
-                        continue;
-                    }
-                    if (contract.getEndDay().getMonthValue()==i && contract.getEndDay().getDayOfMonth()<LocalDate.now().getDayOfMonth())
-                    {
-                        totalPrice+= contract.getTotalPrice();
-                    }
-                }
-                priceByMonth.put(i, totalPrice);
-            }
-        }
-
-
-
+        //Tính theo năm
+        int year_val = year_value.orElseGet(() -> LocalDate.now().getYear());
+        if (year_val !=  LocalDate.now().getYear())
+            for (int i= 1; i<= 12; i++)
+                priceByMonth.put(i, getPriceByMonth(contracts, i, year_val));
+        else
+            for (int i= 1; i<= LocalDate.now().getMonthValue(); i++)
+                priceByMonth.put(i, getPriceByMonth(contracts, i, year_val));
 
         modelAndView.addObject("price",priceByMonth);
-//        modelAndView.addObject("date", dateList);
+        modelAndView.addObject("year_value",year_val);
         return modelAndView;
     }
 
+    public float getPriceByMonth(List<Contract> contracts, int current_month, int year_val)
+    {
+        Map<Integer, Float> priceByMonth = new HashMap<>();
+        float totalPrice= 0;
+
+        for (Contract contract: contracts)
+        {
+            if (year_val !=  contract.getEndDay().getYear())
+                continue;
+            if (contract.getEndDay().getMonthValue()==current_month && current_month < LocalDate.now().getMonthValue())
+            {
+                totalPrice+= contract.getTotalPrice();
+                continue;
+            }
+            if (contract.getEndDay().getMonthValue()==current_month && contract.getEndDay().getDayOfMonth()<LocalDate.now().getDayOfMonth())
+            {
+                totalPrice+= contract.getTotalPrice();
+            }
+        }
+        return totalPrice;
+    }
 
 }
