@@ -123,7 +123,7 @@ public class HouseController {
             String address_val = address.orElse("");
             Long type_val = type.isPresent() ? type.get() : 0L;
             float price_from_val = price_from.isPresent() ? price_from.get() : 0;
-            float price_to_val = price_to.isPresent() ? price_to.get() : 99999999;
+            float price_to_val = price_to.isPresent() ? price_to.get() : Long.MAX_VALUE;
             Page<House> houseList = null;
             Optional<Type> house_type = houseTypeService.findById(type_val);
             if (house_type.isPresent())
