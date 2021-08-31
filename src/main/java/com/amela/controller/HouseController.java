@@ -112,28 +112,24 @@ public class HouseController {
         if (!address.isPresent() && !type.isPresent() && !price_from.isPresent() && !price_to.isPresent()) {
             Page<House> houses = houseService.findAll(pageable);
             modelAndView.addObject("houses", houses);
-        } else {
+        }
+        else {
             String address_val = address.orElse("");
             Long type_val = type.isPresent() ? type.get() : 0L;
             float price_from_val = price_from.isPresent() ? price_from.get() : 0;
-            float price_to_val = price_to.isPresent() ? price_to.get() : 99999999;
-
+            float price_to_val = price_to.isPresent() ? price_to.get() : Long.MAX_VALUE;
             Page<House> houseList = null;
-
             Optional<Type> house_type = houseTypeService.findById(type_val);
-            if (house_type.isPresent()) {
+            if (house_type.isPresent())
                 houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(pageable, address_val, price_from_val, price_to_val, house_type.get());
-                modelAndView.addObject("house_type", type_val);
-            } else {
+            else
                 houseList = houseService.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(pageable, address_val, price_from_val, price_to_val);
-                modelAndView.addObject("house_type", 0);
-            }
-
+            modelAndView.addObject("house_type", type_val);
             modelAndView.addObject("address", address_val);
             if (price_from.isPresent())
-                modelAndView.addObject("price_from", price_from.get());
+                modelAndView.addObject("price_from", price_from_val);
             if (price_to.isPresent())
-                modelAndView.addObject("price_to", price_to.get());
+                modelAndView.addObject("price_to", price_to_val);
             modelAndView.addObject("houses", houseList);
         }
         return modelAndView;
@@ -219,7 +215,7 @@ public class HouseController {
                 houseForm.getNumBathrooms(), houseForm.getDes(), houseForm.getPrice(), houseForm.getType(), fileName, houseForm.getOwner(), houseForm.getCancelableTime());
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
-        modelAndView.addObject("message", "New note created successfully");
+//        modelAndView.addObject("message", "New note created successfully");
         return modelAndView;
     }
 
