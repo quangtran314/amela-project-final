@@ -3,7 +3,7 @@ package com.amela.service.contract;
 import com.amela.model.Contract;
 import com.amela.model.house.House;
 import com.amela.model.user.User;
-import com.amela.repository.IConTractRepository;
+import com.amela.repository.IContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,37 +11,60 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ContractService implements IContractService {
 
     @Autowired
-    private IConTractRepository conTractRepository;
+    private IContractRepository contractRepository;
 
     @Override
     public Iterable<Contract> findAll() {
-        return conTractRepository.findAll();
+        return contractRepository.findAll();
     }
 
     @Override
     public Optional<Contract> findById(Long id) {
-        return conTractRepository.findById(id);
+        return contractRepository.findById(id);
     }
 
     @Override
     public void save(Contract contract) {
-        conTractRepository.save(contract);
+        contractRepository.save(contract);
     }
 
     @Override
     public void remove(Long id) {
-        conTractRepository.deleteById(id);
+        contractRepository.deleteById(id);
     }
 
     public long getDuration(LocalDate startDay, LocalDate endDay) {
         return startDay.until(endDay, ChronoUnit.DAYS);
+    }
+
+    @Override
+    public Iterable<Contract> findAllByHouse(House house) {
+        return contractRepository.findAllByHouse(house);
+    }
+
+    @Override
+    public Optional<Contract> findByIdAndUser(Long id, User user) {
+        return contractRepository.findByIdAndUser(id, user);
+    }
+
+    @Override
+    public boolean checkContractConflict(House house, LocalDate startDay, LocalDate endDay) {
+        Iterable<Contract> rentedContracts = findAllByHouse(house);
+        for(Contract eachContract : rentedContracts){
+            if((startDay.compareTo(eachContract.getStartDay()) >= 0 && startDay.compareTo(eachContract.getEndDay()) <= 0) ||
+                    (endDay.compareTo(eachContract.getStartDay()) >= 0 && endDay.compareTo(eachContract.getEndDay()) <= 0) ||
+                    (startDay.compareTo(eachContract.getStartDay()) <= 0 && endDay.compareTo(eachContract.getEndDay()) >= 0) ||
+                    (startDay.compareTo(LocalDate.now()) < 0)){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -51,21 +74,22 @@ public class ContractService implements IContractService {
 
     @Override
     public Page<Contract> findAll(Pageable pageable) {
-        return conTractRepository.findAll(pageable);
+        return contractRepository.findAll(pageable);
     }
 
     @Override
     public Page<Contract> findAllByUser(User user, Pageable pageable) {
-        return conTractRepository.findAllByUser(user, pageable);
+        return contractRepository.findAllByUser(user, pageable);
     }
 
     @Override
     public Page<Contract> findAllByHouse(House house, Pageable pageable) {
-        return conTractRepository.findAllByHouse(house, pageable);
+        return contractRepository.findAllByHouse(house, pageable);
     }
 
     @Override
     public Page<Contract> findContractByHouseNameContaining(String houseName, Pageable pageable) {
         return null;
+
     }
 }

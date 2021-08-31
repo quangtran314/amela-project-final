@@ -1,10 +1,10 @@
 package com.amela.controller;
 
+import com.amela.exception.ForbiddenException;
 import com.amela.form.LoginForm;
 import com.amela.model.user.User;
 import com.amela.service.role.IRoleService;
 import com.amela.service.user.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,17 +22,20 @@ import java.util.Optional;
 @Controller
 public class AuthController {
 
-    @Autowired
-    private IRoleService roleService;
+    private final IRoleService roleService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private IUserService userService;
+    private final IUserService userService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+
+    public AuthController(IRoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder, IUserService userService, AuthenticationManager authenticationManager) {
+        this.roleService = roleService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+    }
 
     @GetMapping("/signup")
     public ModelAndView showSignupForm() {
@@ -45,8 +48,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ModelAndView userSignup(@Validated @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("/login/signup");
-            return modelAndView;
+            return new ModelAndView("/login/signup");
         }
         userService.save(user);
         ModelAndView modelAndView = new ModelAndView("/login/signup");
@@ -69,14 +71,12 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/user/{id}/houses");
-        return modelAndView;
+        return new ModelAndView("redirect:/user/{id}/houses");
     }
 
     @RequestMapping("/access-denied")
-    public ModelAndView accessDenied() {
-        ModelAndView modelAndView = new ModelAndView("/error/accessDenied");
-        return modelAndView;
+    public void accessDenied() {
+        throw new ForbiddenException();
     }
 
     // Edit user
@@ -84,7 +84,7 @@ public class AuthController {
     public ModelAndView showEditForm(@PathVariable("id") long id) {
         Optional<User> user = userService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/login/editUser");
-        modelAndView.addObject("user", user.get());
+        modelAndView.addObject("user", user.orElseThrow());
 
         return modelAndView;
     }
@@ -98,14 +98,13 @@ public class AuthController {
         modelAndView.addObject("message", "Profile updated successfully");
         return modelAndView;
     }
-
-
+    
     // View user
     @GetMapping("/view-user")
     public ModelAndView viewUser(Principal principal) {
         Optional<User> user = userService.findByEmail(principal.getName());
         ModelAndView modelAndView = new ModelAndView("/login/userDetail");
-        modelAndView.addObject("users", user.get());
+        modelAndView.addObject("users", user.orElseThrow());
         return modelAndView;
     }
 
@@ -114,7 +113,7 @@ public class AuthController {
     public ModelAndView showForm(Principal principal) {
         Optional<User> user = userService.findByEmail(principal.getName());
         ModelAndView modelAndView = new ModelAndView("/login/changePassword");
-        modelAndView.addObject("users", user.get());
+        modelAndView.addObject("users", user.orElseThrow());
 
         return modelAndView;
     }
@@ -125,24 +124,25 @@ public class AuthController {
                                    @RequestParam("confirmPass") String confirmPass) {
         ModelAndView modelAndView;
         Optional<User> optionalUser = userService.findByEmail(principal.getName());
-        User user = optionalUser.get();
+        User user = optionalUser.orElseThrow();
 
         if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
             modelAndView = new ModelAndView("/login/changePassword");
             modelAndView.addObject("message", "Old password is incorrect ");
             return modelAndView;
         }
+
         if (oldPassword.equals(newpassword)) {
             modelAndView = new ModelAndView("/login/changePassword");
             modelAndView.addObject("message", "New pass must be different than the old one ! ");
             return modelAndView;
         }
+
         if (!newpassword.equals(confirmPass)) {
             modelAndView = new ModelAndView("/login/changePassword");
             modelAndView.addObject("message", "New password do not match  ");
             return modelAndView;
         }
-
 
         userService.savePassword(newpassword, user, bCryptPasswordEncoder);
         modelAndView = new ModelAndView("/login/changePassword");

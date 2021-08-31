@@ -11,6 +11,13 @@
 <!-- Header -->
 <th:block th:replace="/house/layout :: header__template"/>
 
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+    <span th:text="${message}"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <!-- Main Content -->
 <section class="hero-wrap hero-wrap-2" style="background-image: url('../Asset/general/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>

@@ -19,6 +19,9 @@
 #main .field_info {
     margin: auto 2%;
 }
+row {
+    margin-left: 2px;
+}
 
 .table {
     text-align: center;

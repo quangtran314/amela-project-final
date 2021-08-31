@@ -4,6 +4,7 @@ import com.amela.model.Feedback;
 import com.amela.model.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,14 +19,14 @@ public class House {
     private long house_id;
 
     @NotNull
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 1000)
     private String house_name;
 
     @NotNull
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 1000)
     private String address;
 
-    @Size(min = 5, max = 500)
+    @Size(min = 5, max = 10000)
     private String des;
 
     @NotNull
@@ -38,6 +39,11 @@ public class House {
 
     @NotNull
     private float price;
+
+    @Column(name = "cancelable")
+    @Min(1)
+    @Max(5)
+    private int cancelableTime = 1;
 
     @OneToMany(targetEntity = Image.class)
     private List<Image> images;
@@ -60,7 +66,7 @@ public class House {
     public House() {
     }
 
-    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type, String sourcePath, User owner) {
+    public House(String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type ,String sourcePath, User owner, int cancelableTime) {
         this.house_name = house_name;
         this.address = address;
         this.numBedrooms = numBedrooms;
@@ -70,9 +76,10 @@ public class House {
         this.type = type;
         this.sourcePath = sourcePath;
         this.owner = owner;
+        this.cancelableTime = cancelableTime;
     }
 
-    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type, String sourcePath, User owner) {
+    public House(long house_id, String house_name, String address, int numBedrooms, int numBathrooms, String des, float price, Type type , String sourcePath, User owner, int cancelableTime) {
         this.house_id = house_id;
         this.house_name = house_name;
         this.address = address;
@@ -83,6 +90,7 @@ public class House {
         this.type = type;
         this.sourcePath = sourcePath;
         this.owner = owner;
+        this.cancelableTime = cancelableTime;
     }
 
     public String getSourcePath() {
@@ -179,5 +187,13 @@ public class House {
 
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+
+    public int getCancelableTime() {
+        return cancelableTime;
+    }
+
+    public void setCancelableTime(int cancelableTime) {
+        this.cancelableTime = cancelableTime;
     }
 }

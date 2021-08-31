@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 public interface IContractService extends IGeneralService<Contract> {
@@ -22,4 +21,12 @@ public interface IContractService extends IGeneralService<Contract> {
     Page<Contract> findAllByHouse(House house, Pageable pageable);
 
     Page<Contract> findContractByHouseNameContaining(String houseName, Pageable pageable);
+
+    long getDuration(LocalDate startDay, LocalDate endDay);
+
+    Iterable<Contract> findAllByHouse(House house);
+
+    Optional<Contract> findByIdAndUser(Long id, User user);
+
+    boolean checkContractConflict(House house, LocalDate startDay, LocalDate endDay);
 }

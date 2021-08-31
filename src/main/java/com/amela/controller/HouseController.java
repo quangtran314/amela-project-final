@@ -1,9 +1,15 @@
 package com.amela.controller;
 
+import com.amela.exception.NotFoundException;
+import com.amela.exception.UnauthorizedException;
 import com.amela.form.ContractForm;
+import com.amela.form.HouseForm;
+import com.amela.form.ImageForm;
 import com.amela.model.Contract;
 import com.amela.model.Feedback;
-import com.amela.model.house.*;
+import com.amela.model.house.House;
+import com.amela.model.house.Image;
+import com.amela.model.house.Type;
 import com.amela.model.user.User;
 import com.amela.service.contract.IContractService;
 import com.amela.service.feedback.IFeedbackService;
@@ -12,7 +18,6 @@ import com.amela.service.house.IHouseTypeService;
 import com.amela.service.image.IImageService;
 import com.amela.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -64,6 +67,7 @@ public class HouseController {
         this.contractService = contractService;
         this.imageService = imageService;
     }
+
 
     @ModelAttribute("house")
     public House initHouse() {
@@ -146,10 +150,17 @@ public class HouseController {
     @GetMapping("/houses/{id}")
     public ModelAndView detailHouse(@PathVariable Long id) {
         Optional<House> house = houseService.findById(id);
-        Iterable<Image> images = imageService.findAllByHouse(house.orElseThrow());
+        Optional<User> user = userService.findByEmail(getPrincipal());
+
+        if (house.isEmpty()) {
+            throw new NotFoundException();
+        }
+        Iterable<Image> images = imageService.findAllByHouse(house.get());
+
         Iterable<Feedback> feedbacks = feedbackService.findAllByHouse(house.get());
 
         ModelAndView modelAndView = new ModelAndView("/house/detail");
+        user.ifPresent(value -> modelAndView.addObject("user", value));
         modelAndView.addObject("feedbacks", feedbacks);
         modelAndView.addObject("house", house.get());
         modelAndView.addObject("images", images);
@@ -192,6 +203,9 @@ public class HouseController {
     @GetMapping("/create-house")
     public ModelAndView showCreateHouse() {
         Optional<User> user = userService.findByEmail(getPrincipal());
+        if (user.isEmpty()) {
+            throw new UnauthorizedException();
+        }
         ModelAndView modelAndView = new ModelAndView("/house/create");
         modelAndView.addObject("houseForm", new HouseForm());
         modelAndView.addObject("userCreate", user.orElseThrow());
@@ -201,8 +215,14 @@ public class HouseController {
 
     @PostMapping("/create-house")
     public ModelAndView saveHouse(@Validated @ModelAttribute("houseForm") HouseForm houseForm, BindingResult bindingResult) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if (user.isEmpty()) {
+            throw new UnauthorizedException();
+        }
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/house/create");
+            ModelAndView modelAndView = new ModelAndView("/house/create");
+            modelAndView.addObject("user", user.get());
+            return modelAndView;
         }
 
         MultipartFile multipartFile = houseForm.getSourcePath();
@@ -213,8 +233,17 @@ public class HouseController {
             ex.printStackTrace();
         }
 
-        House house = new House(houseForm.getHouse_name(), houseForm.getAddress(), houseForm.getNumBedrooms(),
-                houseForm.getNumBathrooms(), houseForm.getDes(), houseForm.getPrice(), houseForm.getType(), fileName, houseForm.getOwner());
+        House house = new House(houseForm.getHouse_name(),
+                houseForm.getAddress(),
+                houseForm.getNumBedrooms(),
+                houseForm.getNumBathrooms(),
+                houseForm.getDes(),
+                houseForm.getPrice(),
+                houseForm.getType(),
+                fileName,
+                houseForm.getOwner(),
+                houseForm.getCancelableTime());
+
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
         modelAndView.addObject("message", "New house created successfully");
@@ -224,13 +253,13 @@ public class HouseController {
 
     //Renting
     @GetMapping("/house/{id}/renting")
-    public ModelAndView showRentingForm(@PathVariable("id") Long house_id) {
-        Optional<House> house = houseService.findById(house_id);
+    public ModelAndView showRentingForm(@PathVariable("id") Long houseId) {
+        Optional<House> house = houseService.findById(houseId);
         ModelAndView modelAndView;
 
         if (house.isPresent()) {
             modelAndView = new ModelAndView("/house/rentingForm");
-            modelAndView.addObject("house_id", house_id);
+            modelAndView.addObject("house_id", houseId);
             modelAndView.addObject("contract_form", new ContractForm());
         } else {
             modelAndView = new ModelAndView("/error/accessDenied");
@@ -241,26 +270,35 @@ public class HouseController {
 
     @PostMapping("/house/{id}/renting")
     public ModelAndView renting(@Validated @ModelAttribute("contract_form") ContractForm contractForm,
-                                @PathVariable("id") Long house_id,
+                                @PathVariable("id") Long houseId,
                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/house/rentingForm");
         }
 
         Optional<User> user = userService.findByEmail(getPrincipal());
-        Optional<House> house = houseService.findById(house_id);
+        Optional<House> house = houseService.findById(houseId);
+        ModelAndView modelAndView;
 
-        Contract contract = new Contract();
-        contract.setStartDay(contractForm.getStartDay());
-        contract.setEndDay(contractForm.getEndDay());
-        contract.setDateContractSign(LocalDate.now());
-        contract.setTotalPrice(contractService.getTotalPrice(house.orElseThrow().getPrice(), contractForm.getStartDay(), contractForm.getEndDay()));
-        contract.setMaxPerson(contractForm.getMaxPerson());
+        if (contractService.checkContractConflict(house.orElseThrow(), contractForm.getStartDay(), contractForm.getEndDay())) {
+            Contract contract = new Contract();
+            contract.setStartDay(contractForm.getStartDay());
+            contract.setEndDay(contractForm.getEndDay());
+            contract.setDateContractSign(LocalDate.now());
+            contract.setTotalPrice(contractService.getTotalPrice(house.orElseThrow().getPrice(), contractForm.getStartDay(), contractForm.getEndDay()));
+            contract.setMaxPerson(contractForm.getMaxPerson());
 
-        ModelAndView modelAndView = new ModelAndView("/house/renting-confirm");
-        modelAndView.addObject("contract", contract);
-        modelAndView.addObject("user", user.orElseThrow());
-        modelAndView.addObject("house", house.orElseThrow());
+            modelAndView = new ModelAndView("/house/renting-confirm");
+            modelAndView.addObject("contract", contract);
+            modelAndView.addObject("user", user.orElseThrow());
+            modelAndView.addObject("house", house.orElseThrow());
+            modelAndView.addObject("message", "Renting success.");
+        } else {
+            modelAndView = new ModelAndView("/house/rentingForm");
+            modelAndView.addObject("house_id", houseId);
+            modelAndView.addObject("contract_form", new ContractForm());
+            modelAndView.addObject("message", "This house is rented in this time.");
+        }
 
         return modelAndView;
     }
@@ -386,5 +424,97 @@ public class HouseController {
     public ModelAndView showManageHouseFree(@PageableDefault(value = 4) Pageable pageable,
                                             @Param("houseName") Optional<String> houseName) {
         return new ModelAndView();
+    }
+
+    //Cancel Contract House
+    @GetMapping("/rented-house/{id}/cancel")
+    public ModelAndView confirmCancelRentedHouse(@PathVariable("id") Long contract_id) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if (user.isEmpty()) {
+            throw new UnauthorizedException();
+        }
+
+        Optional<Contract> contract = contractService.findByIdAndUser(contract_id, user.get());
+        if (contract.isPresent()) {
+            ModelAndView modelAndView = new ModelAndView("/house/rentedContract");
+            modelAndView.addObject("contract", contract.get());
+            return modelAndView;
+        } else {
+            throw new NotFoundException();
+        }
+    }
+
+    @PostMapping("/rented-house/{id}/cancel")
+    public ModelAndView cancelRentedHouse(@PathVariable("id") Long contract_id) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if (user.isEmpty()) {
+            throw new UnauthorizedException();
+        }
+
+        Optional<Contract> contract = contractService.findByIdAndUser(contract_id, user.get());
+        ModelAndView modelAndView;
+
+        if (contract.isPresent()) {
+            LocalDate today = LocalDate.now();
+            if (contractService.getDuration(today, contract.get().getStartDay()) > contract.get().getHouse().getHouse_id()) {
+                modelAndView = new ModelAndView("redirect:/houses");
+                contractService.remove(contract_id);
+            } else {
+                modelAndView = new ModelAndView("/house/rentedContract");
+                modelAndView.addObject("contract", contract.get());
+                modelAndView.addObject("message", "Cannot cancel the contract because the time limit for cancellation has passed");
+            }
+        } else {
+            throw new NotFoundException();
+        }
+
+        return modelAndView;
+    }
+
+    //Manage revenue
+    @GetMapping("/manage-revenue")
+    public ModelAndView manageHouseRevenue(@PageableDefault(value = 4) Pageable pageable,
+                                           @RequestParam("year_value") Optional<Integer> year_value) {
+        //Tìm user -> nhà sở hữu -> bản hợp đồng -> doanh thu
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        Page<House> house_temp = houseService.findAllByOwner(pageable, user.orElseThrow());
+        List<Contract> contract_temp = (List<Contract>) contractService.findAll();
+        List<Contract> contracts = new ArrayList<>();
+
+        for (House house : house_temp)
+            contracts.addAll(contract_temp.stream().filter(p -> p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
+
+        ModelAndView modelAndView = new ModelAndView("/house/manage-revenue");
+        Map<Integer, Float> priceByMonth = new HashMap<>();
+
+        //Tính theo năm
+        int year_val = year_value.orElseGet(() -> LocalDate.now().getYear());
+        if (year_val != LocalDate.now().getYear())
+            for (int i = 1; i <= 12; i++)
+                priceByMonth.put(i, getPriceByMonth(contracts, i, year_val));
+        else
+            for (int i = 1; i <= LocalDate.now().getMonthValue(); i++)
+                priceByMonth.put(i, getPriceByMonth(contracts, i, year_val));
+
+        modelAndView.addObject("price", priceByMonth);
+        modelAndView.addObject("year_value", year_val);
+        return modelAndView;
+    }
+
+    public float getPriceByMonth(List<Contract> contracts, int current_month, int year_val) {
+        float totalPrice = 0;
+
+        for (Contract contract : contracts) {
+            if (year_val != contract.getEndDay().getYear())
+                continue;
+            if (contract.getEndDay().getMonthValue() == current_month && current_month < LocalDate.now().getMonthValue()) {
+                totalPrice += contract.getTotalPrice();
+                continue;
+            }
+            if (contract.getEndDay().getMonthValue() == current_month && contract.getEndDay().getDayOfMonth() < LocalDate.now().getDayOfMonth()) {
+                totalPrice += contract.getTotalPrice();
+            }
+        }
+        return totalPrice;
     }
 }
