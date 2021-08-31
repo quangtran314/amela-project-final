@@ -6,8 +6,10 @@ import com.amela.model.user.User;
 import com.amela.service.IGeneralService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface IContractService extends IGeneralService<Contract> {
@@ -29,4 +31,8 @@ public interface IContractService extends IGeneralService<Contract> {
     Optional<Contract> findByIdAndUser(Long id, User user);
 
     boolean checkContractConflict(House house, LocalDate startDay, LocalDate endDay);
+
+    Page<Contract> findAllContractByHouse(User user, Pageable pageable);
+
+    List<Contract> findListContractByHouseOwner(User user);
 }

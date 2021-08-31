@@ -34,7 +34,6 @@ function setUpBtnDefault() {
     }
 }
 
-
 function pushOn(n) {
     // Change text on page
     page_prev.text = parseInt(page_prev.text) + n;

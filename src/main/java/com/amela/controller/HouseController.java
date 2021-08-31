@@ -11,12 +11,14 @@ import com.amela.model.house.House;
 import com.amela.model.house.Image;
 import com.amela.model.house.Type;
 import com.amela.model.user.User;
+
 import com.amela.service.contract.IContractService;
 import com.amela.service.feedback.IFeedbackService;
 import com.amela.service.house.IHouseService;
 import com.amela.service.house.IHouseTypeService;
 import com.amela.service.image.IImageService;
 import com.amela.service.user.IUserService;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -39,7 +41,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class HouseController {
@@ -414,8 +415,10 @@ public class HouseController {
 
         Page<Contract> rentedList = new PageImpl<>(output, pageable, list.size());
 
+        Page<Contract> contractsPage = contractService.findAllContractByHouse(user.orElseThrow(), pageable);
+
         ModelAndView modelAndView = new ModelAndView("/house/manage-house_renting");
-        modelAndView.addObject("contracts", rentedList);
+        modelAndView.addObject("contracts", contractsPage);
 
         return modelAndView;
     }
@@ -475,26 +478,22 @@ public class HouseController {
     @GetMapping("/manage-revenue")
     public ModelAndView manageHouseRevenue(@PageableDefault(value = 4) Pageable pageable,
                                            @RequestParam("year_value") Optional<Integer> year_value) {
-        //Tìm user -> nhà sở hữu -> bản hợp đồng -> doanh thu
         Optional<User> user = userService.findByEmail(getPrincipal());
-        Page<House> house_temp = houseService.findAllByOwner(pageable, user.orElseThrow());
-        List<Contract> contract_temp = (List<Contract>) contractService.findAll();
-        List<Contract> contracts = new ArrayList<>();
-
-        for (House house : house_temp)
-            contracts.addAll(contract_temp.stream().filter(p -> p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
+        List<Contract> pagesContract = contractService.findListContractByHouseOwner(user.orElseThrow());
 
         ModelAndView modelAndView = new ModelAndView("/house/manage-revenue");
         Map<Integer, Float> priceByMonth = new HashMap<>();
 
-        //Tính theo năm
         int year_val = year_value.orElseGet(() -> LocalDate.now().getYear());
-        if (year_val != LocalDate.now().getYear())
-            for (int i = 1; i <= 12; i++)
-                priceByMonth.put(i, getPriceByMonth(contracts, i, year_val));
-        else
-            for (int i = 1; i <= LocalDate.now().getMonthValue(); i++)
-                priceByMonth.put(i, getPriceByMonth(contracts, i, year_val));
+        if (year_val != LocalDate.now().getYear()) {
+            for (int i = 1; i <= 12; i++) {
+                priceByMonth.put(i, getPriceByMonth(pagesContract, i, year_val));
+            }
+        } else {
+            for (int i = 1; i <= LocalDate.now().getMonthValue(); i++) {
+                priceByMonth.put(i, getPriceByMonth(pagesContract, i, year_val));
+            }
+        }
 
         modelAndView.addObject("price", priceByMonth);
         modelAndView.addObject("year_value", year_val);

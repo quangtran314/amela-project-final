@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,6 +66,16 @@ public class ContractService implements IContractService {
             }
         }
         return true;
+    }
+
+    @Override
+    public Page<Contract> findAllContractByHouse(User user, Pageable pageable) {
+        return contractRepository.findAllContractByHouseOwner(user, pageable);
+    }
+
+    @Override
+    public List<Contract> findListContractByHouseOwner(User user) {
+        return contractRepository.findListContractByHouseOwner(user);
     }
 
     @Override
