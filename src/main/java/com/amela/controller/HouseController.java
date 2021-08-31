@@ -76,14 +76,8 @@ public class HouseController {
     @Autowired
     private IRoleService roleService;
 
-
-    @ModelAttribute("user")
-    public Iterable<User> initHouseTypeList() {
-        return userService.findAll();
-    }
-
     @ModelAttribute("houseTypes")
-    public Iterable<Type> initUser() {
+    public Iterable<Type> initHouseTypeList() {
         return houseTypeService.findAll();
     }
 
@@ -105,7 +99,7 @@ public class HouseController {
     }
 
     //List
-    @GetMapping("/houses")
+    @GetMapping({"/houses", "/"})
     public ModelAndView listHouses(@PageableDefault(value = 4) Pageable pageable,
                                    @RequestParam("address") Optional<String> address,
                                    @RequestParam("price_from") Optional<Float> price_from,
@@ -334,8 +328,13 @@ public class HouseController {
     @GetMapping("/viewContracts/{id}")
     public ModelAndView showDetailContractById(@PathVariable("id") long id){
         Optional<Contract> contract = contractService.findById(id);
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        if(!user.isPresent()){
+            throw new UnauthorizedException();
+        }
         ModelAndView modelAndView = new ModelAndView("/house/detail_history-renting");
         modelAndView.addObject("contracts", contract.get());
+        modelAndView.addObject("user", user.get());
         return modelAndView;
     }
 

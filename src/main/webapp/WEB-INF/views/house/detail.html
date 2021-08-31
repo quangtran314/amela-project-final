@@ -139,7 +139,7 @@
               </p>
             </div>
           </section>
-          <section sec:authorize="isAuthenticated()">
+          <section sec:authorize="hasRole('TENANT')" th:unless="${house.owner.id == user.id}">
             <hr/>
             <div class="feedback">
               <h4>Hãy để lại nhận xét của bạn!</h4>
