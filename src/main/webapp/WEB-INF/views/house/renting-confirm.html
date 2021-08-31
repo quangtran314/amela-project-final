@@ -43,6 +43,7 @@
                                 <div class="card-body p-md-5 text-black">
                                     <h3 class="mb-5 text-uppercase">Xác nhận thông tin đăng kí thuê nhà</h3>
                                     <form method="post" th:action="@{/house/__${house.house_id}__/renting-confirm}" th:object="${contract}">
+                                        <input type="hidden" name="id" th:value="${contract.id}">
                                         <input type="hidden" name="house" th:value="${house.house_id}">
                                         <input type="hidden" name="user" th:value="${user.id}">
                                         <input type="hidden" name="startDay" th:value="${#temporals.format(contract.startDay, 'MM/dd/yyyy')}">
