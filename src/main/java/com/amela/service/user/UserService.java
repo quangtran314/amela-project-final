@@ -61,13 +61,10 @@ public class UserService implements IUserService {
         return UserPrinciple.build(userOptional.get());
     }
 
-
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
-
 
     @Override
     public void savePassword(String newPassword, User user, BCryptPasswordEncoder bCryptPasswordEncoder) {

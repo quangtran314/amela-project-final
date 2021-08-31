@@ -2,6 +2,7 @@ package com.amela.service.house;
 
 import com.amela.model.house.House;
 import com.amela.model.house.Type;
+import com.amela.model.user.User;
 import com.amela.repository.IHouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,13 +53,13 @@ public class HouseService implements IHouseService {
     }
 
     @Override
-    public Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(String address, float price_from, float price_to) {
-        return houseRepository.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqual(address, price_from, price_to);
+    public Page<House> findAllByOwner(Pageable pageable, User user) {
+        return houseRepository.findAllByOwner(pageable, user);
     }
 
     @Override
-    public Iterable<House> findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(String address, float price_from, float price_to, Type houseType) {
-        return houseRepository.findHouseByAddressContainingAndPriceGreaterThanEqualAndPriceLessThanEqualAndType(address, price_from, price_to, houseType);
+    public List<House> findAllByOwner(User user) {
+        return houseRepository.findAllByOwner(user);
     }
 
     @Override

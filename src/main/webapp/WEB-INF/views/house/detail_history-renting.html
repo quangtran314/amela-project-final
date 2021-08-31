@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+    <!-- Custom -->
+    <link rel="stylesheet" th:href="@{/Asset/general/css/detail_history-style.css}">
+</head>
+
+<body>
+<!-- Header -->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<div class="container"  ><!--sec:authorize="isAuthenticated()"-->
+    <section class="w-100 p-0 h-100 bg-white" th:object="${contracts}">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card card-registration my-4">
+                        <div class="row g-0">
+                            <div class="col-xl-80 d-none d-xl-block">
+                                <img
+                                        th:src="@{../Asset/general/images/__${contracts.house.sourcePath}__}"
+                                        alt="Sample photo"
+                                        class="img-profile"
+                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"
+                                />
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-5 text-uppercase">Chi Tiết Đặt Thuê Nhà </h3>
+                                    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+                                        <div class="container-fluid px-md-0">
+                                            <div class="information" >
+                                                <div class="form-group">
+                                                    <label> Tên nhà :</label>
+                                                    <label th:text="${contracts.house.house_name}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Người đặt thuê :</label>
+                                                    <label th:text="${contracts.user.fullName}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Giá Tiền :</label>
+                                                    <label th:text="${contracts.totalPrice}"></label> VND
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Ngày bắt đầu thuê :</label>
+                                                    <label th:text="${contracts.startDay}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Ngày kết thúc thuê :</label>
+                                                    <label th:text="${contracts.endDay}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Số người tối đa :</label>
+                                                    <label th:text="${contracts.maxPerson}"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Ngày đặt thuê :</label>
+                                                    <label th:text="${contracts.dateContractSign}"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <div class="option__detail">
+                                        <a class="btn btn-danger right" th:href="@{/viewContracts}">Quay lại</a>
+                                        <a class="btn btn-warning cancel-renting right" th:href="@{/viewContracts}" sec:authorize="hasRole('TENANT')">Hủy thuê nhà</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+</body>
+</html>

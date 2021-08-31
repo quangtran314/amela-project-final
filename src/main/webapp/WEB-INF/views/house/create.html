@@ -21,12 +21,10 @@
 
 <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
     <div class="container-fluid px-md-0">
-        <!-- <div class="row no-gutters"> -->
         <div class="house-form">
             <div>
                 <form method="post" th:action="@{/create-house}" th:object="${houseForm}" novalidate="novalidate" enctype="multipart/form-data" >
-                    <input th:type="hidden" name="house_id" th:field="*{house_id}">
-                    <input th:type="hidden" name="owner" th:value="${user.id}">
+                    <input th:type="hidden" name="owner" th:value="${userCreate.id}">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Tên nhà :</label>
                         <div class="col-sm-10">

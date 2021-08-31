@@ -4,8 +4,10 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house/detail.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house/history-renting.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house/layout.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house/list.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house/manage-house_renting.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house/rentingForm.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/house" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/image/index.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/image" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/list.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />

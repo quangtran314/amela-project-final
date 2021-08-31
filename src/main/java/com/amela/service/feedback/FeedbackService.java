@@ -13,6 +13,7 @@ public class FeedbackService implements IFeedbackService{
 
     @Autowired
     private IFeedbackRepository feedbackRepository;
+
     @Override
     public Iterable<Feedback> findAll() {
         return feedbackRepository.findAll();
@@ -32,7 +33,6 @@ public class FeedbackService implements IFeedbackService{
     public void remove(Long id) {
         feedbackRepository.deleteById(id);
     }
-
 
     @Override
     public Iterable<Feedback> findAllByHouse(House house) {

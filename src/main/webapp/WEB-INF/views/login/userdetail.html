@@ -4,20 +4,15 @@
 <head>
     <th:block th:replace="/house/layout :: head__template"/>
 
+    <!-- Custom -->
     <link rel="stylesheet" th:href="@{/Asset/general/css/renting-style.css}">
     <link rel="stylesheet" th:href="@{/Asset/general/css/profile-style.css}">
+
 </head>
 
 <body>
-<!--Header-->
+<!-- Header -->
 <th:block th:replace="/house/layout :: header__template"/>
-
-<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
-    <span th:text="${message}"></span>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
 
 <div class="container" sec:authorize="isAuthenticated()">
     <section class="w-100 p-0 h-100 bg-white">
@@ -36,44 +31,43 @@
                             </div>
                             <div class="col-xl-6">
                                 <div class="card-body p-md-5 text-black">
-                                    <h3 class="mb-5 text-uppercase">Thông tin cá nhân </h3>
+                                    <h3 class="mb-5 text-uppercase" style="text-align: center;">Thông tin cá nhân </h3>
                                     <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
-                                        <div class="container-fluid px-md-0">
-                                            <form th:action="@{/edit-user}" th:object="${user}" method="post">
-                                                <input th:type="hidden" name="id" th:field="*{id}"/>
-                                                <th:block th:each="role : ${user.roles}">
-                                                    <input type="hidden" name="roles" th:value="${role.id}">
-                                                </th:block>
+                                        <div class="container-fluid px-md-0"
+                                             style="margin: auto; padding-block: 20px;
+                                             position: relative;left: 50px;top: 2px;">
+                                            <div class="login-form" th:object="${users}">
                                                 <div class="form-group">
-                                                    <label for="inputting">Họ và Tên :</label>
-                                                    <input type="text" class="form-control" id="inputting1" th:field="*{fullName}"/>
-
+                                                    <label> Họ và Tên :</label>&emsp;&emsp;&emsp;&emsp;
+                                                    <label th:text="${users.fullName}"></label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="inputting" >Số điện thoại :</label>
-                                                    <input type="text" class="form-control" id="inputting2" th:field="*{phoneNumber}"/>
-
+                                                    <label>Số điện thoại :</label>&emsp;&emsp;&nbsp;&nbsp;
+                                                    <label th:text="${users.phoneNumber}"></label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="inputting" >Địa chỉ :</label>
-                                                    <input type="text" id="inputting" class="form-control" th:field="*{address}"/>
-
+                                                    <label> Địa chỉ :</label>&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
+                                                    <label th:text="${users.address}"></label>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="inputting" >Thành phố :</label>
-                                                    <input  type="text" class="form-control" th:field="*{city}"/>
-
+                                                    <label>Thành phố :</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
+                                                    <label th:text="${users.city}"></label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label >PIN :</label>
-                                                    <input type="text" class="form-control" th:field="*{PIN}"/>
+                                                    <label>PIN :</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
+                                                    <label th:text="${users.PIN}"></label>
                                                 </div>
-
-                                               <input th:type="hidden"  th:field="*{email}"/>
-
-                                                <input  type="submit" class="btn btn-primary" style="margin-left: 38%" value=" Lưu thông tin"/>
-                                            </form>
+                                                <div class="form-group">
+                                                    <label>Mật Khẩu :</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&ensp;
+                                                    <label> *************</label>&emsp;&emsp;
+                                                    <label><a th:href="@{/change-password}">Thay đổi mật
+                                                        khẩu</a></label>
+                                                </div>
+                                                <a th:href="@{/edit-user/__${users.id}__}" type="submit"
+                                                   class="btn btn-primary" style="margin-left: 100px">Sửa thông tin</a>
+                                                </form>
+                                            </div>
                                         </div>
                                     </section>
                                 </div>

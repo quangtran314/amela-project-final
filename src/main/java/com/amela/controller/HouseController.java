@@ -12,8 +12,11 @@ import com.amela.service.house.IHouseTypeService;
 import com.amela.service.image.IImageService;
 import com.amela.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +33,10 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class HouseController {
@@ -46,6 +52,10 @@ public class HouseController {
 
     private final IFeedbackService feedbackService;
 
+    private final IContractService contractService;
+
+    private final IImageService imageService;
+
     public HouseController(IHouseService houseService, IHouseTypeService houseTypeService, IUserService userService, IFeedbackService feedbackService, IContractService contractService, IImageService imageService) {
         this.houseService = houseService;
         this.houseTypeService = houseTypeService;
@@ -59,10 +69,6 @@ public class HouseController {
     public House initHouse() {
         return new House();
     }
-
-    private final IContractService contractService;
-
-    private final IImageService imageService;
 
     @ModelAttribute("user")
     public Iterable<User> initHouseTypeList() {
@@ -136,7 +142,6 @@ public class HouseController {
         return modelAndView;
     }
 
-
     //Detail
     @GetMapping("/houses/{id}")
     public ModelAndView detailHouse(@PathVariable Long id) {
@@ -156,7 +161,8 @@ public class HouseController {
     @PostMapping("/houses/{id}")
     public ModelAndView saveFeedBack(@Validated @ModelAttribute("feedback") Feedback feedBack,
                                      BindingResult bindingResult,
-                                     @PathVariable Long id, Principal principal,
+                                     @PathVariable Long id,
+                                     Principal principal,
                                      RedirectAttributes redirect) {
         ModelAndView modelAndView = new ModelAndView("/house/detail");
         Optional<House> house = houseService.findById(id);
@@ -176,7 +182,7 @@ public class HouseController {
         feedBack.setHouse(house.orElseThrow());
         feedBack.setAmt_date(LocalDate.now());
         feedbackService.save(feedBack);
-        redirect.addFlashAttribute("message", "Thank you your feed back!");
+        redirect.addFlashAttribute("message", "Thank you for your feed back!");
         modelAndView.setViewName("redirect:/houses/" + id);
 
         return modelAndView;
@@ -188,7 +194,7 @@ public class HouseController {
         Optional<User> user = userService.findByEmail(getPrincipal());
         ModelAndView modelAndView = new ModelAndView("/house/create");
         modelAndView.addObject("houseForm", new HouseForm());
-        modelAndView.addObject("user", user.orElseThrow());
+        modelAndView.addObject("userCreate", user.orElseThrow());
 
         return modelAndView;
     }
@@ -207,7 +213,7 @@ public class HouseController {
             ex.printStackTrace();
         }
 
-        House house = new House(houseForm.getHouse_id(), houseForm.getHouse_name(), houseForm.getAddress(), houseForm.getNumBedrooms(),
+        House house = new House(houseForm.getHouse_name(), houseForm.getAddress(), houseForm.getNumBedrooms(),
                 houseForm.getNumBathrooms(), houseForm.getDes(), houseForm.getPrice(), houseForm.getType(), fileName, houseForm.getOwner());
         houseService.save(house);
         ModelAndView modelAndView = new ModelAndView("redirect:/houses");
@@ -310,5 +316,75 @@ public class HouseController {
         modelAndView.addObject("house_id", id);
         modelAndView.addObject("message", "Update successfully !");
         return modelAndView;
+    }
+
+    //History Renting
+    @GetMapping("/viewContracts")
+    public ModelAndView viewContractByUserid(@PageableDefault(value = 4) Pageable pageable,
+                                             @Param("houseName") Optional<String> houseName) {
+        Optional<User> userOptional = userService.findByEmail(getPrincipal());
+        ModelAndView modelAndView = new ModelAndView("/house/history-renting");
+
+        Page<Contract> contract;
+        if (houseName.isEmpty()) {
+            contract = contractService.findAllByUser(userOptional.orElseThrow(), pageable);
+        } else {
+            contract = contractService.findContractByHouseNameContaining(houseName.orElseThrow(), pageable);
+        }
+        modelAndView.addObject("contracts", contract);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/viewContracts/{id}")
+    public ModelAndView showDetailContractById(@PathVariable("id") long id) {
+        Optional<Contract> contract = contractService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("/house/detail_history-renting");
+        modelAndView.addObject("contracts", contract.orElseThrow());
+
+        return modelAndView;
+    }
+
+    //Manage-house
+    @GetMapping("/manage-house")
+    public ModelAndView showListHouseByUser(@PageableDefault(value = 4) Pageable pageable,
+                                            @Param("houseName") Optional<String> houseName) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        Page<House> houses = houseService.findAllByOwner(pageable, user.orElseThrow());
+        ModelAndView modelAndView = new ModelAndView("/house/manage-house");
+        modelAndView.addObject("houses", houses);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/manage-house-renting")
+    public ModelAndView showManageHouseRenting(@PageableDefault(value = 4) Pageable pageable,
+                                               @Param("houseName") Optional<String> houseName) {
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        List<House> houses = houseService.findAllByOwner(user.orElseThrow());
+        Page<Contract> contracts = contractService.findAll(pageable);
+
+        List<Contract> list = new ArrayList<>();
+
+        for (House h : houses) list.addAll(contractService.findAllByHouse(h, pageable).getContent());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), list.size());
+
+        List<Contract> output = new ArrayList<>();
+        if (start <= end) output = list.subList(start, end);
+
+        Page<Contract> rentedList = new PageImpl<>(output, pageable, list.size());
+
+        ModelAndView modelAndView = new ModelAndView("/house/manage-house_renting");
+        modelAndView.addObject("contracts", rentedList);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/manage-house-free")
+    public ModelAndView showManageHouseFree(@PageableDefault(value = 4) Pageable pageable,
+                                            @Param("houseName") Optional<String> houseName) {
+        return new ModelAndView();
     }
 }

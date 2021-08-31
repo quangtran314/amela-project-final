@@ -1,12 +1,17 @@
 package com.amela.service.contract;
 
 import com.amela.model.Contract;
+import com.amela.model.house.House;
+import com.amela.model.user.User;
 import com.amela.repository.IConTractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,12 +41,31 @@ public class ContractService implements IContractService {
     }
 
     public long getDuration(LocalDate startDay, LocalDate endDay) {
-        long duration = startDay.until(endDay, ChronoUnit.DAYS);
-        return duration;
+        return startDay.until(endDay, ChronoUnit.DAYS);
     }
 
     @Override
     public float getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay) {
         return unitPrice * getDuration(startDay, endDay);
+    }
+
+    @Override
+    public Page<Contract> findAll(Pageable pageable) {
+        return conTractRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Contract> findAllByUser(User user, Pageable pageable) {
+        return conTractRepository.findAllByUser(user, pageable);
+    }
+
+    @Override
+    public Page<Contract> findAllByHouse(House house, Pageable pageable) {
+        return conTractRepository.findAllByHouse(house, pageable);
+    }
+
+    @Override
+    public Page<Contract> findContractByHouseNameContaining(String houseName, Pageable pageable) {
+        return null;
     }
 }
