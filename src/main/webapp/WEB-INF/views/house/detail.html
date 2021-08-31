@@ -173,7 +173,7 @@
                   </div>
                 <div class="feedback__comment">
                   <p class="feedback__title">Nhận xét: </p>
-                  <textarea id="feedback__comment" th:field="*{comment}" rows="4" required="required" minlength="5" maxlength="50"></textarea>
+                  <textarea id="feedback__comment" th:field="*{comment}" rows="4" required="required" minlength="5" maxlength="1000"></textarea>
                 </div>
                   <div th:if="${#fields.hasErrors('comment')}">
                     <p style="color: red"  th:errors="*{comment}"></p>

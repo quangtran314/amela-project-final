@@ -19,7 +19,7 @@ public class Feedback {
     private long feedback_id;
 
     @NotNull
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 1000)
     private String comment;
 
     @NotNull
