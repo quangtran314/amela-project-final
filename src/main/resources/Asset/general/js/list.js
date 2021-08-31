@@ -7,6 +7,9 @@ var page_prev =  document.getElementById("page_prev");
 var page_current =  document.getElementById("page_current");
 var page_next =  document.getElementById("page_next");
 
+
+
+
 //Get field in Search Bar
 var searchBar_field = document.getElementsByClassName("searchBar_field");
 var field_address = searchBar_field[0].value;
@@ -18,6 +21,8 @@ setUpBtnDefault();
 
 function setUpBtnDefault()
 {
+    //Fix
+
     if (page_prev.text < 1)
     {
         page_prev.style.display = "none";

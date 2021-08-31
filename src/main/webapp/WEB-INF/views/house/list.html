@@ -70,11 +70,10 @@
   <div class="pagination-field">
     <div class="pagination">
       <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
-      <a th:href="@{'/houses'(page=${houses.number - 1}, address=__${address}__, price_from =__${price_from}__, price_to =__${price_to}__, type=__${house_type}__)}" id="page_prev" th:text="${houses.number}" ></a>
+      <a th:href="@{'/houses?page='+${houses.number - 1}+'&address='+${address}+'&price_from='+${price_from}+'$price_to='+${price_to}+'&type='+${house_type}}" id="page_prev" th:text="${houses.number}" ></a>
       <a class="paging__active" href="#" id="page_current" th:text="${houses.number}+1"></a>
-      <a th:href="@{'/houses'(page=${houses.number + 1}, address=__${address}__, price_from =__${price_from}__, price_to =__${price_to}__, type=__${house_type}__)}" id="page_next" th:text="${houses.number} + 2" ></a>
+      <a th:href="@{'/houses?page='+${houses.number + 1}+'&address='+${address}+'&price_from='+${price_from}+'$price_to='+${price_to}+'&type='+${house_type}}" id="page_next" th:text="${houses.number+2}" ></a>
       <a id="pagination__next" onclick="pushOn(1)" >»</a>
-
       <p id="totalPages"  th:text="${houses.totalPages}"></p>
     </div>
   </div>
