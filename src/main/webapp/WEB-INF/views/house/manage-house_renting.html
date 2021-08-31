@@ -61,6 +61,18 @@
             </table>
         </div>
     </div>
+
+    <div class="pagination-field">
+        <div class="pagination">
+            <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
+            <a th:href="@{'/manage-house-renting'(page=${contracts.number - 1})}" id="page_prev" th:text="${contracts.number}" ></a>
+            <a class="paging__active" href="#" id="page_current" th:text="${contracts.number}+1"></a>
+            <a th:href="@{'/manage-house-renting'(page=${contracts.number + 1})}" id="page_next" th:text="${contracts.number} + 2" ></a>
+            <a id="pagination__next" onclick="pushOn(1)" >»</a>
+
+            <p id="totalPages"  th:text="${contracts.totalPages}"></p>
+        </div>
+    </div>
 </section>
 
 
@@ -70,7 +82,7 @@
 
 <!--Script-->
 <th:block th:replace="/house/layout :: script_default__template"/>
-<script src="../Asset/general/js/history-renting.js"></script>
+<script src="../Asset/general/js/manage-house-renting.js"></script>
 
 
 </body>

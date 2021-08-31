@@ -8,6 +8,7 @@ import com.amela.repository.IContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -80,5 +81,13 @@ public class ContractService implements IContractService{
         return contractRepository.findAllByUser(user,pageable);
     }
 
+    @Override
+    public Page<Contract> findContractByHouseRenting(User user,Pageable pageable) {
+        return  contractRepository.findContractByHouseRenting(user, pageable);
+    }
 
+    @Override
+    public List<Contract> findContractByHouseRenting(User user) {
+        return  contractRepository.findContractByHouseRenting(user);
+    }
 }

@@ -339,7 +339,7 @@ public class HouseController {
         return modelAndView;
     }
 
-// Manage-house
+//Manage-house
     @GetMapping("/manage-house")
     public ModelAndView showListHouseByUser(@PageableDefault(value = 4) Pageable pageable){
         Optional<User> user = userService.findByEmail(getPrincipal());
@@ -348,14 +348,11 @@ public class HouseController {
         modelAndView.addObject("houses",houses);
         return  modelAndView;
     }
-        @GetMapping("/manage-house-renting")
+
+    @GetMapping("/manage-house-renting")
     public ModelAndView showManageHouseRenting(@PageableDefault(value = 4)Pageable pageable){
         Optional<User> user = userService.findByEmail(getPrincipal());
-        Page<House> house_temp = houseService.findAllByOwner(pageable,user.get());
-        List<Contract> contract_temp = (List)contractService.findAll();
-        List<Contract> contracts = new ArrayList<>();
-        for (House house : house_temp)
-            contracts.addAll(contract_temp.stream().filter(p->p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
+        Page<Contract> contracts = contractService.findContractByHouseRenting(user.get(), pageable);
         ModelAndView modelAndView = new ModelAndView("/house/manage-house_renting");
         modelAndView.addObject("contracts",contracts);
         return modelAndView;
@@ -407,14 +404,11 @@ public class HouseController {
     @GetMapping("/manage-revenue")
     public ModelAndView manageHouseRevenue(@PageableDefault(value = 4)Pageable pageable,LocalDate date, @RequestParam("year_value") Optional<Integer> year_value) {
         //Tìm user -> nhà sở hữu -> bản hợp đồng -> doanh thu
-        Optional<User> user = userService.findByEmail(getPrincipal());
-        Page<House> house_temp = houseService.findAllByOwner(pageable, user.get());
-        List<Contract> contract_temp = (List) contractService.findAll();
-        List<Contract> contracts = new ArrayList<>();
-        for (House house : house_temp)
-            contracts.addAll(contract_temp.stream().filter(p -> p.getHouse().getHouse_id() == house.getHouse_id()).collect(Collectors.toList()));
         ModelAndView modelAndView = new ModelAndView("/house/manage-revenue");
+        Optional<User> user = userService.findByEmail(getPrincipal());
+        List<Contract> contracts = contractService.findContractByHouseRenting(user.get());
         Map<Integer, Float> priceByMonth = new HashMap<>();
+
         //Tính theo năm
         int year_val = year_value.orElseGet(() -> LocalDate.now().getYear());
         if (year_val !=  LocalDate.now().getYear())
@@ -424,18 +418,21 @@ public class HouseController {
             for (int i= 1; i<= LocalDate.now().getMonthValue(); i++)
                 priceByMonth.put(i, getPriceByMonth(contracts, i, year_val));
 
+
         modelAndView.addObject("price",priceByMonth);
+        modelAndView.addObject("max_price",getMaxPrice(new ArrayList<>(priceByMonth.values())));
         modelAndView.addObject("year_value",year_val);
         return modelAndView;
     }
 
     public float getPriceByMonth(List<Contract> contracts, int current_month, int year_val)
     {
-        Map<Integer, Float> priceByMonth = new HashMap<>();
         float totalPrice= 0;
 
         for (Contract contract: contracts)
         {
+            if (year_val >  LocalDate.now().getYear())
+                continue;
             if (year_val !=  contract.getEndDay().getYear())
                 continue;
             if (contract.getEndDay().getMonthValue()==current_month && current_month < LocalDate.now().getMonthValue())
@@ -449,6 +446,10 @@ public class HouseController {
             }
         }
         return totalPrice;
+    }
+    public float getMaxPrice(List<Float> priceByMonth)
+    {
+        return Collections.max(priceByMonth);
     }
 
 }
