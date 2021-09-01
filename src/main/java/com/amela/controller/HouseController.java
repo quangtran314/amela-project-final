@@ -112,6 +112,11 @@ public class HouseController {
         if (!address.isPresent() && !type.isPresent() && !price_from.isPresent() && !price_to.isPresent()) {
             Page<House> houses = houseService.findAll(pageable);
             modelAndView.addObject("houses", houses);
+
+            modelAndView.addObject("address", "");
+            modelAndView.addObject("price_from", "");
+            modelAndView.addObject("price_to", "");
+            modelAndView.addObject("house_type", "");
         }
         else {
             String address_val = address.orElse("");
@@ -128,8 +133,12 @@ public class HouseController {
             modelAndView.addObject("address", address_val);
             if (price_from.isPresent())
                 modelAndView.addObject("price_from", price_from_val);
+            else
+                modelAndView.addObject("price_from", "");
             if (price_to.isPresent())
                 modelAndView.addObject("price_to", price_to_val);
+            else
+                modelAndView.addObject("price_to", "");
             modelAndView.addObject("houses", houseList);
         }
         return modelAndView;
