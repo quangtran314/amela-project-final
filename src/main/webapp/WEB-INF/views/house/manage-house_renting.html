@@ -44,7 +44,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="contract,rowProperty : ${contracts}">
-                    <td scope="row" th:text="${rowProperty.count}"></td>
+                    <th scope="row" th:text="4*(${contracts.number} + 1) - 4 +${rowProperty.count}"></th>
                     <td th:text="${contract.house.house_name}" ></td>
                     <td th:text="${contract.startDay}" ></td>
                     <td th:text="${contract.endDay}" ></td>
@@ -63,7 +63,6 @@
             <a class="paging__active" href="#" id="page_current" th:text="${contracts.number}+1"></a>
             <a th:href="@{'/manage-house-renting'(page=${contracts.number + 1})}" id="page_next" th:text="${contracts.number} + 2" ></a>
             <a id="pagination__next" onclick="pushOn(1)" >»</a>
-
             <p id="totalPages"  th:text="${contracts.totalPages}"></p>
         </div>
     </div>
@@ -76,7 +75,7 @@
 
 <!--Script-->
 <th:block th:replace="/house/layout :: script_default__template"/>
-<script src="../Asset/general/js/manage-house-renting.js"></script>
+<script src="../Asset/general/js/manage-houseR.js"></script>
 
 
 </body>
