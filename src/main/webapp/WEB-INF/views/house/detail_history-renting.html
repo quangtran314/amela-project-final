@@ -65,7 +65,8 @@
                                         </div>
                                     </section>
                                     <div class="option__detail">
-                                        <a class="btn btn-danger right" th:href="@{/viewContracts}">Quay lại</a>
+                                        <a class="btn btn-danger right" sec:authorize="hasRole('TENANT')" th:if="${contracts.user.id == user.id}"  th:href="@{/viewContracts}">Quay lại</a>
+                                        <a class="btn btn-danger right" sec:authorize="hasRole('OWNER')" th:unless="${contracts.user.id == user.id}" th:href="@{/manage-house-renting}">Quay lại</a>
                                         <a class="btn btn-warning cancel-renting right" th:href="@{/rented-house/__${contracts.id}__/cancel}" sec:authorize="hasRole('TENANT')" th:if="${contracts.user.id == user.id}">Hủy thuê nhà</a>
                                     </div>
                                 </div>
