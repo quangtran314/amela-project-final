@@ -1,0 +1,140 @@
+/*Header*/
+.row
+{
+    margin: 0 2%;
+}
+
+.header
+{
+    margin: 20px 5%;
+}
+
+.header .title_page
+{
+    width: 40%;
+}
+
+.header .searchBar
+{
+    width: 60%;
+    text-align: right;
+}
+
+.searchBar input
+{
+    line-height: 2.2;
+    margin-right: 15px;
+}
+
+/* Main */
+    /* Main Left*/
+ul
+{
+    list-style-type: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.main__left ul li
+{
+    border: 1px solid rgba(158, 158, 158, 0.5);
+    background-color: rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.main__left ul li
+{
+    color: black;
+}
+
+.center
+{
+    text-align: center;
+}
+    /* Main Right*/ 
+.table
+{
+    text-align: center;
+    border: 1px solid rgba(158, 158, 158, 0.5);
+    border-radius: 5%;
+    margin-top: 15px;
+}
+
+.main__left ul li.active,
+.table thead
+{
+    background-color: #fd7792;
+    color: #fff;
+}
+
+.table thead a
+{
+    color: #fff;
+}
+
+.main__left ul li:hover,
+.table tbody tr:hover
+{
+    background-color: rgba(253, 119, 146, 0.5);
+    color: #fff;
+}
+
+
+/*Paging*/
+.pagination-field
+{
+    display: block;
+    margin-bottom: 100px;
+    margin-top: 30px;
+}
+.pagination
+{
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+    float: right;
+    margin-right: 3%;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .3s;
+}
+/* thiết lập style cho class active */
+.pagination a.paging__active {
+    background-color: rgb(253,119,146);
+    color: white;
+}
+/* thêm màu nền khi người dùng hover vào class không active */
+.pagination a:hover:not(.paging__active) {
+    background-color: #ddd;
+}
+
+.paging__active
+{
+    cursor: default;
+    pointer-events: none;
+}
+
+#totalPages
+{
+    display: none;
+}
+
+.pagination > a
+{
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+/*Manage Revenue*/
+.fas:hover
+{
+    color: #fd7792;
+    cursor: pointer;
+}

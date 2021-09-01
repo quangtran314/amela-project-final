@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- custom -->
+    <link rel="stylesheet" href="../Asset/general/css/create-form.css">
+
+</head>
+<body>
+
+    <!--    Header-->
+    <th:block th:replace="/house/layout :: header__template"/>
+
+    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+        <div class="container-fluid px-md-0">
+            <div class="login-form">
+                <form method="post" th:action="@{/login}">
+                    <div class="form-group">
+                        <label for="inputEmail">Email address</label>
+                        <input type="email" class="form-control" id="inputEmail" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" class="form-control" id="inputPassword" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-info">Login</button>
+                    <a th:href="@{/signup}" type="submit" class="btn btn-primary">Signup</a>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- custom -->
+    <link rel="stylesheet" href="../Asset/general/css/create-form.css">
+
+</head>
+<body>
+<!--    Header-->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<!-- mainContent -->
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+    <span th:text="${message}"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+    <div class="container-fluid px-md-0">
+        <!-- <div class="row no-gutters"> -->
+        <div class="house-form">
+            <div>
+                <form method="post" th:action="@{/create-house}" th:object="${houseForm}" novalidate="novalidate" enctype="multipart/form-data" >
+                    <input th:type="hidden" name="owner" th:value="${user.id}">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Tên nhà :</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('house_name')}">
+                                <input type="text" class="form-control is-invalid" required th:field="*{house_name}">
+                                <div class="invalid-feedback" th:errors="*{house_name}"></div>
+                            </th:block>
+                            <input type="text" th:field="*{house_name}" th:unless="${#fields.hasErrors('house_name')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Địa chỉ :</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('address')}">
+                                <input type="text" class="form-control is-invalid" required th:field="*{address}">
+                                <div class="invalid-feedback" th:errors="*{address}"></div>
+                            </th:block>
+                            <input type="text" th:field="*{address}" th:unless="${#fields.hasErrors('address')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Giá một đêm :</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('price')}">
+                                <input type="number" class="form-control is-invalid" required th:field="*{price}">
+                                <div class="invalid-feedback" th:errors="*{price}"></div>
+                            </th:block>
+                            <input type="number" th:field="*{price}" th:unless="${#fields.hasErrors('price')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Số phòng ngủ:</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('numBedrooms')}">
+                                <input type="number" class="form-control is-invalid" required th:field="*{numBedrooms}">
+                                <div class="invalid-feedback" th:errors="*{numBedrooms}"></div>
+                            </th:block>
+                            <input type="number" th:field="*{numBedrooms}" th:unless="${#fields.hasErrors('numBedrooms')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Số phòng tắm</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('numBathrooms')}">
+                                <input type="number" class="form-control is-invalid" required th:field="*{numBathrooms}">
+                                <div class="invalid-feedback" th:errors="*{numBathrooms}"></div>
+                            </th:block>
+                            <input type="number" th:field="*{numBathrooms}" th:unless="${#fields.hasErrors('numBathrooms')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Có thể hủy phòng trước bao nhiêu ngày</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('cancelableTime')}">
+                                <input type="number" class="form-control is-invalid" required th:field="*{cancelableTime}">
+                                <div class="invalid-feedback" th:errors="*{cancelableTime}"></div>
+                            </th:block>
+                            <input type="number" th:field="*{cancelableTime}" th:unless="${#fields.hasErrors('cancelableTime')}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Mô tả :</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('des')}">
+                                <textarea placeholder="Write note here" class="form-control is-invalid" required th:field="*{des}"/>
+                                <div class="invalid-feedback" th:errors="*{des}"></div>
+                            </th:block>
+                            <textarea placeholder="Write description here" th:field="*{des}" th:unless="${#fields.hasErrors('des')}"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Loại nhà:</label>
+                        <div class="col-sm-10">
+                            <select name="type">
+                                <option th:each="houseType : ${houseTypes}"
+                                        th:value="${houseType.type_id}"
+                                        th:text="${houseType.name}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Ảnh đại diện:</label>
+                        <div class="col-sm-10">
+                            <th:block th:if="${#fields.hasErrors('sourcePath')}">
+                                <input class="form-control is-invalid" required type="file" th:field="*{sourcePath}"/>
+                                <div class="invalid-feedback" th:errors="*{sourcePath}"></div>
+                            </th:block>
+                            <input type="file" th:field="*{sourcePath}" th:unless="${#fields.hasErrors('sourcePath')}" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                        <a class="btn btn-warning" href="/houses">Thoát</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</section>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/detail.js"></script>
+
+</body>
+</html>

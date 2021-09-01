@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+    <!--  Custom-->
+    <link rel="stylesheet" href="../Asset/general/css/manage-house.css"/>
+</head>
+<body>
+<!--    Header-->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<!--Main Content    -->
+<section th:replace="/house/manage-house :: manage-header"></section>
+<section>
+    <div class="row header">
+        <div class="title_page">
+
+            <h4><a th:href="@{/manage-revenue(year_value=__${year_value}__-1)}"><i class="fas fa-chevron-left"></i></a>  <span th:text="${year_value}"></span> <a th:href="@{/manage-revenue(year_value=__${year_value}__+1)}"><i class="fas fa-chevron-right"></i></a></h4>
+        </div>
+    </div>
+</section>
+<hr/>
+<section>
+    <div class="row main">
+        <div class="col-xl-2 main__left center">
+            <ul>
+                <a th:href="@{/manage-house}"><li>Danh sách nhà</li></a>
+                <a th:href="@{/create-house}"><li>Thêm mới</li></a>
+                <a th:href="@{/manage-house-renting}"><li>Nhà đang cho thuê</li></a>
+<!--                <a href="#"><li>Nhà chưa cho thuê</li></a>-->
+                <a th:href="@{/manage-revenue}"><li class="active">Thống kê doanh thu</li></a>
+            </ul>
+        </div>
+        <div class="col-xl-10">
+                <div id="container"
+                     style="width: 550px; height: 400px; margin: 0 auto">
+
+                </div>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/history-renting.js"></script>
+
+<!--Script Chart-->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script th:inline="javascript">
+    $(function(){
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Thống kê doanh thu'
+            },
+            subtitle: {
+                text: 'năm '+[[${year_value}]]
+            },
+            xAxis: {
+                categories: [[${price.keySet()}]],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                max: [[${max_price}]],
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} VND</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Doanh thu',
+                data: [[${price.values()}]]
+            }]
+        });
+    });
+</script>
+
+</body>
+</html>

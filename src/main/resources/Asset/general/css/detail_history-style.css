@@ -1,0 +1,42 @@
+@media (min-width: 1200px){
+    .col-xl-80 {
+        -webkit-box-flex: 0;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+.img-profile {
+    margin-left: 15px;
+    width: 100%;
+    height: 100%;
+}
+
+/*Right page*/
+.card-body
+{
+    text-align: center;
+}
+
+.information
+{
+    padding-top: 16px;
+}
+
+/*Option*/
+.option__detail
+{
+   margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.option__detail .right
+{
+    float: right;
+}
+
+.option__detail .cancel-renting
+{
+    margin-right: 20px;
+}
+

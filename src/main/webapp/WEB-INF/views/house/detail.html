@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- custom -->
+    <link rel="stylesheet" href="../Asset/general/css/detail-style.css">
+
+  </head>
+  <body>
+
+    <!--    Header-->
+    <th:block th:replace="/house/layout :: header__template"/>
+
+    <!-- mainContent -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+      <span th:text="${message}"></span>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="slideshow-container">
+      <th:block th:each="image , state : ${images}">
+        <div class="fieldSlides ">
+          <div class="fieldSlides__numbertext"><span th:text="${state.index+1}"></span>/<span th:text="${state.size}"></span></div>
+          <img th:src="@{/src/main/resources/Asset/general/images/__${image.sourcePath}__}" style="width:100%">
+        </div>
+      </th:block>
+      <a class="slideshow-container__prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="slideshow-container__next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+
+    <br>
+    <div class="container" th:object="${house}">
+      <div class="row" >
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 mainContent-Left">
+          <section>
+            <div class="title">
+              <h1 class="title__name" th:text="${house.house_name}"> </h1>
+              <h5 class="title__address">Địa chỉ: <span th:text="${house.address}"></span> </h5>
+            </div>
+          </section>
+          <section>
+            <div class="info">
+              <h5 class="info__type">Loại nhà: <span th:text="${house.type.name}" th:if="${house.type.type_id != null}"></span></h5>
+              <h5 class="info__price">Giá tiền: <span th:text="${house.price}"></span> VND</h5>
+              <h5 class="info__price">Số phòng ngủ: <span th:text="${house.numBedrooms}"></span> </h5>
+              <h5 class="info__price">Số phòng tắm: <span th:text="${house.numBathrooms}"></span> </h5>
+            </div>
+          </section>
+          <section>
+            <div class="other">
+              <div class="other__info">
+                <div class="other__info--icon">
+                  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation"
+                    focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+                    <path
+                      d="m17.9772237 1.90551573.1439807.13496509 13.2525 13.25240998-1.4142088 1.4142184-.9603513-.9603098.0008557 12.5832006c0 1.0543618-.8158778 1.9181651-1.8507377 1.9945143l-.1492623.0054857h-22c-1.0543618 0-1.91816512-.8158778-1.99451426-1.8507377l-.00548574-.1492623-.00085571-12.5822006-.95878858.9593098-1.41421142-1.414217 13.25247161-13.25243161c1.1247615-1.1246896 2.9202989-1.16967718 4.0986078-.13494486zm-2.5902053 1.46599297-.0942127.08318915-10.29366141 10.29310155.00085571 14.5822006h5.9991443l.0008557-9.9966c0-1.0543764.8158639-1.9181664 1.8507358-1.9945144l.1492642-.0054856h6c1.0543764 0 1.9181664.8158639 1.9945144 1.8507358l.0054856.1492642-.0008557 9.9966h6.0008557l-.0008557-14.5832006-10.2921737-10.29212525c-.3604413-.36046438-.9276436-.38819241-1.3199522-.08316545zm3.6129816 14.9618913h-6l-.0008557 9.9963994h6z">
+                    </path>
+                  </svg>
+                </div>
+                <div class="other__info--intro">
+                  <p class="other__info--intro title">
+                    Toàn bộ nhà
+                  </p>
+                  <p>
+                    Bạn sẽ có nhà cho riêng mình.
+                  </p>
+                </div>
+              </div>
+              <div class="other__info">
+                <div class="other__info--icon">
+                  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation"
+                    focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+                    <path
+                      d="m16 17c3.8659932 0 7 3.1340068 7 7s-3.1340068 7-7 7-7-3.1340068-7-7 3.1340068-7 7-7zm0 2c-2.7614237 0-5 2.2385763-5 5s2.2385763 5 5 5 5-2.2385763 5-5-2.2385763-5-5-5zm9.6666667-18.66666667c1.0543618 0 1.9181651.81587779 1.9945142 1.85073766l.0054858.14926234v6.38196601c0 .70343383-.3690449 1.35080636-.9642646 1.71094856l-.1413082.0779058-9.6666667 4.8333334c-.5067495.2533747-1.0942474.2787122-1.6171466.0760124l-.1717078-.0760124-9.66666666-4.8333334c-.62917034-.3145851-1.04315599-.93418273-1.09908674-1.62762387l-.00648607-.16123049v-6.38196601c0-1.05436179.81587779-1.91816512 1.85073766-1.99451426l.14926234-.00548574zm0 2h-19.33333337v6.38196601l9.66666667 4.83333336 9.6666667-4.83333336z">
+                    </path>
+                  </svg>
+                </div>
+                <div class="other__info--intro">
+                  <p class="other__info--intro title">
+                    Huy hiệu : Chủ nhà siêu cấp
+                  </p>
+                  <p>
+                    Chủ nhà siêu cấp là những chủ nhà có kinh nghiệm, được đánh giá cao và là những người cam kết mang lại
+                    quãng
+                    thời gian ở tuyệt vời cho khách.
+                  </p>
+                </div>
+              </div>
+              <div class="other__info">
+                <div class="other__info--icon">
+                  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation"
+                    focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+                    <path
+                      d="M16 0c6.627 0 12 5.373 12 12 0 6.337-3.814 12.751-11.346 19.257L16 31.82l-1.076-.932C7.671 24.509 4 18.218 4 12 4 5.423 9.397 0 16 0zm0 2C10.504 2 6 6.525 6 12c0 5.44 3.249 11.118 9.831 17.02l.169.149.576-.518c6.178-5.65 9.293-11.092 9.42-16.318L26 12c0-5.523-4.477-10-10-10zm0 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z">
+                    </path>
+                  </svg>
+                </div>
+                <div class="other__info--intro">
+                  <p class="other__info--intro title">
+                    Địa điểm tuyệt vời
+                  </p>
+                  <p>
+                    100% khách gần đây đã xếp hạng 5 sao cho vị trí này.
+                  </p>
+                </div>
+              </div>
+              <div class="other__info">
+                <div class="other__info--icon">
+                  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation"
+                    focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+                    <path
+                      d="m24.6666 1.66675h-17.33335c-1.65685475 0-3 1.34314525-3 3v26.4709039l11.66575-7.2926539 11.6676 7.2926539v-26.4709039c0-1.65686279-1.3431233-3-3-3zm0 2 .1166244.00672754c.4973508.05776355.8833756.48042438.8833756.99327246l-.0006 22.86225-9.6661012-6.041549-9.6668988 6.041549.00025-22.86225c0-.55228525.44771475-1 1-1z">
+                    </path>
+                  </svg>
+                </div>
+                <div class="other__info--intro">
+                  <p class="other__info--intro title">
+                    Wifi
+                  </p>
+                  <p>
+                    Khách thường tìm kiếm tiện nghi phổ biến này
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <div class="desciption">
+              <h5 class="desciption__title">
+                Mô tả chi tiết:
+              </h5>
+              <p class="desciption__content" th:text="${house.des}">
+
+              </p>
+            </div>
+          </section>
+          <section sec:authorize="hasRole('TENANT')" th:unless="${house.owner.id == user.id}">
+            <hr/>
+            <div class="feedback">
+              <h4>Hãy để lại nhận xét của bạn!</h4>
+              <form method="post" th:object="${feedback}">
+                <input type="hidden" th:field="*{feedback_id}">
+                <div class="feedback__rate">
+                  <p class="feedback__title">Chất lượng: </p>
+                  <div class="rating">
+                    <input id="demo-1" type="radio" th:field="*{rate}" value="1" title="Please vote star in here" required="required">
+                    <label for="demo-1">1 star</label>
+                    <input id="demo-2" type="radio" th:field="*{rate}" value="2">
+                    <label for="demo-2">2 stars</label>
+                    <input id="demo-3" type="radio" th:field="*{rate}" value="3">
+                    <label for="demo-3">3 stars</label>
+                    <input id="demo-4" type="radio" th:field="*{rate}" value="4">
+                    <label for="demo-4">4 stars</label>
+                    <input id="demo-5" type="radio" th:field="*{rate}" value="5">
+                    <label for="demo-5">5 stars</label>
+
+                    <div class="stars">
+                      <label for="demo-1" aria-label="1 star" title="1 star"></label>
+                      <label for="demo-2" aria-label="2 stars" title="2 stars"></label>
+                      <label for="demo-3" aria-label="3 stars" title="3 stars"></label>
+                      <label for="demo-4" aria-label="4 stars" title="4 stars"></label>
+                      <label for="demo-5" aria-label="5 stars" title="5 stars"></label>
+                    </div>
+                  </div>
+                </div>
+                  <div th:if="${#fields.hasErrors('rate')}">
+                    <p style="color: red"  th:errors="*{rate}"></p>
+                  </div>
+                <div class="feedback__comment">
+                  <p class="feedback__title">Nhận xét: </p>
+                  <textarea id="feedback__comment" th:field="*{comment}" rows="4" required="required" minlength="5" maxlength="1000"></textarea>
+                </div>
+                  <div th:if="${#fields.hasErrors('comment')}">
+                    <p style="color: red"  th:errors="*{comment}"></p>
+                  </div>
+                <div>
+                  <input type="submit" class="btn btn-primary" id="feedback__submit" value="Gửi">
+                </div>
+              </form>
+            </div>
+          </section>
+
+
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 mainContent-Right">
+          <div class="boxUpRight">
+            <div class="boxUpRight__title">
+              <div class="boxUpRight__title--price">
+                <p>Giá tiền: <span th:text="${house.price}"></span> VNĐ/Đêm </p>
+              </div>
+              <div class="boxUpRight__title--vote">
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;"><path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" fill-rule="evenodd"></path></svg>
+                <p>10 đánh giá</p>
+              </div>
+            </div>
+            <div class="boxUpRight__booking" sec:authorize="isAuthenticated()">
+              <a th:href="@{/house/__${house.house_id}__/renting}" sec:authorize="hasRole('TENANT')" th:if="${user.id != house.owner.id}"><button class="btn btn-primary">Thuê nhà ngay</button></a>
+              <a th:href="@{/upload-image/__${house.house_id}__ }" sec:authorize="hasRole('OWNER')" th:if="${user.id == house.owner.id}"><button class="btn btn-primary">Thêm ảnh nhà </button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <!--Banner-->
+    <th:block th:fragment="banner__template">
+      <section class="ftco-section testimony-section bg-light"  >
+        <div class="container"  >
+          <div class="row justify-content-center pb-5 mb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+              <h2>Happy Clients &amp; Feedbacks</h2>
+            </div>
+          </div>
+          <div class="row ftco-animate">
+            <div class="col-md-12">
+              <div class="carousel-testimony owl-carousel">
+                  <div class="item" th:each="feedback, feedback_property : ${feedbacks}">
+                    <div class="testimony-wrap d-flex" >
+                      <div class="user-img" style="background-image: url(../Asset/general/images/person_1.jpg)">
+                      </div>
+                      <div class="text pl-4">
+                        <span class="quote d-flex align-items-center justify-content-center">
+                          <i class="fa fa-quote-left"></i>
+                        </span>
+
+                        <p class="name" th:if="${feedback.owner}" th:text="${feedback.owner.fullName}"></p>
+                        <div class="rating__show">
+                          <p class="rating__show--value"> Đánh giá: <span th:text="${feedback.rate}"></span></p>
+                          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                               role="presentation" focusable="false"
+                               style="display: inline-block; height: 12px; width: 12px; fill: currentcolor;">
+                            <path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z"
+                                  fill-rule="evenodd"></path>
+                          </svg>
+                        </div>
+                        <p class="rating__show--date" th:text="${feedback.amt_date}"></p>
+                        <p th:text="${feedback.comment}"></p>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </th:block>
+
+  <!--Footer-->
+  <th:block th:replace="/house/layout :: footer__template"/>
+
+  <!--Script-->
+  <th:block th:replace="/house/layout :: script_default__template"/>
+  <script src="../Asset/general/js/detail.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+    <!--  Custom-->
+    <link rel="stylesheet" href="../Asset/general/css/manage-house.css">
+</head>
+<body>
+<!--    Header-->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<!--Main Content    -->
+<section th:replace="/house/manage-house :: manage-header"></section>
+<section>
+    <div class="row header">
+        <div class="title_page">
+            <h4>Danh sách nhà đang cho thuê</h4>
+        </div>
+    </div>
+</section>
+<hr/>
+<section>
+    <div class="row main">
+        <div class="col-xl-2 main__left center">
+            <ul>
+                <a th:href="@{/manage-house}"><li>Danh sách nhà</li></a>
+                <a th:href="@{/create-house}"><li>Thêm mới</li></a>
+                <a href="#"><li class="active">Nhà đang cho thuê</li></a>
+<!--                <a href="#"><li>Nhà chưa cho thuê</li></a>-->
+                <a th:href="@{/manage-revenue}"><li>Thống kê doanh thu</li></a>
+            </ul>
+        </div>
+        <div class="col-xl-10">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col"><a href="#">STT</a></th>
+                    <th scope="col"><a href="#">Tên nhà</a></th>
+                    <th scope="col"><a href="#">Ngày thuê</a></th>
+                    <th scope="col"><a href="#">Ngày trả</a></th>
+                    <th scope="col"><a href="#">Tên khách</a></th>
+                    <th scope="col">Xem thêm</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="contract,rowProperty : ${contracts}">
+                    <td scope="row" th:text="${rowProperty.count}"></td>
+                    <td th:text="${contract.house.house_name}" ></td>
+                    <td th:text="${contract.startDay}" ></td>
+                    <td th:text="${contract.endDay}" ></td>
+                    <td th:text="${contract.user.fullName}" ></td>
+                    <td><a th:href="@{/viewContracts/__${contract.id}__}"><i class="fa fa-arrow-right"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="pagination-field">
+        <div class="pagination">
+            <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
+            <a th:href="@{'/manage-house-renting'(page=${contracts.number - 1})}" id="page_prev" th:text="${contracts.number}" ></a>
+            <a class="paging__active" href="#" id="page_current" th:text="${contracts.number}+1"></a>
+            <a th:href="@{'/manage-house-renting'(page=${contracts.number + 1})}" id="page_next" th:text="${contracts.number} + 2" ></a>
+            <a id="pagination__next" onclick="pushOn(1)" >»</a>
+
+            <p id="totalPages"  th:text="${contracts.totalPages}"></p>
+        </div>
+    </div>
+</section>
+
+
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/manage-house-renting.js"></script>
+
+
+</body>
+</html>

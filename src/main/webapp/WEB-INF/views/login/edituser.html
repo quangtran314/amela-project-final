@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- Custom -->
+    <link rel="stylesheet" th:href="@{/Asset/general/css/profile-style.css}">
+</head>
+
+<body>
+<!-- Header -->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+    <span th:text="${message}"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="container" sec:authorize="isAuthenticated()">
+    <section class="w-100 p-0 h-100 bg-white">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card card-registration my-4">
+                        <div class="row g-0">
+                            <div class="col-xl-80 d-none d-xl-block">
+                                <img
+                                        th:src="@{/Asset/general/images/profile.jpg}"
+                                        alt="Sample photo"
+                                        class="img-profile"
+                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"
+                                />
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-5 text-uppercase">Thông tin cá nhân </h3>
+                                    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+                                        <div class="container-fluid px-md-0">
+                                            <form th:action="@{/edit-user}" th:object="${user}" method="post">
+                                                <input th:type="hidden" name="id" th:field="*{id}"/>
+                                                <th:block th:each="role : ${user.roles}">
+                                                    <input type="hidden" name="roles" th:value="${role.id}">
+                                                </th:block>
+                                                <div class="form-group">
+                                                    <label for="inputfullname">Họ và Tên :</label>
+                                                    <input type="text" class="form-control" id="inputfullname" th:field="*{fullName}"/>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputphone" >Số điện thoại :</label>
+                                                    <input type="text" class="form-control" id="inputphone" th:field="*{phoneNumber}"/>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputaddress" > Địa chỉ :</label>
+                                                    <input type="text" id="inputaddress" class="form-control" th:field="*{address}"/>
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputaddress" >Thành phố :</label>
+                                                    <input  type="text"  class="form-control" th:field="*{city}"/>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label >PIN :</label>
+                                                    <input type="text" class="form-control" th:field="*{PIN}"/>
+                                                </div>
+
+                                               <input th:type="hidden"  th:field="*{email}"/>
+
+                                                 <input  type="submit" class="btn btn-primary" style="margin-left: 38%" value=" Lưu thông tin"/>
+                                            </form>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+</body>
+</html>

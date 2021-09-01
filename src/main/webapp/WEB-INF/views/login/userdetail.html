@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+
+    <!-- Custom -->
+    <link rel="stylesheet" th:href="@{/Asset/general/css/profile-style.css}">
+</head>
+
+<body>
+<!-- Header -->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<div class="container" sec:authorize="isAuthenticated()" >
+    <section class="w-100 p-0 h-100 bg-white">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card card-registration my-4">
+                        <div class="row g-0">
+                            <div class="col-xl-80 d-none d-xl-block">
+                                <img
+                                        th:src="@{/Asset/general/images/profile.jpg}"
+                                        alt="Sample photo"
+                                        class="img-profile"
+                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;"
+                                />
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-5 text-uppercase">Thông tin cá nhân </h3>
+                                    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+                                        <div class="container-fluid px-md-0">
+                                            <div class="login-form" th:object="${users}">
+
+                                                    <div class="form-group">
+                                                        <label> Họ và Tên :</label>&emsp;&emsp;&emsp;&emsp;
+                                                        <label  th:text="${users.fullName}"></label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label  >Số điện thoại :</label>&emsp;&emsp;&nbsp;&nbsp;
+                                                        <label th:text="${users.phoneNumber}"></label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label > Địa chỉ :</label>&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
+                                                        <label th:text="${users.address}"></label>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label >Thành phố :</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
+                                                        <label th:text="${users.city}"></label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label >PIN :</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
+                                                        <label th:text="${users.PIN}"></label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                         <label >Mật Khẩu :</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&ensp;
+                                                         <label > *************</label>&emsp;&emsp;<a th:href="@{/change-password}">Thay đổi mật khẩu</a>
+                                                    </div>
+                                                     <a th:href="@{/edit-user/__${users.id}__}" type="submit" class="btn btn-primary" style="margin-left: 38%">Sửa thông tin</a>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+</body>
+</html>

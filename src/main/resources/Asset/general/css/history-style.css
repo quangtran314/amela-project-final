@@ -1,0 +1,104 @@
+/*SearchBar*/
+.searchBar
+{
+    margin: 2%;
+    text-align: right;
+}
+.searchBar input
+{
+    line-height: 2.2;
+    margin-right: 15px;
+}
+
+
+/*MainContent*/
+#main
+{
+    min-height: 300px;
+    width: 100%;
+    margin-bottom: 70px;
+}
+
+#main .field_info
+{
+    margin: auto 2%;
+}
+row {
+    margin-left: 2px;
+}
+
+
+.table
+{
+    text-align: center;
+    border: 1px solid rgba(158, 158, 158, 0.5);
+    border-radius: 5%;
+}
+
+.table thead
+{
+    background-color: #fd7792;
+    color: #fff;
+}
+
+.table thead a
+{
+    color: #fff;
+}
+
+.table tbody tr:hover
+{
+    background-color: rgba(253, 119, 146, 0.5);
+    color: #fff;
+}
+
+
+/*Paging*/
+.pagination-field
+{
+    display: block;
+    margin-bottom: 100px;
+    margin-top: 30px;
+}
+.pagination
+{
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+    float: right;
+    margin-right: 2%;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .3s;
+}
+/* thiết lập style cho class active */
+.pagination a.paging__active {
+    background-color: rgb(253,119,146);
+    color: white;
+}
+/* thêm màu nền khi người dùng hover vào class không active */
+.pagination a:hover:not(.paging__active) {
+    background-color: #ddd;
+}
+
+.paging__active
+{
+    cursor: default;
+    pointer-events: none;
+}
+
+#totalPages
+{
+    display: none;
+}
+
+.pagination > a
+{
+    border: 1px solid rgba(0,0,0,0.2);
+}

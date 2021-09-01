@@ -32,8 +32,8 @@
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
 # .idea/artifacts
-# .idea/compiler.xml
-# .idea/jarRepositories.xml
+#.idea/compiler.xml
+#.idea/jarRepositories.xml
 # .idea/modules.xml
 # .idea/*.iml
 # .idea/modules
@@ -66,8 +66,11 @@ atlassian-ide-plugin.xml
 
 
 #Custom
-.gradle/buildOutputCleanup/
-.gradle/7.1/
-
 build/
+.gradle/**
 
+**/application.properties
+
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/runConfigurations.xml

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+    <!--  Custom-->
+    <link rel="stylesheet" href="../Asset/general/css/manage-house.css">
+</head>
+<body>
+<!--    Header-->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<!--Main Content    -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('../Asset/general/images/image_2.jpg');"
+         data-stellar-background-ratio="0.5" th:fragment="manage-header">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs mb-2"><span class="mr-2"><a href="home.html">Trang chủ<i
+                        class="fa fa-chevron-right"></i></a></span> <span>Quản lý nhà<i
+                        class="fa fa-chevron-right"></i></span></p>
+                <h1 class="mb-0 bread">Quản lý nhà của bạn </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row header">
+        <div class="title_page">
+            <h4>Danh sách tất cả các nhà của bạn</h4>
+        </div>
+    </div>
+</section>
+<hr/>
+<section>
+    <div class="row main">
+        <div class="col-xl-2 main__left center">
+            <ul>
+                <a href="#"><li class="active">Danh sách nhà</li></a>
+                <a th:href="@{/create-house}"><li>Thêm mới</li></a>
+                <a th:href="@{/manage-house-renting}"><li>Nhà đang cho thuê</li></a>
+<!--                <a href="#"><li>Nhà chưa cho thuê</li></a>-->
+                <a th:href="@{/manage-revenue}"><li>Thống kê doanh thu</li></a>
+            </ul>
+        </div>
+        <div class="col-xl-10">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col"><a href="#">STT</a></th>
+                    <th scope="col"><a href="#">Tên nhà</a></th>
+                    <th scope="col"><a href="#">Địa Chỉ</a></th>
+                    <th scope="col"><a href="#">Giá tiền</a></th>
+                    <th scope="col">Xem thêm</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="house,rowProperty : ${houses}">
+                    <th scope="row" th:text="4*(${houses.number} + 1) - 4 +${rowProperty.count}"></th>
+                    <td th:text="${house.house_name}" ></td>
+                    <td th:text="${house.address}" ></td>
+                    <td th:text="${house.price}" ></td>
+                    <td><a th:href="@{/houses/__${house.house_id}__}"><i class="fa fa-arrow-right"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="pagination-field">
+        <div class="pagination">
+            <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
+            <a th:href="@{'/manage-house'(page=${houses.number - 1})}" id="page_prev" th:text="${houses.number}" ></a>
+            <a class="paging__active" href="#" id="page_current" th:text="${houses.number}+1"></a>
+            <a th:href="@{'/manage-house'(page=${houses.number + 1})}" id="page_next" th:text="${houses.number} + 2" ></a>
+            <a id="pagination__next" onclick="pushOn(1)" >»</a>
+
+            <p id="totalPages"  th:text="${houses.totalPages}"></p>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/manage-house.js"></script>
+
+
+</body>
+</html>

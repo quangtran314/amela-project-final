@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/house/layout :: head__template"/>
+    <!--  Custom-->
+    <link rel="stylesheet" href="../Asset/general/css/history-style.css">
+</head>
+<body>
+<!--    Header-->
+<th:block th:replace="/house/layout :: header__template"/>
+
+<!--Main Content    -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('../Asset/general/images/image_2.jpg');"
+         data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs mb-2"><span class="mr-2"><a href="home.html">Trang chủ<i
+                        class="fa fa-chevron-right"></i></a></span> <span>Nhà đã thuê<i
+                        class="fa fa-chevron-right"></i></span></p>
+                <h1 class="mb-0 bread">Danh sách nhà đã thuê</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <form>
+        <div class="searchBar">
+            <input type="text" class="form__control--address" name="house_name" id="" placeholder="Nhập tên nhà" autocom>
+
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </div>
+    </form>
+</section>
+<section id="main">
+    <div class="field_info">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col"><a href="#">STT</a></th>
+                <th scope="col"><a href="#">Tên nhà</a></th>
+                <th scope="col"><a href="#">Ngày thuê</a></th>
+                <th scope="col"><a href="#">Ngày trả</a></th>
+                <th scope="col"><a href="#">Tổng tiền</a></th>
+                <th scope="col">Xem thêm</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="contract,rowProperty : ${contracts}">
+                <th scope="row" th:text="4*(${contracts.number}+1)-4 + ${rowProperty.count}"></th>
+                <td th:text="${contract.house.house_name}" ></td>
+                <td th:text="${contract.startDay}" ></td>
+                <td th:text="${contract.endDay}"></td>
+                <td> <span th:text="${contract.totalPrice}"></span> VND</td>
+                <td><a th:href="@{/viewContracts/__${contract.id}__}"><i class="fa fa-arrow-right"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination-field">
+        <div class="pagination">
+            <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
+            <a th:href="@{'/viewContracts'(page=${contracts.number - 1})}" id="page_prev" th:text="${contracts.number}" ></a>
+            <a class="paging__active" href="#" id="page_current" th:text="${contracts.number}+1"></a>
+            <a th:href="@{'/viewContracts'(page=${contracts.number + 1})}" id="page_next" th:text="${contracts.number} + 2" ></a>
+            <a id="pagination__next" onclick="pushOn(1)" >»</a>
+
+            <p id="totalPages"  th:text="${contracts.totalPages}"></p>
+        </div>
+    </div>
+
+</section>
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/history-renting.js"></script>
+
+
+</body>
+</html>

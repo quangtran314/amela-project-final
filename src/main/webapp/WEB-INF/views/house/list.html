@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="/house/layout :: head__template"/>
+<!--  Custom-->
+  <link rel="stylesheet" href="../Asset/general/css/list-style.css">
+</head>
+<body>
+<!--    Header-->
+<th:block th:replace="/house/layout :: header__template"/>
+
+
+<!--Main Content    -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('../Asset/general/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="/houses">Trang chủ<i class="fa fa-chevron-right"></i></a></span> <span>Căn hộ<i class="fa fa-chevron-right"></i></span></p>
+        <h1 class="mb-0 bread">Danh Sách Căn Hộ</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <form th:action="@{/houses}" th:method="GET">
+    <div class="searchBar" style="text-align: center;">
+      <input type="text" class="form__control--address searchBar_field" placeholder="Nhập địa điểm"  th:name="address" th:value="${address}">
+      Giá tiền (Triệu) :
+      <input type="text" class="form__control--price searchBar_field" placeholder="Từ"  th:name="price_from" th:value="${price_from}">
+      <input type="text" class="form__control--price searchBar_field" placeholder="Đến"  th:name="price_to" th:value="${price_to}">
+
+      Loại nhà:
+      <select class="form__control searchBar_field" id="type_house_selection" th:name="type" >
+          <option th:value="${all_type}" th:if="${all_type}==${house_type}" selected>Tất cả</option>
+          <option th:value="${all_type}" th:unless="${all_type}==${house_type}">Tất cả</option>
+          <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:if="${type_item.type_id}==${house_type}" selected></option>
+          <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:unless="${type_item.type_id}==${house_type}"></option>
+      </select>
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </form>
+</section>
+<section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+  <div class="container-fluid px-md-0">
+    <div class="row no-gutters">
+      <th:block th:each="house, house_property : ${houses}">
+        <div class="col-lg-6">
+          <div class="room-wrap d-md-flex">
+            <a th:href="@{/houses/__${house.house_id}__ }" class="img" th:style="'background-image:url(../src/main/resources/Asset/general/images/' + ${house.sourcePath} + ');'"></a>
+            <div class="half left-arrow d-flex align-items-center">
+              <div class="text p-4 p-xl-5 text-center">
+                <p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
+                <p class="mb-0"><span class="price mr-1" th:text="${house.price}"></span> <span class="per"> VNĐ / Đêm</span></p>
+                <h3 class="mb-3" th:text="${house.house_name}"></h3>
+                <ul class="list-accomodation">
+                  <li> <span>Địa chỉ: </span><span th:text="${house.address}"></span> </li>
+                  <li> <span>Loại nhà: </span><span th:text="${house.type.name}"></span> </li>
+                  <li> <span>Số phòng ngủ: </span><span th:text="${house.numBedrooms}"></span> </li>
+                  <li> <span>Số phòng tắm: </span><span th:text="${house.numBathrooms}"></span> </li>
+                </ul>
+                <p class="pt-1"><a th:href="@{/houses/__${house.house_id}__ }" class="btn-custom px-3 py-2">Xem Chi Tiết Nhà <span class="icon-long-arrow-right"></span></a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </th:block>
+    </div>
+  </div>
+  <div class="pagination-field">
+    <div class="pagination">
+      <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
+      <a th:href="@{'/houses?page='+${houses.number - 1}+'&address='+${address}+'&price_from='+${price_from}+'&price_to='+${price_to}+'&type='+${house_type}}" id="page_prev" th:text="${houses.number}" ></a>
+      <a class="paging__active" href="#" id="page_current" th:text="${houses.number}+1"></a>
+      <a th:href="@{'/houses?page='+${houses.number + 1}+'&address='+${address}+'&price_from='+${price_from}+'&price_to='+${price_to}+'&type='+${house_type}}" id="page_next" th:text="${houses.number+2}" ></a>
+      <a id="pagination__next" onclick="pushOn(1)" >»</a>
+      <p id="totalPages"  th:text="${houses.totalPages}"></p>
+    </div>
+  </div>
+</section>
+
+<!--Banner-->
+<th:block th:replace="/house/layout :: banner__template"/>
+
+
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/list.js"></script>
+
+</body>
+</html>

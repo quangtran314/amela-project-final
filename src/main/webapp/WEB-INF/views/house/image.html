@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        h3{background-color: blue; color: white; padding: 10px 0 10px 20px;}
+        footer{margin: 10px 0;}
+
+        #products {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #products td, #products th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #products tr:nth-child(even){background-color: #f2f2f2;}
+
+        #products tr:hover {background-color: #ddd;}
+
+        #products th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        input[type=text],input[type=email]{
+            width: 100%;
+            padding: 12px 0px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 95px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 13px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        #form {
+            width: 500px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .notify span{font-size: 15px; color: blue;}
+    </style>
+    <th:block th:replace="/house/layout :: head__template"/>
+    <!-- custom -->
+    <link rel="stylesheet" href="../Asset/general/css/create-form.css">
+</head>
+<body>
+<!--    Header-->
+<th:block th:replace="/house/layout :: header__template"/>
+<!-- mainContent -->
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+    <span th:text="${message}"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+    <div class="container-fluid px-md-0">
+        <!-- <div class="row no-gutters"> -->
+        <div id="form" class="house-form">
+            <form  th:object="${imageForm}" method="POST" novalidate="novalidate" enctype="multipart/form-data">
+                <input type="hidden" th:name="house" th:value="${house_id}" />
+
+                <input type="hidden" th:field="*{image_id}"/>
+                <div>
+                    <label>Tên ảnh :</label>
+                    <input type="text" th:field="*{name}" required/>
+                </div>
+                <div>
+                    <label>Mô tả :</label>
+                    <input type="text" th:field="*{des}" required/>
+                </div>
+                <div>
+                    <label>Ảnh :</label>
+                    <input type="file" th:multiple="multiple" th:field="*{sourcePath}"/>
+                </div>
+                <br>
+                <div>
+                    <input class="btn btn-warning" type="submit" value="Lưu"/>
+                    <a class="btn btn-warning" th:href="@{/houses/__${house_id}__ }" >Thoát</a>
+                </div>
+            </form>
+        </div>
+        <!-- </div> -->
+    </div>
+</section>
+<!--Footer-->
+<th:block th:replace="/house/layout :: footer__template"/>
+<!--Script-->
+<th:block th:replace="/house/layout :: script_default__template"/>
+<script src="../Asset/general/js/detail.js"></script>
+</body>
+</html>
