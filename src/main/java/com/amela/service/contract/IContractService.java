@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IContractService extends IGeneralService<Contract> {
-    float getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay);
+    double getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay);
     Page<Contract> findAllByUser(User user, Pageable pageable);
     long getDuration(LocalDate startDay, LocalDate endDay);
     Iterable<Contract> findAllByHouse(House house);

@@ -32,7 +32,7 @@ public class Contract {
     private int maxPerson;
 
     @NotNull
-    private float totalPrice;
+    private double totalPrice;
     
     @NotNull
     private LocalDate dateContractSign;
@@ -48,7 +48,7 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract( LocalDate startDay, LocalDate endDay, int maxPerson, float totalPrice, LocalDate dateContractSign, House house, User user) {
+    public Contract( LocalDate startDay, LocalDate endDay, int maxPerson, double totalPrice, LocalDate dateContractSign, House house, User user) {
         this.totalPrice = totalPrice;
         this.dateContractSign = dateContractSign;
         this.startDay = startDay;
@@ -58,7 +58,7 @@ public class Contract {
         this.user = user;
     }
 
-    public Contract(long id, LocalDate startDay, LocalDate endDay, int maxPerson, float totalPrice, LocalDate dateContractSign, House house, User user) {
+    public Contract(long id, LocalDate startDay, LocalDate endDay, int maxPerson, double totalPrice, LocalDate dateContractSign, House house, User user) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.dateContractSign = dateContractSign;
@@ -101,11 +101,11 @@ public class Contract {
         this.maxPerson = maxPerson;
     }
 
-    public float getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

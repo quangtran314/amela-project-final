@@ -72,7 +72,7 @@ public class ContractService implements IContractService{
     }
 
     @Override
-    public float getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay) {
+    public double getTotalPrice(float unitPrice, LocalDate startDay, LocalDate endDay) {
         return unitPrice * getDuration(startDay, endDay);
     }
 
